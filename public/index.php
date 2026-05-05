@@ -6,7 +6,7 @@
 
     global $db;
 
-    /** @var mysqli $db это надо, чтобы не возникало ошибки в vs code. Без этой строки всё работает*/
+    $companies = getTableContent($db, 'companies');
 
     if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])){
             $newCompany = [
@@ -33,8 +33,6 @@
     <h1>Главная страница сайта.</h1>
     <h2>Вывод информации</h2>
     <?php
-        $companies = getTableContent($db, 'companies');
-
         // Пример вывода данных
        foreach ($companies as $company) {
         echo "Компания №: " . $company['id'] . " - Название: " . $company['name'] . "<br>";
