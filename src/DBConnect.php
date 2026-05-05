@@ -26,4 +26,3 @@
     } else {
         die("Ошибка запроса: " . mysqli_error($db));
     }
-?>  

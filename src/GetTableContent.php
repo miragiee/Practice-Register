@@ -1,6 +1,5 @@
 <?php
-
-function getAllData($connection, $tableName) {
+function getTableContent($connection, $tableName) {
     // Безопасно оборачиваем имя таблицы в обратные кавычки
     $sql = "SELECT * FROM `$tableName`";
     $query = mysqli_query($connection, $sql);
