@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models;
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Student extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'full_name',
+        'university_id',
+        'direction_id',
+        'course',
+        'email',
+    ];
+
+    public function university()
+    {
+        return $this->belongsTo(University::class);
+    }
+
+    public function direction()
+    {
+        return $this->belongsTo(Direction::class);
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+}
