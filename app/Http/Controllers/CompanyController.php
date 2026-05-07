@@ -8,10 +8,23 @@ use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {
-    public function index(){
+    // В CompanyController
+    public function main()
+    {
+        $companies = Company::all();
+        return view('companies', compact('companies'));
+    }
+    
+    public function index(Request $request){
         $companies = Company::all();
 
+    // Если запрос ожидает JSON (AJAX-вызовы), возвращаем JSON
+    if ($request->wantsJson()) {
         return response()->json($companies);
+    }
+
+    // Иначе – обычная HTML-страница со списком
+    return view('companies', compact('companies'));
     }
 
     public function store(Request $request){
@@ -28,13 +41,21 @@ class CompanyController extends Controller
 
     public function update(Request $request, $id){
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'contact_info' => 'required|string',
+            'name' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'contact_info' => 'sometimes|string',
         ]);
 
+        $data = array_filter($validated, function ($value){
+            return $value !== null && $value !== "";
+        });
+
+        if(empty($data)) {
+            return redirect()->back()->with('warning', 'Нет данных для обновления');
+        }
+
         $company = Company::findOrFail($id);
-        $company -> update($validated);
+        $company->update($data);
 
         return redirect()->back()->with('success', 'Данные обновлены');
     }

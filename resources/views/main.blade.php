@@ -6,19 +6,9 @@
     @vite(['resources/js/app.js'])
 </head>
 <body>
-    <h1>Главная страница сайта</h1>
 
-    <h2>Вывод информации</h2>
+    <a href="{{ route('companies.index') }}">Перейти к демонстрации CRUD операций с компаниями</a> <br>
+    <a href="{{ route('universities.index') }}">Перейти к демонстрации CRUD операций с университетами</a>
 
-    <div id="companies-list">Загрузка компаний...</div>
-
-    <h2>Добавление данных</h2>
-    <form action="/companies" method="POST">
-        @csrf <!-- Обязательно для Laravel -->
-        <p>Название: <input type="text" name="name"></p>
-        <p>Описание: <input type="text" name="description"></p>
-        <p>Почта: <input type="text" name="contact_info"></p>
-        <input type="submit" value="Отправить">
-    </form>
 </body>
 </html>

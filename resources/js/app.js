@@ -1,30 +1,57 @@
-async function loadCompanies() {
+function setFormAction(selectElementId, formElementId, baseUrl) {
+    const selectElement = document.getElementById(selectElementId);
+    const formElement = document.getElementById(formElementId);
+
+    if (!selectElement || !formElement) return;
+
+    selectElement.addEventListener('change', function() {
+        const id = this.value;
+        formElement.action = id ? `${baseUrl}/${id}` : '';
+    });
+}
+
+async function loadList(url, containerId, renderFn) {
     try {
-        const response = await fetch('/companies');
-        const companies = await response.json();
-
-        console.log("Данные из БД:", companies);
-
-        const container = document.getElementById('companies-list');
+        const response = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        const data = await response.json();
+        const container = document.getElementById(containerId);
         if (!container) return;
 
-        container.innerHTML = '';
-
-        if (companies.length === 0) {
-            container.innerHTML = '<p>В базе данных пока нет компаний.</p>';
-            return;
-        }
-
-        const ul = document.createElement('ul');
-        companies.forEach(company => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${company.name}</strong> — ${company.contact_info}`;
-            ul.appendChild(li);
-        });
-        container.appendChild(ul);
-
+        container.innerHTML = data.length === 0 ? '<p>Данных пока нет.</p>' : '';
+        if (data.length > 0) renderFn(container, data);
     } catch (error) {
-        console.error('Ошибка в JS:', error);
+        console.error('Ошибка загрузки:', error);
     }
 }
-document.addEventListener('DOMContentLoaded', loadCompanies);
+
+function renderCompanies(container, companies) {
+    const ul = document.createElement('ul');
+    companies.forEach(c => {
+        ul.innerHTML += `<li><strong>${c.name}</strong> — ${c.contact_info}</li>`;
+    });
+    container.appendChild(ul);
+}
+
+function renderUniversities(container, universities) {
+    const ul = document.createElement('ul');
+    universities.forEach(u => {
+        ul.innerHTML += `<li><strong>${u.name}</strong> (${u.city}) — ${u.contact_info}</li>`;
+    });
+    container.appendChild(ul);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Если мы на странице компаний
+    if (document.getElementById('companies-list')) {
+        loadList('/companies', 'companies-list', renderCompanies);
+        setFormAction('update-company-select', 'update-form', '/companies');
+        setFormAction('delete-company-select', 'delete-form', '/companies');
+    }
+
+    // Если мы на странице университетов
+    if (document.getElementById('universities-list')) {
+        loadList('/universities', 'universities-list', renderUniversities);
+        setFormAction('update-univ-select', 'update-univ-form', '/universities');
+        setFormAction('delete-univ-select', 'delete-univ-form', '/universities');
+    }
+});
