@@ -3,6 +3,7 @@ const templates = {
     companies: (c) => `<li><strong>${c.name}</strong> — ${c.contact_info}</li>`,
     universities: (u) => `<li><strong>${u.name}</strong> (${u.city}) — ${u.contact_info}</li>`,
     students: (s) => `<li><strong>${s.full_name}</strong> (Курс: ${s.course}, Почта: ${s.email})</li>`,
+    directions: (d) => `<li><strong>${d.name}</strong> (${d.description})</li>`
 };
 
 // Универсальная функция смены Action у формы
@@ -63,8 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if(document.getElementById('students-list')) {
-        fetchAndRender('/students', 'students-list', 'students');initFormAction('update-student-select', 'update-form', '/students');
+        fetchAndRender('/students', 'students-list', 'students');
         initFormAction('update-student-select', 'update-form', '/students');
         initFormAction('delete-student-select', 'delete-form', '/students');
+    }
+
+    if(document.getElementById('directions-list')) {
+        fetchAndRender('/directions', 'directions-list', 'directions');
+        initFormAction('update-direction-select', 'update-form', '/directions');
+        initFormAction('delete-direction-select', 'delete-form', '/directions');
     }
 });

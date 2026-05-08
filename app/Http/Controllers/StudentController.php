@@ -39,11 +39,11 @@ class StudentController extends Controller
 
     public function update(Request $request, $id){
         $validated = $request->validate([
-            'full_name' => 'sometimes|string|max:255',
-            'university_id' => 'sometimes|exists:universities,id',
-            'direction_id' => 'sometimes|exists:directions,id',
-            'course' => 'sometimes|integer',
-            'email' => 'sometimes|string|max:255',
+            'full_name' => 'nullable|string|max:255',
+            'university_id' => 'nullable|exists:universities,id',
+            'direction_id' => 'nullable|exists:directions,id',
+            'course' => 'nullable|integer',
+            'email' => 'nullable|string|max:255',
         ]);
 
         $data = array_filter($validated, function ($value){

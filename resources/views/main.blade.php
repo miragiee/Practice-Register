@@ -10,6 +10,7 @@
     <a href="{{ route('companies.index') }}">Перейти к демонстрации CRUD операций с компаниями</a> <br>
     <a href="{{ route('universities.index') }}">Перейти к демонстрации CRUD операций с университетами</a> <br>
     <a href="{{ route('students.index')}}">Перейти к демонстрации CRUD операций со студентами</a> <br>
+    <a href="{{ route('directions.index')}}">Перейти к демонстрации CRUD операций с направлениями</a> <br>
 
 </body>
 </html>

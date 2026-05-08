@@ -37,9 +37,9 @@ class CompanyController extends Controller
 
     public function update(Request $request, $id){
         $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'description' => 'sometimes|string',
-            'contact_info' => 'sometimes|string',
+            'name' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'contact_info' => 'nullable|string',
         ]);
 
         $data = array_filter($validated, function ($value){
