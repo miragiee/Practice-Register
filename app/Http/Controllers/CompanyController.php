@@ -8,9 +8,8 @@ use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {
-    // В CompanyController
-    public function main()
-    {
+    
+    public function main(){
         $companies = Company::all();
         return view('companies', compact('companies'));
     }
@@ -18,13 +17,10 @@ class CompanyController extends Controller
     public function index(Request $request){
         $companies = Company::all();
 
-    // Если запрос ожидает JSON (AJAX-вызовы), возвращаем JSON
-    if ($request->wantsJson()) {
-        return response()->json($companies);
-    }
-
-    // Иначе – обычная HTML-страница со списком
-    return view('companies', compact('companies'));
+        if ($request->wantsJson()) {
+            return response()->json($companies);
+        }
+        return view('companies', compact('companies'));
     }
 
     public function store(Request $request){

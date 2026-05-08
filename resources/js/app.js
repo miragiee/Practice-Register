@@ -1,57 +1,70 @@
-function setFormAction(selectElementId, formElementId, baseUrl) {
-    const selectElement = document.getElementById(selectElementId);
-    const formElement = document.getElementById(formElementId);
+// Объект с шаблонами для разных типов данных
+const templates = {
+    companies: (c) => `<li><strong>${c.name}</strong> — ${c.contact_info}</li>`,
+    universities: (u) => `<li><strong>${u.name}</strong> (${u.city}) — ${u.contact_info}</li>`,
+    students: (s) => `<li><strong>${s.full_name}</strong> (Курс: ${s.course}, Почта: ${s.email})</li>`,
+};
 
-    if (!selectElement || !formElement) return;
+// Универсальная функция смены Action у формы
+function initFormAction(selectId, formId, baseUrl) {
+    const select = document.getElementById(selectId);
+    const form = document.getElementById(formId);
 
-    selectElement.addEventListener('change', function() {
-        const id = this.value;
-        formElement.action = id ? `${baseUrl}/${id}` : '';
-    });
+    if (select && form) {
+        select.addEventListener('change', function() {
+            const id = this.value;
+            form.action = id ? `${baseUrl.replace(/\/$/, '')}/${id}` : '';
+            console.log('Action изменен на:', form.action); 
+        });
+    } else {
+        console.error(`Элементы не найдены: ${selectId} или ${formId}`);
+    }
 }
 
-async function loadList(url, containerId, renderFn) {
+
+
+// Универсальная загрузка и вывод данных
+async function fetchAndRender(url, containerId, templateKey) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
     try {
         const response = await fetch(url, { headers: { 'Accept': 'application/json' } });
         const data = await response.json();
-        const container = document.getElementById(containerId);
-        if (!container) return;
 
-        container.innerHTML = data.length === 0 ? '<p>Данных пока нет.</p>' : '';
-        if (data.length > 0) renderFn(container, data);
+        if (!data.length) {
+            container.innerHTML = '<p>Данных пока нет.</p>';
+            return;
+        }
+
+        
+        const html = data.map(templates[templateKey]).join('');
+        container.innerHTML = `<ul>${html}</ul>`;
     } catch (error) {
         console.error('Ошибка загрузки:', error);
+        container.innerHTML = '<p>Ошибка при загрузке данных.</p>';
     }
 }
 
-function renderCompanies(container, companies) {
-    const ul = document.createElement('ul');
-    companies.forEach(c => {
-        ul.innerHTML += `<li><strong>${c.name}</strong> — ${c.contact_info}</li>`;
-    });
-    container.appendChild(ul);
-}
-
-function renderUniversities(container, universities) {
-    const ul = document.createElement('ul');
-    universities.forEach(u => {
-        ul.innerHTML += `<li><strong>${u.name}</strong> (${u.city}) — ${u.contact_info}</li>`;
-    });
-    container.appendChild(ul);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Если мы на странице компаний
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    // Логика для Компаний
     if (document.getElementById('companies-list')) {
-        loadList('/companies', 'companies-list', renderCompanies);
-        setFormAction('update-company-select', 'update-form', '/companies');
-        setFormAction('delete-company-select', 'delete-form', '/companies');
+        fetchAndRender('/companies', 'companies-list', 'companies');
+        initFormAction('update-company-select', 'update-form', '/companies');
+        initFormAction('delete-company-select', 'delete-form', '/companies');
     }
 
-    // Если мы на странице университетов
+    // Логика для Университетов
     if (document.getElementById('universities-list')) {
-        loadList('/universities', 'universities-list', renderUniversities);
-        setFormAction('update-univ-select', 'update-univ-form', '/universities');
-        setFormAction('delete-univ-select', 'delete-univ-form', '/universities');
+        fetchAndRender('/universities', 'universities-list', 'universities');
+        initFormAction('update-univ-select', 'update-univ-form', '/universities');
+        initFormAction('delete-univ-select', 'delete-univ-form', '/universities');
+    }
+
+    if(document.getElementById('students-list')) {
+        fetchAndRender('/students', 'students-list', 'students');initFormAction('update-student-select', 'update-form', '/students');
+        initFormAction('update-student-select', 'update-form', '/students');
+        initFormAction('delete-student-select', 'delete-form', '/students');
     }
 });

@@ -19,9 +19,9 @@ class UniversityController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required',
-            'city' => 'required',
-            'contact_info' => 'required',
+            'name' => 'required|string',
+            'city' => 'required|string',
+            'contact_info' => 'required|string',
         ]);
 
         University::create($validated);
