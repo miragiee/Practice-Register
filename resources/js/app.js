@@ -6,6 +6,7 @@ const templates = {
     directions: (d) => `<li><strong>${d.name}</strong> (${d.description})</li>`,
     internships: (i) => `<li><strong>ID:</strong> ${i.id} <br><strong>University:</strong> ${i.university_id} <br><strong>Start:</strong> ${i.start_date} <br><strong>End:</strong> ${i.end_date} <br><strong>Description:</strong> ${i.description}</li>`,
     reservations: (r) => `<li><strong>ID:</strong> ${r.id} <br><strong>Company:</strong> ${r.company_id} <br> <strong>Student:</strong> ${r.student_id} <br> <strong>Internship:</strong> ${r.internship_id} <br><strong>Status:</strong> ${r.status}</li>`,
+    contracts: (con) => `<li><strong>Контракт №${con.id}</strong> (Унив. ID: ${con.university_id}, Комп. ID: ${con.company_id}) <br> Срок: ${con.start_date} — ${con.end_date} | Статус: <strong>${con.status}</strong></li>`,
 };
 
 // Универсальная функция смены Action у формы
@@ -89,4 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initFormAction('update-reservation-select', 'update-form', '/reservations');
     initFormAction('delete-reservation-select', 'delete-form', '/reservations');
 }
+    if (document.getElementById('contracts-list')) {
+        fetchAndRender('/contracts', 'contracts-list', 'contracts');
+        initFormAction('update-contract-select', 'update-form', '/contracts');
+        initFormAction('delete-contract-select', 'delete-form', '/contracts');
+    }
 });
