@@ -3,7 +3,8 @@ const templates = {
     companies: (c) => `<li><strong>${c.name}</strong> — ${c.contact_info}</li>`,
     universities: (u) => `<li><strong>${u.name}</strong> (${u.city}) — ${u.contact_info}</li>`,
     students: (s) => `<li><strong>${s.full_name}</strong> (Курс: ${s.course}, Почта: ${s.email})</li>`,
-    directions: (d) => `<li><strong>${d.name}</strong> (${d.description})</li>`
+    directions: (d) => `<li><strong>${d.name}</strong> (${d.description})</li>`,
+    internships: (i) => `<li><strong>ID:</strong> ${i.id} <br><strong>University:</strong> ${i.university_id} <br><strong>Start:</strong> ${i.start_date} <br><strong>End:</strong> ${i.end_date} <br><strong>Description:</strong> ${i.description}</li>`,
 };
 
 // Универсальная функция смены Action у формы
@@ -15,7 +16,7 @@ function initFormAction(selectId, formId, baseUrl) {
         select.addEventListener('change', function() {
             const id = this.value;
             form.action = id ? `${baseUrl.replace(/\/$/, '')}/${id}` : '';
-            console.log('Action изменен на:', form.action); 
+            console.log('Action изменен на:', form.action);
         });
     } else {
         console.error(`Элементы не найдены: ${selectId} или ${formId}`);
@@ -38,7 +39,7 @@ async function fetchAndRender(url, containerId, templateKey) {
             return;
         }
 
-        
+
         const html = data.map(templates[templateKey]).join('');
         container.innerHTML = `<ul>${html}</ul>`;
     } catch (error) {
@@ -73,5 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchAndRender('/directions', 'directions-list', 'directions');
         initFormAction('update-direction-select', 'update-form', '/directions');
         initFormAction('delete-direction-select', 'delete-form', '/directions');
+    }
+
+    if(document.getElementById('internships-list')) {
+        fetchAndRender('/internships', 'internships-list', 'internships');
+        initFormAction('update-internship-select', 'update-form', '/internships');
+        initFormAction('delete-internship-select', 'delete-form', '/internships');
     }
 });
