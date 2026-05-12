@@ -6,6 +6,7 @@ use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\InternshipController;
+use App\Http\Controllers\ContractController;
 
 Route::get('/', function () {
     return view('main');
@@ -16,3 +17,4 @@ Route::resource('universities', UniversityController::class);
 Route::resource('students', StudentController::class);
 Route::resource('directions', DirectionController::class);
 Route::resource('internships', InternshipController::class);
+Route::resource('contracts', ContractController::class);
