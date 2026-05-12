@@ -21,7 +21,12 @@ class DatabaseSeeder extends Seeder
             UniversitySeeder::class,
             DirectionSeeder::class,
             StudentSeeder::class,
-
+            InternshipSeeder::class,
+            StudentInternshipSeeder::class,
+            CompanyRequestSeeder::class,
+            ContractSeeder::class,
+            DocumentSeeder::class,
+            ReservationSeeder::class,
         ]);
     }
 }
