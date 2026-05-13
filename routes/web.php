@@ -9,6 +9,7 @@ use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\StudentInternshipController;
 
 Route::get('/', function () {
     return view('main');
@@ -22,3 +23,4 @@ Route::resource('internships', InternshipController::class);
 Route::resource('contracts', ContractController::class);
 Route::resource('reservations', ReservationController::class);
 Route::resource('documents', DocumentController::class);
+Route::resource('student-internships', StudentInternshipController::class);

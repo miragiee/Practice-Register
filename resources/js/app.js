@@ -6,7 +6,8 @@ const templates = {
     internships: (i) => `<li><strong>ID:</strong> ${i.id} <br><strong>University:</strong> ${i.university_id} <br><strong>Start:</strong> ${i.start_date} <br><strong>End:</strong> ${i.end_date} <br><strong>Description:</strong> ${i.description}</li>`,
     reservations: (r) => `<li><strong>ID:</strong> ${r.id} <br><strong>Company:</strong> ${r.company_id} <br> <strong>Student:</strong> ${r.student_id} <br> <strong>Internship:</strong> ${r.internship_id} <br><strong>Status:</strong> ${r.status}</li>`,
     contracts: (con) => `<li><strong>Контракт №${con.id}</strong> (Унив. ID: ${con.university_id}, Комп. ID: ${con.company_id}) <br> Срок: ${con.start_date} — ${con.end_date} | Status: <strong>${con.status}</strong></li>`,
-    documents: (doc) => `<li><strong>Документ №${doc.id}</strong> (Стажировка студента ID: ${doc.student_internship_id}) <br> Путь: ${doc.file_path} | Тип: <strong>${doc.type}</strong></li>`
+    documents: (doc) => `<li><strong>Документ №${doc.id}</strong> (Стажировка студента ID: ${doc.student_internship_id}) <br> Путь: ${doc.file_path} | Тип: <strong>${doc.type}</strong></li>`,
+    student_internships: (si) => `<li><strong>Запись №${si.id}</strong> (Студент ID: ${si.student_id}, Компания ID: ${si.company_id}, Стажировка ID: ${si.internship_id}) <br> Статус: <strong>${si.status}</strong></li>`
 };
 
 function initFormAction(selectId, formId, baseUrl) {
@@ -92,5 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchAndRender('/documents', 'documents-list', 'documents');
         initFormAction('update-document-select', 'update-form', '/documents');
         initFormAction('delete-document-select', 'delete-form', '/documents');
+    }
+
+    if (document.getElementById('student-internships-list')) {
+        fetchAndRender('/student-internships', 'student-internships-list', 'student_internships');
+        initFormAction('update-student-internship-select', 'update-form', '/student-internships');
+        initFormAction('delete-student-internship-select', 'delete-form', '/student-internships');
     }
 });
