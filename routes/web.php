@@ -13,7 +13,7 @@ use App\Http\Controllers\StudentInternshipController;
 
 Route::get('/', function () {
     return view('main');
-});
+})->name('main.page');
 
 Route::resource('companies', CompanyController::class);
 Route::resource('universities', UniversityController::class);
