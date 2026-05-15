@@ -40,7 +40,7 @@
                 </ul>
             </nav>
         </div>
-        
+
     </header>
 
     <main>
@@ -49,7 +49,7 @@
                 <div class="hero-text">
                     <h1>Где студенты, вузы <br/> и компании встречаются</h1>
                     <p class="tiny-text">
-                        Найди практику, управляй студентами, привлекай лучших стажёров — всё в одном месте. 
+                        Найди практику, управляй студентами, привлекай лучших стажёров — всё в одном месте.
                         Самая масштабная экосистема для профессионального старта.
                     </p>
                 </div>
@@ -135,7 +135,7 @@
                         <img src="{{ asset('storage/icons/star.svg') }}" alt="">
                         <img src="{{ asset('storage/icons/star.svg') }}" alt="">
                         <p>
-                            "Нашел стажировку в Яндексе за 2 недели. 
+                            "Нашел стажировку в Яндексе за 2 недели.
                             Платформа очень удобная, всё оформление документов прошло онлайн через универ."
                         </p>
                         <div class="client">
@@ -151,11 +151,11 @@
                         <img src="{{ asset('storage/icons/star.svg') }}" alt="">
                         <img src="{{ asset('storage/icons/star.svg') }}" alt="">
                         <p>
-                            "Практикум разгрузил наш деканат на 70%. 
+                            "Практикум разгрузил наш деканат на 70%.
                             Раньше мы тонули в бумагах, теперь все договора и отчеты подписываются в один клик."
                         </p>
                         <div class="client">
-                            <img src="{{ asset('storage/avatars/hr-avatar.png') }}" alt="">
+                            <img src="{{ asset('storage/avatars/coordinator-avatar.png') }}" alt="">
                             <p>Елена Васильевна</p>
                             <p>Координатор практик, ВШЭ</p>
                         </div>
@@ -167,11 +167,11 @@
                         <img src="{{ asset('storage/icons/star.svg') }}" alt="">
                         <img src="{{ asset('storage/icons/star.svg') }}" alt="">
                         <p>
-                            "Лучший инструмент для найма джунов. 
+                            "Лучший инструмент для найма джунов.
                             Мы видим успеваемость студентов еще до собеседования. Наняли уже более 40 человек."
                         </p>
                         <div class="client">
-                            <img src="{{ asset('storage/avatars/coordinator-avatar.png') }}" alt="">
+                            <img src="{{ asset('storage/avatars/hr-avatar.png') }}" alt="">
                             <p>Дмитрий М.</p>
                             <p>HR Lead, VK</p>
                         </div>
