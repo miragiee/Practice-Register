@@ -384,7 +384,6 @@ h2{
 .stats-card:hover{
     cursor: pointer;
 
-    background-color: var(--accent-hovered);
     color: var(--dark-background-color);
 
     transform:
