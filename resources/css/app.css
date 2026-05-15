@@ -10,7 +10,8 @@
 :root{
     --dark-background-color: #0F0F14;
 
-    --border-color: #212127;
+    --border-color: #1D1D1F;
+    --border-color-2: #F0F0F3;
     --shadow-color: #000000;
 
     --non-active-white-text-color: #E8E6DF;
@@ -422,8 +423,13 @@ h2{
 }
 
 .hiw-buttons>button{
+    display: flex;
     width: 100px;
     height: 40px;
+
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 
     background-color: white;
 
@@ -449,7 +455,7 @@ h2{
 
 }
 
-HOW IT WORKS
+/* HOW IT WORKS */
 
 .how-it-works {
     padding: 120px 0;
