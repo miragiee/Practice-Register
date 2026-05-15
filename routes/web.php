@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('main');
 })->name('main.page');
 
+Route::get('/register', function(){
+    return view('register');
+})->name('register');
+
 Route::resource('companies', CompanyController::class);
 Route::resource('universities', UniversityController::class);
 Route::resource('students', StudentController::class);

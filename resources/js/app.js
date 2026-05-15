@@ -10,6 +10,12 @@ const templates = {
     student_internships: (si) => `<li><strong>Запись №${si.id}</strong> (Студент ID: ${si.student_id}, Компания ID: ${si.company_id}, Стажировка ID: ${si.internship_id}) <br> Статус: <strong>${si.status}</strong></li>`
 };
 
+
+document.getElementById('register-button').onclick = function(){
+    const url = this.getAttribute('data-url');
+    window.location.href = url;
+};
+
 function initFormAction(selectId, formId, baseUrl) {
     const select = document.getElementById(selectId);
     const form = document.getElementById(formId);

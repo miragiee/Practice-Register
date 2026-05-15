@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+@import url('https://fonts.cdnfonts.com/css/liberation-serif');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+:root{
+    --dark-background-color: #0F0F14;
+
+    --border-color: #212127;
+    --shadow-color: #000000;
+
+    --non-active-white-text-color: #E8E6DF;
+    --grey-color: #E8E6DF99;
+    --accent-color: #2A4DD7;
+    --accent-hovered: #B9C3FF;
+}
+

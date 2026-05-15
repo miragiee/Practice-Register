@@ -32,7 +32,7 @@
                 </div>
                 <ul class="button-list">
                     <li><button class="small-dark-button">Войти</button></li>
-                    <li><button class="small-accent-button">Регистрация</button></li>
+                    <li><button class="small-accent-button" id="register-button" data-url="{{ route('register') }}">Регистрация</button></li>
                 </ul>
             </nav>
         </div>
