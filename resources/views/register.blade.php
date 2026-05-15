@@ -17,37 +17,46 @@
 
     <main>
         <div class="container">
-            <h1>Кто вы?</h1>
-            <p>Это поможет нам настроить платформу под вас</p>
 
-            <div class="login">
-                <p>Уже есть аккаунт?</p>
-                <a href="#"></a>
+            <div class="main-text">
+                <h1>Кто вы?</h1>
+                <p class="tiny-text">Это поможет нам настроить платформу под вас</p>
             </div>
 
             <div class="buttons">
 
-                <div>
-                    <img src="" alt="">
+                <button class="button">
+                    <img src="{{ asset("storage/icons/student-icon.svg") }}" alt="Студент">
                     <h3>Студент</h3>
-                    <p>Ищу место для прохождения практики</p>
-                </div>
+                    <p class="tiny-text">Ищу место для прохождения практики</p>
+                </button>
 
-                <div>
-                    <img src="" alt="">
+                <button class="button">
+                    <img src="{{ asset('storage/icons/university-icon.svg') }}" alt="Университет">
                     <h3>Университет</h3>
-                    <p>Управляю практикой студентов</p>
-                </div>
-                <div>
+                    <p class="tiny-text">Управляю практикой студентов</p>
+                </button>
 
-                    <img src="" alt="">
+                <button class="button">
+                    <img src="{{ asset('storage/icons/company-icon.svg') }}" alt="Компания">
                     <h3>Компания</h3>
-                    <p>Принимаю студентов на практику</p>
-                </div>
+                    <p class="tiny-text">Принимаю студентов на практику</p>
+                </button>
 
             </div>
         </div>
+
+        <div class="bg-container">
+                    <div class="circle blue-circle-1"></div>
+                    <div class="circle blue-circle-2"></div>
+                    <div class="circle blue-circle-3"></div>
+                </div>
     </main>
+
+    <footer>
+        <p class="tiny-text">Уже есть аккаунт?</p>
+        <a href="#" class="login-link">Войти</a>
+    </footer>
 
 </body>
 </html>

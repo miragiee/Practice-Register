@@ -12,14 +12,145 @@
     --dark-background-color: #0F0F14;
 
     --border-color: #212127;
+    --border-color-2: #F0F0F3;
     --shadow-color: #000000;
+
+    --tiny-text: #6B6B80;
 
     --non-active-white-text-color: #E8E6DF;
     --grey-color: #E8E6DF99;
+    
+    --accent-color-circle: #2a4dd780;
     --accent-color: #2A4DD7;
     --accent-hovered: #B9C3FF;
 }
 
 h2{
     color: var(--accent-color);
+
+    font-size: 30px;
+}
+
+body{
+    background-color: var(--dark-background-color);
+    color: white;
+
+    justify-content: center;
+    align-items: center;
+}
+
+header{
+    height: 80px;
+    margin-bottom: 40px;
+}
+
+.main-text{
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-bottom: 68px;
+}
+
+.tiny-text{
+    color: var(--tiny-text);
+    width: 100%;
+    height: fit-content;
+
+    font-size: 16px;
+}
+
+.login-link{
+    color: var(--accent-color);
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    gap: 24px;
+}
+
+button{
+    display: flex;
+    flex-direction: column;
+
+    width: 357px;
+    height: 315px;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 32px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+button>img{
+    width: 98px;
+    height: 98px;
+}
+
+button>h3{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+button:hover{
+    cursor: pointer;
+
+    box-shadow:
+        0 20px 40px rgba(92, 105, 255, 0.08);
+
+    transform: scale(1.05)  ;
+
+}
+
+footer{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.blue-circle-1{
+    width: 384px;
+    height: 384px;
+    background-color: var(--accent-color-circle);
+    top: -200px;
+    left: 37%;
+}
+
+.blue-circle-2{
+    width: 384px;
+    height: 384px;
+    background-color: var(--accent-color-circle);
+    top: 103px;
+    left: 80%;
+}
+
+.blue-circle-3{
+    width: 384px;
+    height: 384px;
+    background-color: var(--accent-color-circle);
+    top: 400px;
+    left: -10%;
 }
