@@ -20,10 +20,6 @@
 
     <header>
         <div class="container">
-            <div class="bg-container">
-                <div class="blue-circle"></div>
-                <div class="black-circle"></div>
-            </div>
             <nav class="header-nav">
                 <div class="header-left-side">
                     <a href="{{ route('main.page') }}" class="logo">Практикум</a>
@@ -46,6 +42,7 @@
     <main>
         <div class="container">
             <div class="hero">
+            
                 <div class="hero-text">
                     <h1>Где студенты, вузы <br/> и компании встречаются</h1>
                     <p class="tiny-text">
@@ -64,6 +61,10 @@
                         <img src="{{ asset('storage/avatars/male-avatar-2.png') }}" alt="">
                     </div>
                     <div class="tiny-text">2400+ студентов уже нашли практику</div>
+                </div>
+                <div class="bg-container">
+                    <div class="circle blue-circle"></div>
+                    <div class="circle black-circle"></div>
                 </div>
             </div>
 

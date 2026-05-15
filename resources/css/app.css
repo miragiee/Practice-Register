@@ -76,9 +76,8 @@ h1:hover {
 }
 
 .bg-container{
-    position: relative;
 
-    width: 100%;
+    width: 100vw;
     height: 100%;
 
     overflow: hidden;
@@ -86,10 +85,28 @@ h1:hover {
 }
 
 .circle{
-    position: relative;
+    position: absolute;
 
     border-radius: 50%;
-    filter: blur(50px);
+    filter: blur(120px);
+    opacity: 0.6;
+}
+
+.blue-circle{
+    width: 384px;
+    height: 384px;
+    background-color: var(--accent-color);
+    top: 103px;
+    left: 80%;
+}
+
+.black-circle{
+    width: 384px;
+    height: 384px;
+    background-color: #8355001A;
+    top: 164px;
+    left: -80px;
+
 }
 
 .container{
