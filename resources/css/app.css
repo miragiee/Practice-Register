@@ -11,14 +11,12 @@
     --dark-background-color: #0F0F14;
 
     --border-color: #212127;
-    --shadow-color: #0000000D;
+    --shadow-color: #000000;
 
     --non-active-white-text-color: #E8E6DF;
     --grey-color: #E8E6DF99;
     --accent-color: #2A4DD7;
     --accent-hovered: #B9C3FF;
-
-
 }
 
 * {
@@ -34,7 +32,6 @@ body{
 
     width: 100vw;
     margin: 0;
-    
 }
 
 header{
@@ -69,6 +66,12 @@ h1{
     font-size: 72px;
 
     text-align: center;
+
+    transition: color 0.2s ease;
+}
+
+h1:hover {
+    color: var(--accent-hovered);
 }
 
 .container{
@@ -92,7 +95,6 @@ h1{
 
     padding-left: 80px;
     padding-right: 80px;
-    
 }
 
 .header-left-side{
@@ -145,12 +147,16 @@ h1{
     outline: none;
 
     color: var(--non-active-white-text-color);
+    background: transparent;
+    border: none;
+
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .small-dark-button:hover{
-    outline: 1px solid white;
-    outline-offset: -1px;
-
+    transform: scale(1.1);
+    background-color: var(--accent-hovered);
+    color: var(--dark-background-color);
     cursor: pointer;
 }
 
@@ -163,104 +169,25 @@ h1{
 
     background-color: var(--accent-color);
     color: white;
+    border: none;
+
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .small-accent-button:hover{
-    outline: 1px solid white;
-    outline-offset: -1px;
-
+    transform: scale(1.1);
+    background-color: var(--accent-hovered);
+    color: var(--dark-background-color);
     cursor: pointer;
 }
 
 .link-list a {
-  display: inline-block;
-  transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 .link-list a:hover {
-  color: var(--accent-color);
-  transform: scale(1.1);
-}
-
-.small-dark-button,
-.small-accent-button {
-  position: relative;
-  isolation: isolate;          /* чтобы псевдоэлементы не перекрывали текст */
-  overflow: hidden;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-.small-dark-button:hover,
-.small-accent-button:hover {
-  transform: scale(1.1);
-  outline: none;               /* убираем стандартный outline */
-}
-
-/* === Переливающийся фон (::before) === */
-.small-dark-button::before,
-.small-accent-button::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  background: linear-gradient(
-    90deg,
-    var(--accent-hovered),
-    var(--accent-color),
-    var(--accent-hovered)
-  );
-  background-size: 200% 100%;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: -1;
-}
-
-/* === Переливающаяся рамка (::after) === */
-.small-dark-button::after,
-.small-accent-button::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  padding: 2px;               /* толщина обводки */
-  background: linear-gradient(
-    90deg,
-    var(--accent-hovered),
-    var(--accent-color),
-    var(--accent-hovered)
-  );
-  background-size: 200% 100%;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: -1;
-}
-
-/* === Анимация при наведении === */
-.small-dark-button:hover::before,
-.small-accent-button:hover::before,
-.small-dark-button:hover::after,
-.small-accent-button:hover::after {
-  opacity: 1;
-  animation: borderShimmer 2s linear infinite;
-}
-
-/* Акцентная кнопка скрывает свой сплошной фон, чтобы показать градиент */
-.small-accent-button:hover {
-  background-color: transparent;
-}
-
-/* Движение градиента */
-@keyframes borderShimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
+    color: var(--accent-hovered);
+    transform: scale(1.1);
 }
 
 .hero{
@@ -299,6 +226,12 @@ h1{
     text-wrap: auto;
 
     width: 660px;
+
+    transition: color 0.2s ease;
+}
+
+.tiny-text:hover {
+    color: var(--accent-hovered);
 }
 
 .hero-buttons{
@@ -323,6 +256,16 @@ h1{
     font-size: 18px;
     font-weight: 700;
     color: white;
+    border: none;
+
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.big-accent-button:hover{
+    transform: scale(1.05);
+    background-color: var(--accent-hovered);
+    color: var(--dark-background-color);
+    cursor: pointer;
 }
 
 .big-dark-button{
@@ -341,4 +284,168 @@ h1{
 
     border: 2px solid var(--grey-color);
     box-sizing: border-box;
+
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.big-dark-button:hover{
+    transform: scale(1.05);
+    background-color: var(--accent-hovered);
+    color: var(--dark-background-color);
+    border-color: var(--accent-hovered);
+    cursor: pointer;
+}
+
+.hero-students {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    max-width: 460px;
+}
+
+.student-avatars{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    margin-left: 5vw;
+}
+
+.student-avatars > img {
+    margin-right: -10px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease, margin 0.2s ease, z-index 0.2s;
+}
+
+.student-avatars > img:hover {
+    transform: translateY(-5px) scale(1.2);
+    margin-left: 5px;
+    margin-right: 5px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.stats{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+
+    width: 100vw;
+    height: 250px;
+}
+
+.stats-card{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: top;
+    align-items: left;
+
+    height: 200px;
+    width: 200px;
+    
+    border: 1px solid var(--border-color);
+    background-color: white;
+    border-radius: 15px;
+
+    margin: 10px;
+    padding: 10px;
+
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.stats-card>p{
+    color: var(--accent-color);
+    font-size: 18px;
+    font-family: 'Jetbrains Mono', monospace;
+}
+
+h2{
+    color: var(--dark-background-color);
+    font-size: 48px;
+}
+
+.line{
+    width: 125px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+.stats-card:hover{
+    cursor: pointer;
+
+    background-color: var(--accent-hovered);
+    color: var(--dark-background-color);
+    
+    transform:
+    translateY(-10px);
+
+    -webkit-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+.how-it-works{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.hiw-buttons{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    margin: 10px;
+
+    gap: 10px;
+
+    background-color: white;
+    border: none;
+
+    border-radius: 60px;
+
+    padding: 5px;
+}
+
+.hiw-buttons>button{
+    width: 100px;
+    height: 40px;
+
+    background-color: white;
+
+    border: 1px solid var(--border-color);
+    border-radius: 60px;
+
+    transition: color 0.2s ease, transform 0.2s ease;
+
+}
+
+.hiw-buttons>button:hover{
+   cursor: pointer;
+
+    background-color: var(--accent-hovered);
+    color: var(--dark-background-color);
+    
+    transform:
+    scale(1.05);
+
+    -webkit-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    
 }
