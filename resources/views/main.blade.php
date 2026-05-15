@@ -20,6 +20,10 @@
 
     <header>
         <div class="container">
+            <div class="bg-container">
+                <div class="blue-circle"></div>
+                <div class="black-circle"></div>
+            </div>
             <nav class="header-nav">
                 <div class="header-left-side">
                     <a href="{{ route('main.page') }}" class="logo">Практикум</a>
