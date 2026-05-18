@@ -31,6 +31,10 @@ Route::get("/register/step-3", function () {
     return view("register-step-3");
 })->name("register-step-3");
 
+Route::get("/profile/student", function () {
+    return view("student-profile");
+})->name("student-profule");
+
 Route::resource("companies", CompanyController::class);
 Route::resource("universities", UniversityController::class);
 Route::resource("students", StudentController::class);
