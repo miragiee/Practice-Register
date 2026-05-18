@@ -35,6 +35,10 @@ Route::get("/profile/student", function () {
     return view("student-profile");
 })->name("student-profule");
 
+Route::get("/profile/company", function () {
+    return view("company-profile");
+})->name("company-profile");
+
 Route::resource("companies", CompanyController::class);
 Route::resource("universities", UniversityController::class);
 Route::resource("students", StudentController::class);
