@@ -25,19 +25,19 @@
 
             <div class="buttons">
 
-                <button class="button">
+                <button class="button" id="register-button-student">
                     <img src="{{ asset("storage/icons/student-icon.svg") }}" alt="Студент">
                     <h3>Студент</h3>
                     <p class="tiny-text">Ищу место для прохождения практики</p>
                 </button>
 
-                <button class="button">
+                <button class="button" id="register-button-univ" data-url="{{ route('register-step-2-university') }}">
                     <img src="{{ asset('storage/icons/university-icon.svg') }}" alt="Университет">
                     <h3>Университет</h3>
                     <p class="tiny-text">Управляю практикой студентов</p>
                 </button>
 
-                <button class="button">
+                <button class="button" id="register-button-company" data-url="{{ route('register-step-2-company') }}">
                     <img src="{{ asset('storage/icons/company-icon.svg') }}" alt="Компания">
                     <h3>Компания</h3>
                     <p class="tiny-text">Принимаю студентов на практику</p>

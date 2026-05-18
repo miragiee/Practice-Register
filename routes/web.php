@@ -11,20 +11,28 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StudentInternshipController;
 
-Route::get('/', function () {
-    return view('main');
-})->name('main.page');
+Route::get("/", function () {
+    return view("main");
+})->name("main.page");
 
-Route::get('/register', function(){
-    return view('register');
-})->name('register');
+Route::get("/register", function () {
+    return view("register");
+})->name("register");
 
-Route::resource('companies', CompanyController::class);
-Route::resource('universities', UniversityController::class);
-Route::resource('students', StudentController::class);
-Route::resource('directions', DirectionController::class);
-Route::resource('internships', InternshipController::class);
-Route::resource('contracts', ContractController::class);
-Route::resource('reservations', ReservationController::class);
-Route::resource('documents', DocumentController::class);
-Route::resource('student-internships', StudentInternshipController::class);
+Route::get("/register/step-2-company", function () {
+    return view("register-step-2-company");
+})->name("register-step-2-company");
+
+Route::get("/register/step-2-university", function () {
+    return view("register-step-2-university");
+})->name("register-step-2-university");
+
+Route::resource("companies", CompanyController::class);
+Route::resource("universities", UniversityController::class);
+Route::resource("students", StudentController::class);
+Route::resource("directions", DirectionController::class);
+Route::resource("internships", InternshipController::class);
+Route::resource("contracts", ContractController::class);
+Route::resource("reservations", ReservationController::class);
+Route::resource("documents", DocumentController::class);
+Route::resource("student-internships", StudentInternshipController::class);

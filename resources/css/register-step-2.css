@@ -1,0 +1,606 @@
+@import "tailwindcss";
+@import url("https://fonts.cdnfonts.com/css/liberation-serif");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f4f4f2;
+    font-family: "Liberation Serif";
+    color: #1c1c35;
+}
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/* HEADER */
+
+.header {
+    background: #36363d;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-family: "JetBrains Mono", monospace;
+    color: #3150f0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    gap: 45px;
+}
+
+.nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    opacity: 0.85;
+    transition: 0.2s;
+}
+
+.nav a:hover {
+    opacity: 1;
+}
+
+.nav a.active {
+    color: #3150f0;
+    border-bottom: 2px solid #3150f0;
+    padding-bottom: 4px;
+}
+
+/* MAIN */
+
+.main {
+    padding: 50px 0 70px;
+    display: flex;
+    justify-content: center;
+}
+
+.register-card {
+    width: 560px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 38px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03);
+}
+
+/* STEPS */
+
+.steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 45px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #ececf2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9898a6;
+    font-weight: 700;
+}
+
+.step.completed .step-circle {
+    background: #33c781;
+    color: #ffffff;
+}
+
+.step.current .step-circle {
+    background: #3150f0;
+    color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(49, 80, 240, 0.15);
+}
+
+.step-label {
+    margin-top: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #b1b1bc;
+}
+
+.step.completed .step-label {
+    color: #33c781;
+}
+
+.step.current .step-label {
+    color: #3150f0;
+}
+
+.step-line {
+    width: 125px;
+    height: 2px;
+    background: #e2e2ea;
+    margin: 0 14px 22px;
+}
+
+.step-line.active {
+    background: #33c781;
+}
+
+/* TITLES */
+
+.title {
+    font-size: 58px;
+    line-height: 1.05;
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #1c1c35;
+}
+
+.subtitle {
+    color: #7b7b8f;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+/* FORM */
+
+.register-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #444456;
+}
+
+input,
+select {
+    width: 100%;
+    height: 56px;
+    border: 1px solid #d9d9e7;
+    border-radius: 8px;
+    padding: 0 16px;
+    background: #f6f5fd;
+    font-size: 16px;
+    outline: none;
+    color: #1c1c35;
+}
+
+input::placeholder {
+    color: #8b8b9c;
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+.half {
+    width: 50%;
+}
+
+.input-icon {
+    position: relative;
+}
+
+.input-icon input {
+    padding-left: 44px;
+}
+
+.input-icon.password input {
+    padding-right: 44px;
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #8b8b9c;
+}
+
+.input-icon .icon {
+    left: 14px;
+}
+
+.password .icon {
+    right: 14px;
+    left: auto;
+}
+
+/* BUTTON */
+
+.submit-btn {
+    width: 100%;
+    height: 60px;
+    border: none;
+    border-radius: 40px;
+    background: #3150f0;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 6px 14px rgba(49, 80, 240, 0.2);
+    transition: 0.2s;
+}
+
+.submit-btn:hover {
+    background: #2844d7;
+}
+
+/* LOGIN */
+
+.login-link {
+    margin-top: 28px;
+    text-align: center;
+    color: #8b8b9c;
+    font-size: 15px;
+}
+
+.login-link a {
+    color: #3150f0;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 6px;
+}
+
+/* FOOTER */
+
+.footer {
+    background: #060711;
+    padding: 38px 0;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.footer-logo {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.footer-left p {
+    color: #6f7184;
+    font-size: 15px;
+    line-height: 1.6;
+    width: 320px;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 24px 70px;
+}
+
+.footer-links a {
+    color: #8e90a2;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+/* UNIVERSITY PAGE */
+
+.university-title {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.university-subtitle {
+    text-align: center;
+    width: 100%;
+    max-width: 470px;
+    margin: 0 auto 40px;
+    font-size: 16px;
+}
+
+.register-card:has(.university-title) {
+    width: 600px;
+}
+
+.register-card:has(.university-title) .submit-btn {
+    margin-top: 20px;
+}
+
+.register-card:has(.university-title) .footer-links {
+    gap: 18px;
+}
+
+Добавь в конец `register-step-2.css` этот блок.
+Он повторяет стиль анимаций из `app.css`, но адаптирован под формы регистрации.
+
+```css
+/* =========================================
+   ANIMATIONS & INTERACTIONS
+========================================= */
+
+/* LOGO */
+
+.logo {
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.logo:hover {
+    color: #8ea2ff;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+/* NAVIGATION */
+
+.nav a {
+    display: inline-block;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.nav a:hover {
+    color: #8ea2ff;
+    transform: scale(1.08);
+}
+
+/* CARD */
+
+.register-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.register-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 18px 40px rgba(49, 80, 240, 0.06);
+}
+
+/* TITLE */
+
+.title {
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.title:hover {
+    color: #3150f0;
+}
+
+/* SUBTITLE */
+
+.subtitle {
+    transition: color 0.2s ease;
+}
+
+.subtitle:hover {
+    color: #5f5f77;
+}
+
+/* STEPS */
+
+.step-circle {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.step:hover .step-circle {
+    transform: scale(1.08);
+}
+
+.step.current:hover .step-circle {
+    box-shadow:
+        0 0 0 6px rgba(49, 80, 240, 0.12);
+}
+
+/* LABELS */
+
+.form-group label {
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.form-group:hover label {
+    color: #3150f0;
+    transform: translateX(2px);
+}
+
+/* INPUTS */
+
+input,
+select {
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+input:hover,
+select:hover {
+    background: #fbfbff;
+    border-color: #cfd5ff;
+}
+
+input:focus,
+select:focus {
+    border-color: #3150f0;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(49, 80, 240, 0.08);
+
+    transform: translateY(-1px);
+}
+
+/* PLACEHOLDER */
+
+input::placeholder {
+    transition: color 0.2s ease;
+}
+
+input:focus::placeholder {
+    color: #b4b4c2;
+}
+
+/* ICONS */
+
+.icon {
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.input-icon:hover .icon {
+    color: #3150f0;
+    transform: translateY(-50%) scale(1.08);
+}
+
+/* BUTTON */
+
+.submit-btn {
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.25s ease,
+        color 0.2s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px) scale(1.01);
+
+    background: #5d78ff;
+
+    box-shadow:
+        0 16px 32px rgba(49, 80, 240, 0.22);
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* LOGIN LINK */
+
+.login-link a {
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.login-link a:hover {
+    color: #5d78ff;
+    transform: translateY(-1px);
+}
+
+/* FOOTER LINKS */
+
+.footer-links a {
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+/* FOOTER LOGO */
+
+.footer-logo {
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.footer-logo:hover {
+    color: #8ea2ff;
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+/* FORM GROUP */
+
+.form-group {
+    transition: transform 0.2s ease;
+}
+
+.form-group:hover {
+    transform: translateY(-1px);
+}
+
+/* STEP LINES */
+
+.step-line {
+    transition:
+        background-color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+/* SOFT APPEAR ANIMATION */
+
+.register-card {
+    animation: fadeUp 0.5s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+```
