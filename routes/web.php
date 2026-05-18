@@ -39,6 +39,10 @@ Route::get("/profile/company", function () {
     return view("company-profile");
 })->name("company-profile");
 
+Route::get("/auth", function () {
+    return view("auth");
+})->name("auth");
+
 Route::resource("companies", CompanyController::class);
 Route::resource("universities", UniversityController::class);
 Route::resource("students", StudentController::class);
