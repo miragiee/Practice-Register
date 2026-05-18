@@ -43,6 +43,10 @@ Route::get("/auth", function () {
     return view("auth");
 })->name("auth");
 
+Route::get("/students-in-search", function () {
+    return view("students-in-search");
+})->name("students-in-search");
+
 Route::resource("companies", CompanyController::class);
 Route::resource("universities", UniversityController::class);
 Route::resource("students", StudentController::class);
