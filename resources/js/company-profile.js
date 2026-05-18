@@ -1,96 +1,3 @@
-document.querySelectorAll(".header-nav a, .footer-col a").forEach((link) => {
-    link.addEventListener("click", (e) => {
-        e.preventDefault();
-    });
-});
-
-const editBtn = document.querySelector(".edit-btn");
-editBtn.addEventListener("click", function () {
-    this.style.transform = "scale(0.95)";
-    setTimeout(() => {
-        this.style.transform = "";
-    }, 150);
-});
-
-document.querySelectorAll(".menu-item").forEach((item) => {
-    item.addEventListener("click", function () {
-        document
-            .querySelectorAll(".menu-item")
-            .forEach((i) => i.classList.remove("active"));
-        this.classList.add("active");
-    });
-});
-
-document.querySelectorAll(".doc-item").forEach((doc) => {
-    doc.addEventListener("click", function () {
-        this.style.transform = "scale(0.98)";
-        setTimeout(() => {
-            this.style.transform = "";
-        }, 150);
-    });
-});
-
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px",
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.style.animationPlayState = "running";
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll(".fade-in").forEach((el) => {
-    el.style.animationPlayState = "running";
-    // observer.observe(el); // Uncomment if you want scroll-triggered animations
-});
-
-const profileCard = document.querySelector(".profile-card");
-profileCard.addEventListener("mousemove", (e) => {
-    const rect = profileCard.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 20;
-    const rotateY = (centerX - x) / 20;
-
-    profileCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
-});
-
-profileCard.addEventListener("mouseleave", () => {
-    profileCard.style.transform = "";
-});
-
-const skillColors = [
-    { bg: "#e8eeff", color: "#4A6CF7" },
-    { bg: "#fff3e0", color: "#E65100" },
-    { bg: "#e8f5e9", color: "#2E7D32" },
-    { bg: "#f3e5f5", color: "#7B1FA2" },
-    { bg: "#e0f2f1", color: "#00695C" },
-    { bg: "#fce4ec", color: "#C62828" },
-    { bg: "#e3f2fd", color: "#1565C0" },
-    { bg: "#fff8e1", color: "#F57F17" },
-];
-
-document.querySelectorAll(".skill-tag").forEach((tag) => {
-    tag.addEventListener("mouseenter", function () {
-        const randomColor =
-            skillColors[Math.floor(Math.random() * skillColors.length)];
-        this.style.background = randomColor.bg;
-        this.style.color = randomColor.color;
-    });
-
-    tag.addEventListener("mouseleave", function () {
-        this.style.background = "";
-        this.style.color = "";
-    });
-});
-
 window.addEventListener("scroll", () => {
     const header = document.querySelector(".header");
     if (window.scrollY > 10) {
@@ -99,3 +6,132 @@ window.addEventListener("scroll", () => {
         header.style.boxShadow = "none";
     }
 });
+
+function toggleBookmark(el) {
+    el.classList.toggle("bookmarked");
+    const svg = el.querySelector("svg");
+    if (el.classList.contains("bookmarked")) {
+        svg.setAttribute("fill", "#E65100");
+        // Add pop animation
+        el.style.transform = "scale(1.3)";
+        setTimeout(() => {
+            el.style.transform = "scale(1)";
+        }, 200);
+    } else {
+        svg.setAttribute("fill", "none");
+    }
+}
+
+function animateCounters() {
+    document.querySelectorAll(".stat-value[data-target]").forEach((counter) => {
+        const target = parseInt(counter.getAttribute("data-target"));
+        const duration = 1500;
+        const startTime = performance.now();
+        const suffix = counter.textContent.includes("+") ? "+" : "";
+
+        function updateCounter(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(eased * target);
+
+            counter.textContent = current + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            }
+        }
+
+        requestAnimationFrame(updateCounter);
+    });
+}
+
+setTimeout(animateCounters, 300);
+
+document
+    .querySelector(".add-vacancy-btn")
+    .addEventListener("click", function () {
+        this.style.transform = "scale(0.95)";
+        setTimeout(() => {
+            this.style.transform = "";
+        }, 150);
+    });
+
+document.querySelectorAll(".gallery-item").forEach((item) => {
+    item.addEventListener("click", function () {
+        this.style.transform = "scale(0.95)";
+        setTimeout(() => {
+            this.style.transform = "";
+        }, 200);
+    });
+});
+
+document.querySelectorAll(".vacancy-card").forEach((card) => {
+    card.addEventListener("click", function (e) {
+        if (
+            e.target.closest(".vacancy-bookmark") ||
+            e.target.closest(".vacancy-detail-link")
+        )
+            return;
+
+        this.style.transform = "translateY(-2px) scale(0.98)";
+        setTimeout(() => {
+            this.style.transform = "";
+        }, 200);
+    });
+});
+
+const statsCard = document.querySelector(".stats-card");
+statsCard.addEventListener("mousemove", (e) => {
+    const rect = statsCard.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 15;
+    const rotateY = (centerX - x) / 15;
+
+    statsCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
+});
+
+statsCard.addEventListener("mouseleave", () => {
+    statsCard.style.transform = "";
+});
+
+const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = "running";
+                observer.unobserve(entry.target);
+            }
+        });
+    },
+    { threshold: 0.1 },
+);
+
+document.querySelectorAll(".fade-in").forEach((el) => {
+    el.style.animationPlayState = "running";
+});
+
+document.querySelectorAll(".advantage-card").forEach((card) => {
+    card.addEventListener("mouseenter", function () {
+        const icon = this.querySelector(".advantage-icon svg");
+        icon.style.color = "#fff";
+        this.querySelector(".advantage-icon").style.background = "#4A6CF7";
+    });
+    card.addEventListener("mouseleave", function () {
+        const icon = this.querySelector(".advantage-icon svg");
+        icon.style.color = "#4A6CF7";
+        this.querySelector(".advantage-icon").style.background = "#f0f4ff";
+    });
+});
+
+document
+    .querySelectorAll(".header-nav a, .footer-col a, .vacancy-detail-link")
+    .forEach((link) => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+        });
+    });

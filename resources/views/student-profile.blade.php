@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Tech Solutions — Практикум</title>
-    @vite(['resources/js/student-profile.js', 'resources/css/student-profile.css'])
+    <title>Профиль студента — Практикум</title>
+    @vite([
+        'resources/css/student-profile.css', 'resources/js/student-profile.js'
+    ])
 </head>
 <body>
 
@@ -13,275 +15,207 @@
         <nav class="header-nav">
             <a href="#">Студентам</a>
             <a href="#">Университетам</a>
-            <a href="#" class="active">Компаниям</a>
+            <a href="#">Компаниям</a>
             <a href="#">Тарифы</a>
         </nav>
     </header>
 
     <div class="main-container">
-        <!-- COMPANY HEADER -->
-        <div class="company-header fade-in">
-            <div class="company-header-left">
-                <div class="company-logo">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        <aside class="sidebar">
+            <div class="profile-card fade-in">
+                <div class="avatar-wrapper">
+                    <div class="avatar">
+                        <svg viewBox="0 0 24 24" fill="white" width="48" height="48">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    <div class="verified-badge">
+                        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    </div>
+                </div>
+                <div class="profile-name">Алексей Иванов</div>
+                <div class="profile-university">
+                    МГУ им. М.В. Ломоносова
+                    <span class="university-verified">
+                        <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+                            <path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 6.5l-4 4a.75.75 0 01-1.06 0L4.5 8.56l.71-.7 1.29 1.29 3.29-3.35.71.7z"/>
+                        </svg>
+                    </span>
+                </div>
+                <div class="profile-status">3 курс • Факультет ВМК</div>
+            </div>
+
+            <div class="menu-list fade-in">
+                <div class="menu-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                     </svg>
+                    Профиль
                 </div>
-                <div class="company-info">
-                    <h1>Global Tech Solutions</h1>
-                    <p>Разработка ПО и AI-решения</p>
+                <div class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    Мои отклики
+                </div>
+                <div class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    Настройки
                 </div>
             </div>
-            <button class="add-vacancy-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-                Добавить вакансию
-            </button>
-        </div>
 
-        <div class="about-section">
+            <button class="edit-btn fade-in">Редактировать</button>
+
+            <div class="contacts-card fade-in">
+                <div class="card-title">Контакты</div>
+                <div class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    a.ivanov@edu.msu.ru
+                </div>
+                <div class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    +7 (900) 123-45-67
+                </div>
+                <div class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    Москва, Россия
+                </div>
+            </div>
+
+            <div class="university-card fade-in">
+                <div class="card-title">Мой Университет</div>
+                <div class="university-status">
+                    <span class="status-dot"></span>
+                    Подтверждён вузом
+                </div>
+                <a href="#" class="university-link">
+                    Страница вуза
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+
             <div class="content-card fade-in">
-                <h2 class="section-title">О компании</h2>
+                <h2 class="section-title">О себе</h2>
                 <p class="about-text">
-                    Мы — ведущая технологическая компания, специализирующаяся на разработке сложных системных решений для финансового сектора и ритейла. Наша миссия заключается в трансформации традиционного бизнеса через внедрение передовых алгоритмов машинного обучения и облачных инфраструктур.
-                </p>
-                <br>
-                <p class="about-text">
-                    С 2012 года мы выросли из небольшого стартапа до международного холдинга с 500+ экспертиз. Мы ценим свежий взгляд и инновационный подход, поэтому активно развиваем программы стажировок и практики для талантливых студентов.
+                    Студент 3-го курса ВМК МГУ, специализируюсь на анализе данных и машинном обучении. Активно участвую в хакатонах и исследовательских проектах кафедры. Ищу возможности для стажировок в финтех-компаниях, где смогу применить свои знания Python и SQL для решения реальных бизнес-задач. Свободно владею английским языком и увлекаюсь спортивным программированием.
                 </p>
             </div>
 
-            <div class="stats-card fade-in">
-                <div class="stat-item">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
-                    <div>
-                        <div class="stat-value" data-target="500">500+</div>
-                        <div class="stat-label">сотрудников</div>
-                    </div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    </div>
-                    <div>
-                        <div class="stat-value" data-target="12">12</div>
-                        <div class="stat-label">стран присутствия</div>
-                    </div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon">
-                        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                    </div>
-                    <div>
-                        <div class="stat-value" data-target="150">150+</div>
-                        <div class="stat-label">выпускников практик</div>
-                    </div>
+            <div class="content-card fade-in">
+                <h2 class="section-title">Навыки</h2>
+                <div class="skills-list">
+                    <span class="skill-tag skill-blue">Python</span>
+                    <span class="skill-tag skill-blue">Data Analysis</span>
+                    <span class="skill-tag skill-blue">Machine Learning</span>
+                    <span class="skill-tag skill-blue">SQL</span>
+                    <span class="skill-tag skill-blue">PyTorch</span>
+                    <span class="skill-tag skill-green">Git</span>
+                    <span class="skill-tag skill-orange">Tableau</span>
+                    <span class="skill-tag skill-orange">English C1</span>
                 </div>
             </div>
-        </div>
 
-        <!-- ADVANTAGES -->
-        <div class="advantages-section fade-in">
-            <h2 class="section-title">Наши преимущества для стажёров</h2>
-            <div class="advantages-grid">
-                <div class="advantage-card">
-                    <div class="advantage-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                        </svg>
-                    </div>
-                    <div class="advantage-title">Быстрый старт</div>
-                    <div class="advantage-desc">Реальные задачи с первого дня и полное погружение в производственный цикл разработки продукта.</div>
-                </div>
-                <div class="advantage-card">
-                    <div class="advantage-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
-                        </svg>
-                    </div>
-                    <div class="advantage-title">Менторство</div>
-                    <div class="advantage-desc">За каждым стажёром закрепляется Senior-специалист для регулярных созвонов и карьерных консультаций.</div>
-                </div>
-                <div class="advantage-card">
-                    <div class="advantage-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
-                        </svg>
-                    </div>
-                    <div class="advantage-title">Культура и быт</div>
-                    <div class="advantage-desc">Современный офис в центре города, гибкий график, бесплатные обеды и доступ к корпоративной библиотеке.</div>
-                </div>
-            </div>
-        </div>
+            <div class="content-card fade-in">
+                <h2 class="section-title">Опыт</h2>
 
-        <div class="vacancies-section fade-in">
-            <div class="vacancies-header">
-                <h2 class="section-title">Активные вакансии практики</h2>
-                <span class="vacancies-badge">3 активно</span>
-            </div>
-            <div class="vacancies-grid">
-                <div class="vacancy-card">
-                    <div class="vacancy-top">
-                        <span class="vacancy-type type-remote">REMOTE</span>
-                        <div class="vacancy-bookmark tooltip-wrapper" onclick="toggleBookmark(this)">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-                            </svg>
-                            <span class="tooltip-text">Сохранить</span>
+                <div class="experience-item">
+                    <div class="timeline-dot"></div>
+                    <div class="experience-info">
+                        <div class="experience-header">
+                            <span class="experience-role">Стажёр Data Scientist</span>
+                            <span class="experience-date">ИЮЛЬ 202 — АВГУСТ 2024</span>
                         </div>
-                    </div>
-                    <div class="vacancy-title">Frontend Developer Intern (React)</div>
-                    <div class="vacancy-desc">Разработка пользовательских интерфейсов для платформы анализа больших данных.</div>
-                    <div class="vacancy-tags">
-                        <span class="vacancy-tag">React</span>
-                        <span class="vacancy-tag">TypeScript</span>
-                        <span class="vacancy-tag">Redux</span>
-                    </div>
-                    <div class="vacancy-footer">
-                        <span class="vacancy-format">Онлайн</span>
-                        <a href="#" class="vacancy-detail-link">
-                            Детали
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                            </svg>
-                        </a>
+                        <div class="experience-company">Яндекс.Поиск</div>
+                        <p class="experience-desc">
+                            Участвовал в разработке алгоритмов ранжирования поисковой выдачи. Оптимизировал скрипты предобработки данных, что позволило сократить время обучения моделей на 15%. Работал в команде из 12 человек в рамках летней стажировки.
+                        </p>
                     </div>
                 </div>
 
-                <div class="vacancy-card">
-                    <div class="vacancy-top">
-                        <span class="vacancy-type type-office">OFFICE</span>
-                        <div class="vacancy-bookmark tooltip-wrapper" onclick="toggleBookmark(this)">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-                            </svg>
-                            <span class="tooltip-text">Сохранить</span>
+                <div class="experience-item">
+                    <div class="timeline-dot secondary"></div>
+                    <div class="experience-info">
+                        <div class="experience-header">
+                            <span class="experience-role">Лаборант-исследователь</span>
+                            <span class="experience-date">ЯНВАРЬ 2026 — МАЙ 2026</span>
                         </div>
-                    </div>
-                    <div class="vacancy-title">QA Automation Intern (Python)</div>
-                    <div class="vacancy-desc">Автоматизация тестирования API и UI компонентов банковского приложения.</div>
-                    <div class="vacancy-tags">
-                        <span class="vacancy-tag">Python</span>
-                        <span class="vacancy-tag">Pytest</span>
-                        <span class="vacancy-tag">Selenium</span>
-                    </div>
-                    <div class="vacancy-footer">
-                        <span class="vacancy-format">Оплачиваемая</span>
-                        <a href="#" class="vacancy-detail-link">
-                            Детали
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="vacancy-card">
-                    <div class="vacancy-top">
-                        <span class="vacancy-type type-hybrid">HYBRID</span>
-                        <div class="vacancy-bookmark tooltip-wrapper" onclick="toggleBookmark(this)">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-                            </svg>
-                            <span class="tooltip-text">Сохранить</span>
-                        </div>
-                    </div>
-                    <div class="vacancy-title">UI/UX Designer Trainee</div>
-                    <div class="vacancy-desc">Создание прототипов и работа над дизайн-системой внутренних сервисов компании.</div>
-                    <div class="vacancy-tags">
-                        <span class="vacancy-tag">Figma</span>
-                        <span class="vacancy-tag">UI/UX</span>
-                        <span class="vacancy-tag">Prototyping</span>
-                    </div>
-                    <div class="vacancy-footer">
-                        <span class="vacancy-format">Практика</span>
-                        <a href="#" class="vacancy-detail-link">
-                            Детали
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom-section">
-            <div class="fade-in">
-                <h2 class="section-title-large">Галерея офиса</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <div class="gallery-placeholder gallery-placeholder-1">🏢</div>
-                    </div>
-                    <div class="gallery-item">
-                        <div class="gallery-placeholder gallery-placeholder-2">🛋️</div>
-                    </div>
-                    <div class="gallery-item">
-                        <div class="gallery-placeholder gallery-placeholder-3"></div>
+                        <div class="experience-company">НИИ Системных Исследований РАН</div>
+                        <p class="experience-desc">
+                            Ассистировал в проведении численных экспериментов для моделирования газодинамических процессов. Занимался визуализацией результатов исследований с использованием Matplotlib и Plotly.
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <div class="fade-in">
-                <h2 class="section-title-large">Контакты HR</h2>
-                <div class="hr-card">
-                    <div class="hr-person">
-                        <div class="hr-avatar">
-                            <svg viewBox="0 0 24 24" fill="white" width="28" height="28">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            <div class="content-card fade-in">
+                <h2 class="section-title">Документы</h2>
+                <div class="documents-grid">
+                    <div class="doc-item">
+                        <div class="doc-icon doc-icon-pdf">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM8.5 13.5v1.5H11v-1.5H8.5zm0 3v1.5H11v-1.5H8.5zM12 12h4v1h-4v-1zm0 3h4v1h-4v-1z"/>
                             </svg>
                         </div>
-                        <div>
-                            <div class="hr-name">Анна Петрова</div>
-                            <div class="hr-role">Head of Talent Acquisition</div>
+                        <div class="doc-details">
+                            <div class="doc-name">Резюме_Иванов_DS.pdf</div>
+                            <div class="doc-meta">PDF • 1.2 MB</div>
+                        </div>
+                        <div class="doc-download">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
                         </div>
                     </div>
-                    <div class="hr-contact-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-                        </svg>
-                        hr@globaltech.com
-                    </div>
-                    <div class="hr-contact-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                        </svg>
-                        +7 (900) 123-45-67
+
+                    <div class="doc-item">
+                        <div class="doc-icon doc-icon-zip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="doc-details">
+                            <div class="doc-name">Портфолио_Проекты.zip</div>
+                            <div class="doc-meta">ZIP • 45 MB</div>
+                        </div>
+                        <div class="doc-download">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-brand">
                 <div class="footer-brand-name">Практикум</div>
-                <div class="footer-brand-desc">Платформа для развития карьерного потенциала и связи образования с бизнесом.</div>
+                <div class="footer-brand-desc">© 2026 Практикум. Платформа для развития карьерного потенциала.</div>
             </div>
             <div class="footer-links">
-                <div>
-                    <div class="footer-col-title">Ресурс</div>
-                    <div class="footer-col">
-                        <a href="#">О платформе</a>
-                        <a href="#">Центр помощи</a>
-                    </div>
+                <div class="footer-col">
+                    <a href="#">О платформе</a>
+                    <a href="#">Карьера</a>
+                    <a href="#">Конфиденциальность</a>
                 </div>
-                <div>
-                    <div class="footer-col-title">Компания</div>
-                    <div class="footer-col">
-                        <a href="#">Карьера</a>
-                        <a href="#">Партнёрам</a>
-                    </div>
-                </div>
-                <div>
-                    <div class="footer-col-title">Право</div>
-                    <div class="footer-col">
-                        <a href="#">Конфиденциальность</a>
-                    </div>
+                <div class="footer-col">
+                    <a href="#">Центр помощи</a>
+                    <a href="#">Партнёрам</a>
                 </div>
             </div>
         </div>
