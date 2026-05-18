@@ -9,7 +9,7 @@
 
     @vite([
         'resources/css/register-step-2.css',
-        'resources/js/app.js'
+        'resources/js/register.js'
     ])
 </head>
 <body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная</title>
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    @vite(['resources/js/main.js', 'resources/css/main.css'])
 </head>
 <body>
     {{-- Это ссылки на тестовые страницы.
@@ -31,7 +31,7 @@
                     </ul>
                 </div>
                 <ul class="button-list">
-                    <li><button class="small-dark-button">Войти</button></li>
+                    <li><button class="small-dark-button" id="login-button" data-url="{{ route('auth') }}">Войти</button></li>
                     <li><button class="small-accent-button" id="register-button" data-url="{{ route('register') }}">Регистрация</button></li>
                 </ul>
             </nav>
@@ -42,7 +42,7 @@
     <main>
         <div class="container">
             <div class="hero">
-            
+
                 <div class="hero-text">
                     <h1>Где студенты, вузы <br/> и компании встречаются</h1>
                     <p class="tiny-text">
@@ -51,8 +51,8 @@
                     </p>
                 </div>
                 <div class="hero-buttons">
-                    <button class="big-accent-button">Найти практику</button>
-                    <button class="big-dark-button">Разместить вакансию</button>
+                    <button class="big-accent-button" id="student-login-button" data-url="{{ route('auth') }}">Найти практику</button>
+                    <button class="big-dark-button" id="company-register-button" data-url="{{ route('auth') }}">Разместить вакансию</button>
                 </div>
                 <div class="hero-students">
                     <div class="student-avatars">

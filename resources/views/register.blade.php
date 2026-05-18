@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Регистрация</title>
-    @vite(['resources/js/app.js', 'resources/css/register.css'])
+    @vite(['resources/js/register.js', 'resources/css/register.css'])
 </head>
 <body>
 
@@ -25,7 +25,7 @@
 
             <div class="buttons">
 
-                <button class="button" id="register-button-student">
+                <button class="button" id="login-button-student" data-url="{{ route('auth')}}">
                     <img src="{{ asset("storage/icons/student-icon.svg") }}" alt="Студент">
                     <h3>Студент</h3>
                     <p class="tiny-text">Ищу место для прохождения практики</p>
@@ -55,7 +55,7 @@
 
     <footer>
         <p class="tiny-text">Уже есть аккаунт?</p>
-        <a href="#" class="login-link">Войти</a>
+        <a href="{{ route('auth') }}" class="login-link">Войти</a>
     </footer>
 
 </body>

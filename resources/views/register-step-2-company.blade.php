@@ -8,7 +8,7 @@
     <title>Регистрация компании</title>
 
     @vite([
-        'resources/js/app.js',
+        'resources/js/register.js',
         'resources/css/register-step-2.css',
     ])
 </head>

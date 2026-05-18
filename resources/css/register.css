@@ -1,37 +1,37 @@
-@import 'tailwindcss';
-@import 'app.css';
-@import url('https://fonts.cdnfonts.com/css/liberation-serif');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import "tailwindcss";
+@import "main.css";
+@import url("https://fonts.cdnfonts.com/css/liberation-serif");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-:root{
-    --dark-background-color: #0F0F14;
+:root {
+    --dark-background-color: #0f0f14;
 
     --border-color: #212127;
-    --border-color-2: #F0F0F3;
+    --border-color-2: #f0f0f3;
     --shadow-color: #000000;
 
-    --tiny-text: #6B6B80;
+    --tiny-text: #6b6b80;
 
-    --non-active-white-text-color: #E8E6DF;
-    --grey-color: #E8E6DF99;
-    
+    --non-active-white-text-color: #e8e6df;
+    --grey-color: #e8e6df99;
+
     --accent-color-circle: #2a4dd780;
-    --accent-color: #2A4DD7;
-    --accent-hovered: #B9C3FF;
+    --accent-color: #2a4dd7;
+    --accent-hovered: #b9c3ff;
 }
 
-h2{
+h2 {
     color: var(--accent-color);
 
     font-size: 30px;
 }
 
-body{
+body {
     background-color: var(--dark-background-color);
     color: white;
 
@@ -39,12 +39,12 @@ body{
     align-items: center;
 }
 
-header{
+header {
     height: 80px;
     margin-bottom: 40px;
 }
 
-.main-text{
+.main-text {
     display: flex;
     flex-direction: column;
 
@@ -53,7 +53,7 @@ header{
     margin-bottom: 68px;
 }
 
-.tiny-text{
+.tiny-text {
     color: var(--tiny-text);
     width: 100%;
     height: fit-content;
@@ -61,14 +61,14 @@ header{
     font-size: 16px;
 }
 
-.login-link{
+.login-link {
     color: var(--accent-color);
 
     font-size: 16px;
     font-weight: bold;
 }
 
-.buttons{
+.buttons {
     display: flex;
     flex-direction: row;
 
@@ -80,7 +80,7 @@ header{
     gap: 24px;
 }
 
-button{
+button {
     display: flex;
     flex-direction: column;
 
@@ -100,27 +100,25 @@ button{
         box-shadow 0.35s ease;
 }
 
-button>img{
+button > img {
     width: 98px;
     height: 98px;
 }
 
-button>h3{
+button > h3 {
     font-size: 20px;
     font-weight: bold;
 }
 
-button:hover{
+button:hover {
     cursor: pointer;
 
-    box-shadow:
-        0 20px 40px rgba(92, 105, 255, 0.08);
+    box-shadow: 0 20px 40px rgba(92, 105, 255, 0.08);
 
-    transform: scale(1.05)  ;
-
+    transform: scale(1.05);
 }
 
-footer{
+footer {
     display: flex;
     flex-direction: column;
 
@@ -131,7 +129,7 @@ footer{
     margin-top: 20px;
 }
 
-.blue-circle-1{
+.blue-circle-1 {
     width: 384px;
     height: 384px;
     background-color: var(--accent-color-circle);
@@ -139,7 +137,7 @@ footer{
     left: 37%;
 }
 
-.blue-circle-2{
+.blue-circle-2 {
     width: 384px;
     height: 384px;
     background-color: var(--accent-color-circle);
@@ -147,7 +145,7 @@ footer{
     left: 80%;
 }
 
-.blue-circle-3{
+.blue-circle-3 {
     width: 384px;
     height: 384px;
     background-color: var(--accent-color-circle);

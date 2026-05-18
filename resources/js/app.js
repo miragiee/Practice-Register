@@ -17,44 +17,6 @@ const templates = {
         `<li><strong>Запись №${si.id}</strong> (Студент ID: ${si.student_id}, Компания ID: ${si.company_id}, Стажировка ID: ${si.internship_id}) <br> Статус: <strong>${si.status}</strong></li>`,
 };
 
-const registerButton = document.getElementById("register-button");
-
-if (registerButton) {
-    registerButton.onclick = function () {
-        const url = this.getAttribute("data-url");
-        window.location.href = url;
-    };
-}
-
-const companyButton = document.getElementById("register-button-company");
-
-if (companyButton) {
-    companyButton.onclick = function () {
-        const url = this.getAttribute("data-url");
-        window.location.href = url;
-    };
-}
-
-const universityButton = document.getElementById("register-button-univ");
-
-if (universityButton) {
-    universityButton.onclick = function () {
-        const url = this.getAttribute("data-url");
-        window.location.href = url;
-    };
-}
-
-const regSubmitButton = document.getElementById("register-submit");
-
-if (regSubmitButton) {
-    regSubmitButton.onclick = function () {
-        const url = this.getAttribute("data-url");
-        if (url) {
-            window.location.href = url;
-        }
-    };
-}
-
 function initFormAction(selectId, formId, baseUrl) {
     const select = document.getElementById(selectId);
     const form = document.getElementById(formId);
