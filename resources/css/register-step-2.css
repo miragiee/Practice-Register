@@ -347,10 +347,168 @@ input::placeholder {
     gap: 18px;
 }
 
-Добавь в конец `register-step-2.css` этот блок.
-Он повторяет стиль анимаций из `app.css`, но адаптирован под формы регистрации.
+/* =========================================
+   STEP 3 / CONFIRMATION
+========================================= */
 
-```css
+.confirmation-card {
+    width: 620px;
+    text-align: center;
+    padding-top: 46px;
+    padding-bottom: 40px;
+}
+
+.confirmation-icon {
+    width: 96px;
+    height: 96px;
+
+    margin: 0 auto 34px;
+
+    border-radius: 50%;
+
+    background: #f3f1ff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 44px;
+    color: #33c781;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.confirmation-icon:hover {
+    transform: scale(1.08);
+
+    box-shadow: 0 10px 30px rgba(51, 199, 129, 0.15);
+}
+
+.confirmation-title {
+    font-size: 54px;
+    margin-bottom: 22px;
+}
+
+.confirmation-subtitle {
+    width: 100%;
+    max-width: 470px;
+
+    margin: 0 auto 36px;
+
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.confirmation-btn {
+    margin-bottom: 18px;
+}
+
+.resend-btn {
+    background: transparent;
+    border: none;
+
+    color: #3150f0;
+
+    font-size: 18px;
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.resend-btn:hover {
+    color: #5d78ff;
+    transform: translateY(-1px);
+}
+
+.confirmation-divider {
+    width: 100%;
+    height: 1px;
+
+    background: #ececf2;
+
+    margin: 40px 0 34px;
+}
+
+.back-link {
+    color: #7b7b8f;
+    text-decoration: none;
+
+    font-size: 18px;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.back-link:hover {
+    color: #3150f0;
+    transform: translateX(-2px);
+}
+
+.confirmation-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    margin-top: 42px;
+}
+
+.confirmation-dots span {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #cfd5ff;
+
+    animation: pulseDots 1.8s infinite ease-in-out;
+}
+
+.confirmation-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.confirmation-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes pulseDots {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+}
+
+/* FOOTER HEADINGS */
+
+.footer-links h4 {
+    color: #8e90a2;
+
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    margin-bottom: 20px;
+}
+
+.copyright {
+    margin-top: 24px;
+}
+
 /* =========================================
    ANIMATIONS & INTERACTIONS
 ========================================= */
@@ -396,8 +554,7 @@ input::placeholder {
 .register-card:hover {
     transform: translateY(-3px);
 
-    box-shadow:
-        0 18px 40px rgba(49, 80, 240, 0.06);
+    box-shadow: 0 18px 40px rgba(49, 80, 240, 0.06);
 }
 
 /* TITLE */
@@ -436,8 +593,7 @@ input::placeholder {
 }
 
 .step.current:hover .step-circle {
-    box-shadow:
-        0 0 0 6px rgba(49, 80, 240, 0.12);
+    box-shadow: 0 0 0 6px rgba(49, 80, 240, 0.12);
 }
 
 /* LABELS */
@@ -476,8 +632,7 @@ select:focus {
 
     background: #ffffff;
 
-    box-shadow:
-        0 0 0 4px rgba(49, 80, 240, 0.08);
+    box-shadow: 0 0 0 4px rgba(49, 80, 240, 0.08);
 
     transform: translateY(-1px);
 }
@@ -520,8 +675,7 @@ input:focus::placeholder {
 
     background: #5d78ff;
 
-    box-shadow:
-        0 16px 32px rgba(49, 80, 240, 0.22);
+    box-shadow: 0 16px 32px rgba(49, 80, 240, 0.22);
 }
 
 .submit-btn:active {
@@ -603,4 +757,3 @@ input:focus::placeholder {
         transform: translateY(0);
     }
 }
-```

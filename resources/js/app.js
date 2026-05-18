@@ -44,6 +44,17 @@ if (universityButton) {
     };
 }
 
+const regSubmitButton = document.getElementById("register-submit");
+
+if (regSubmitButton) {
+    regSubmitButton.onclick = function () {
+        const url = this.getAttribute("data-url");
+        if (url) {
+            window.location.href = url;
+        }
+    };
+}
+
 function initFormAction(selectId, formId, baseUrl) {
     const select = document.getElementById(selectId);
     const form = document.getElementById(formId);

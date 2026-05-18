@@ -154,7 +154,7 @@
                 >
             </div>
 
-            <button type="submit" class="submit-btn">
+            <button type="submit" class="submit-btn" id="register-submit" data-url="{{ route('register-step-3') }}">
                 Создать аккаунт
             </button>
 

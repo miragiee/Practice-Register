@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="step-label">
-                    Role
+                    Роль
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="step-label">
-                    Data
+                    Данные
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="step-label">
-                    Done
+                    Готово
                 </div>
             </div>
 
