@@ -287,6 +287,41 @@ body {
     color: var(--accent-color);
 }
 
+/* ERRORS */
+
+.form-errors {
+    margin-bottom: 20px;
+
+    background: #fff1f2;
+
+    border: 1px solid #fecdd3;
+    border-radius: 12px;
+
+    padding: 14px 18px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-error {
+    font-size: 14px;
+    color: #be123c;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-error::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #be123c;
+    flex-shrink: 0;
+}
+
 /* OPTIONS */
 
 .form-options {

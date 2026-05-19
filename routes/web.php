@@ -10,6 +10,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StudentInternshipController;
+use App\Http\Controllers\AuthController;
 
 Route::get("/", function () {
     return view("main");
@@ -31,17 +32,19 @@ Route::get("/register/step-3", function () {
     return view("register-step-3");
 })->name("register-step-3");
 
-Route::get("/profile/student", function () {
-    return view("student-profile");
-})->name("student-profule");
+Route::get("/profile/student", [AuthController::class, "studentProfile"])
+    ->middleware("auth")
+    ->name("student-profile");
 
 Route::get("/profile/company", function () {
     return view("company-profile");
 })->name("company-profile");
 
-Route::get("/auth", function () {
-    return view("auth");
-})->name("auth");
+Route::get("/auth", [AuthController::class, "showLogin"])->name("auth");
+Route::post("/auth/student", [AuthController::class, "studentLogin"])->name(
+    "auth.student",
+);
+Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 
 Route::get("/students-in-search", function () {
     return view("students-in-search");

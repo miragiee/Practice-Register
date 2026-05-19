@@ -10,6 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const submitButton = document.querySelector(".submit-btn");
 
+    const authForm = document.getElementById("auth-form");
+    const roleInput = document.getElementById("role-input");
+
+    const roleRoutes = {
+        student: "/auth/student",
+        university: "/auth/university",
+        company: "/auth/company",
+    };
+
     const roles = {
         student: {
             text: "Войти как студент",
@@ -66,6 +75,11 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.textContent = role.button;
 
         roleIcon.innerHTML = role.icon;
+
+        // Update form action and hidden role input
+        if (authForm)
+            authForm.action = roleRoutes[roleKey] || roleRoutes.student;
+        if (roleInput) roleInput.value = roleKey;
 
         animateForm();
     }

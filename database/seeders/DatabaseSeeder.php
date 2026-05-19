@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             UniversitySeeder::class,
             DirectionSeeder::class,
             StudentSeeder::class,
+            UserSeeder::class,
             InternshipSeeder::class,
             StudentInternshipSeeder::class,
             CompanyRequestSeeder::class,

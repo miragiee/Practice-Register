@@ -33,16 +33,19 @@
                         <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                     </div>
                 </div>
-                <div class="profile-name">Алексей Иванов</div>
+                <div class="profile-name">{{ $student->full_name }}</div>
                 <div class="profile-university">
-                    МГУ им. М.В. Ломоносова
+                    {{ $student->university->name ?? 'Университет не указан' }}
                     <span class="university-verified">
                         <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
                             <path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 6.5l-4 4a.75.75 0 01-1.06 0L4.5 8.56l.71-.7 1.29 1.29 3.29-3.35.71.7z"/>
                         </svg>
                     </span>
                 </div>
-                <div class="profile-status">3 курс • Факультет ВМК</div>
+                <div class="profile-status">
+                    {{ $student->course }} курс •
+                    {{ $student->direction->name ?? 'Направление не указано' }}
+                </div>
             </div>
 
             <div class="menu-list fade-in">
@@ -74,7 +77,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
                     </svg>
-                    a.ivanov@edu.msu.ru
+                    {{ $student->email }}
                 </div>
                 <div class="contact-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

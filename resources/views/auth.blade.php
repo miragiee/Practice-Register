@@ -45,14 +45,27 @@
             <span>Войти как студент</span>
         </div>
 
-        <form class="auth-form">
+        <form class="auth-form" method="POST" action="{{ route('auth.student') }}" id="auth-form">
+            @csrf
+            <input type="hidden" name="role" id="role-input" value="student">
+
+            @if ($errors->any())
+                <div class="form-errors">
+                    @foreach ($errors->all() as $error)
+                        <p class="form-error">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
 
             <div class="form-group">
                 <label>EMAIL</label>
 
                 <input
                     type="email"
-                    placeholder="example@university.edu"
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="example@student.edu"
+                    autocomplete="email"
                 >
             </div>
 
@@ -62,7 +75,9 @@
                 <div class="password-wrapper">
                     <input
                         type="password"
+                        name="password"
                         placeholder="••••••••"
+                        autocomplete="current-password"
                     >
 
                     <button
@@ -88,14 +103,14 @@
 
             <div class="form-options">
                 <label class="checkbox">
-                    <input type="checkbox">
+                    <input type="checkbox" name="remember">
                     <span>Запомнить меня</span>
                 </label>
 
                 <a href="#">Забыли пароль?</a>
             </div>
 
-            <button class="submit-btn">
+            <button class="submit-btn" type="submit">
                 Войти
             </button>
 
