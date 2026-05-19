@@ -50,6 +50,10 @@ Route::get("/students-in-search", function () {
     return view("students-in-search");
 })->name("students-in-search");
 
+Route::get("/admin", function () {
+    return view("admin_panel");
+})->name("admin");
+
 Route::resource("companies", CompanyController::class);
 Route::resource("universities", UniversityController::class);
 Route::resource("students", StudentController::class);
