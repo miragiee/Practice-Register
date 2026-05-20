@@ -13,61 +13,78 @@ use App\Http\Controllers\StudentInternshipController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 
-Route::get("/", function () {
-    return view("main");
-})->name("main.page");
+Route::middleware("nocache")->group(function () {
+    Route::get("/", function () {
+        return view("main");
+    })->name("main.page");
 
-Route::get("/register", function () {
-    return view("register");
-})->name("register");
+    Route::get("/register", function () {
+        return view("register");
+    })->name("register");
 
-Route::get("/register/step-2-company", function () {
-    return view("register-step-2-company");
-})->name("register-step-2-company");
+    Route::get("/register/step-2-company", function () {
+        return view("register-step-2-company");
+    })->name("register-step-2-company");
 
-Route::get("/register/step-2-university", function () {
-    return view("register-step-2-university");
-})->name("register-step-2-university");
+    Route::get("/register/step-2-university", function () {
+        return view("register-step-2-university");
+    })->name("register-step-2-university");
 
-Route::get("/register/step-3", function () {
-    return view("register-step-3");
-})->name("register-step-3");
+    Route::get("/register/step-3", function () {
+        return view("register-step-3");
+    })->name("register-step-3");
+
+    Route::get("/auth", [AuthController::class, "showLogin"])->name("auth");
+
+    Route::get("/students-in-search", function () {
+        return view("students-in-search");
+    })->name("students-in-search");
+});
+
+Route::post("/auth/student", [AuthController::class, "studentLogin"])->name(
+    "auth.student",
+);
+
+Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 
 Route::get("/profile/student", [AuthController::class, "studentProfile"])
-    ->middleware("auth")
+    ->middleware(["auth", "nocache"])
     ->name("student-profile");
 
 Route::get("/profile/company", function () {
     return view("company-profile");
-})->name("company-profile");
-
-Route::get("/auth", [AuthController::class, "showLogin"])->name("auth");
-Route::post("/auth/student", [AuthController::class, "studentLogin"])->name(
-    "auth.student",
-);
-Route::post("/logout", [AuthController::class, "logout"])->name("logout");
-
-Route::get("/students-in-search", function () {
-    return view("students-in-search");
-})->name("students-in-search");
+})
+    ->middleware(["auth", "nocache"])
+    ->name("company-profile");
 
 Route::get("/admin", [AdminController::class, "index"])
-    ->middleware(["auth", \App\Http\Middleware\AdminMiddleware::class])
+    ->middleware([
+        "auth",
+        "nocache",
+        \App\Http\Middleware\AdminMiddleware::class,
+    ])
     ->name("admin");
 
-Route::middleware(["auth", \App\Http\Middleware\AdminMiddleware::class])->group(
-    function () {
-        Route::resource("companies", CompanyController::class);
-        Route::resource("universities", UniversityController::class);
-        Route::resource("students", StudentController::class);
-        Route::resource("directions", DirectionController::class);
-        Route::resource("internships", InternshipController::class);
-        Route::resource("contracts", ContractController::class);
-        Route::resource("reservations", ReservationController::class);
-        Route::resource("documents", DocumentController::class);
-        Route::resource(
-            "student-internships",
-            StudentInternshipController::class,
-        );
-    },
-);
+Route::middleware([
+    "auth",
+    "nocache",
+    \App\Http\Middleware\AdminMiddleware::class,
+])->group(function () {
+    Route::resource("companies", CompanyController::class);
+
+    Route::resource("universities", UniversityController::class);
+
+    Route::resource("students", StudentController::class);
+
+    Route::resource("directions", DirectionController::class);
+
+    Route::resource("internships", InternshipController::class);
+
+    Route::resource("contracts", ContractController::class);
+
+    Route::resource("reservations", ReservationController::class);
+
+    Route::resource("documents", DocumentController::class);
+
+    Route::resource("student-internships", StudentInternshipController::class);
+});
