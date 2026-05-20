@@ -1,163 +1,333 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CRUD стажировок</title>
 
-    @vite(['resources/js/app.js'])
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="ie=edge"
+    >
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
+    <title>CRUD Стажировки</title>
+
+    @vite(['resources/js/app.js', 'resources/css/admin.css'])
+
 </head>
 <body>
 
-    <h1>CRUD стажировок</h1>
+<div class="container">
 
-    {{-- Сообщения --}}
-    @if(session('success'))
-        <div style="color:green">
-            {{ session('success') }}
-        </div>
-    @endif
+    <div class="header">
 
-    @if(session('warning'))
-        <div style="color:orange">
-            {{ session('warning') }}
-        </div>
-    @endif
+        <h1>CRUD Стажировки</h1>
 
+        <p>
+            Управление стажировками платформы
+        </p>
 
-    <h2>Вывод информации</h2>
-
-    <div id="internships-list">
-
-        @foreach ($internships as $internship)
-            <div style="border:1px solid black; margin:10px; padding:10px;">
-                <p><strong>ID:</strong> {{ $internship->id }}</p>
-                <p><strong>University ID:</strong> {{ $internship->university_id }}</p>
-                <p><strong>Дата начала:</strong> {{ $internship->start_date }}</p>
-                <p><strong>Дата окончания:</strong> {{ $internship->end_date }}</p>
-                <p><strong>Описание:</strong> {{ $internship->description }}</p>
-            </div>
-        @endforeach
+        <a
+            href="{{ route('admin') }}"
+            class="back-btn"
+        >
+            ← Назад в админ панель
+        </a>
 
     </div>
 
+    @if(session('success'))
 
-    <h2>Добавление данных</h2>
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
 
-    <form action="/internships" method="POST">
-        @csrf
+    @endif
 
-        <p>
-            University ID:
-            <input type="number" name="university_id">
-        </p>
+    @if(session('warning'))
 
-        <p>
-            Дата начала:
-            <input type="date" name="start_date">
-        </p>
+        <div class="alert-warning">
+            {{ session('warning') }}
+        </div>
 
-        <p>
-            Дата окончания:
-            <input type="date" name="end_date">
-        </p>
+    @endif
 
-        <p>
-            Описание:
-            <input type="text" name="description">
-        </p>
+    @if ($errors->any())
 
-        <input type="submit" value="Добавить">
-    </form>
+        <div class="alert-error">
 
+            <ul>
 
-    <h2>Обновление данных</h2>
+                @foreach ($errors->all() as $error)
 
-    <form id="update-form" method="POST">
-        @csrf
-        @method('PUT')
-
-        <p>
-            Выберите стажировку:
-
-            <select name="internship_id" id="update-internship-select" required>
-
-                <option value="">-- Выберите --</option>
-
-                @foreach ($internships as $internship)
-
-                    <option value="{{ $internship->id }}">
-                        ID {{ $internship->id }} | {{ $internship->description }}
-                    </option>
+                    <li>{{ $error }}</li>
 
                 @endforeach
 
-            </select>
-        </p>
+            </ul>
 
-        <p>
-            Новый University ID:
-            <input type="number" name="university_id">
-        </p>
+        </div>
 
-        <p>
-            Новая дата начала:
-            <input type="date" name="start_date">
-        </p>
+    @endif
 
-        <p>
-            Новая дата окончания:
-            <input type="date" name="end_date">
-        </p>
+    <h2 class="section-title">
+        Вывод информации
+    </h2>
 
-        <p>
-            Новое описание:
-            <input type="text" name="description">
-        </p>
+    <div
+        class="data-panel"
+        id="internships-list"
+    >
+        Загрузка стажировок...
+    </div>
 
-        <p>
+    <h2 class="section-title">
+        Добавление данных
+    </h2>
+
+    <div class="form-panel">
+
+        <form
+            action="/internships"
+            method="POST"
+        >
+
+            @csrf
+
+            <p>
+
+                <label for="university_id">
+                    University ID
+                </label>
+
+                <input
+                    type="number"
+                    id="university_id"
+                    name="university_id"
+                    required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="start_date">
+                    Дата начала
+                </label>
+
+                <input
+                    type="date"
+                    id="start_date"
+                    name="start_date"
+                    required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="end_date">
+                    Дата окончания
+                </label>
+
+                <input
+                    type="date"
+                    id="end_date"
+                    name="end_date"
+                    required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="description">
+                    Описание
+                </label>
+
+                <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    required
+                >
+
+            </p>
+
+            <button type="submit">
+                Добавить стажировку
+            </button>
+
+        </form>
+
+    </div>
+
+    <h2 class="section-title">
+        Обновление данных
+    </h2>
+
+    <div class="form-panel">
+
+        <form
+            id="update-form"
+            method="POST"
+        >
+
+            @csrf
+            @method('PUT')
+
+            <p>
+
+                <label for="update-internship-select">
+                    Выберите стажировку
+                </label>
+
+                <select
+                    name="internship_id"
+                    id="update-internship-select"
+                    required
+                >
+
+                    <option value="">
+                        -- Выберите --
+                    </option>
+
+                    @foreach ($internships as $internship)
+
+                        <option value="{{ $internship->id }}">
+                            ID {{ $internship->id }} | {{ $internship->description }}
+                        </option>
+
+                    @endforeach
+
+                </select>
+
+            </p>
+
+            <p>
+
+                <label for="update-university-id">
+                    Новый University ID
+                </label>
+
+                <input
+                    type="number"
+                    id="update-university-id"
+                    name="university_id"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="update-start-date">
+                    Новая дата начала
+                </label>
+
+                <input
+                    type="date"
+                    id="update-start-date"
+                    name="start_date"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="update-end-date">
+                    Новая дата окончания
+                </label>
+
+                <input
+                    type="date"
+                    id="update-end-date"
+                    name="end_date"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="update-description">
+                    Новое описание
+                </label>
+
+                <input
+                    type="text"
+                    id="update-description"
+                    name="description"
+                >
+
+            </p>
+
             <button type="submit">
                 Обновить данные стажировки
             </button>
-        </p>
 
-    </form>
+        </form>
 
+    </div>
 
-    <h2>Удаление данных</h2>
+    <h2 class="section-title">
+        Удаление данных
+    </h2>
 
-    <form id="delete-form" method="POST">
-        @csrf
-        @method('DELETE')
+    <div class="form-panel">
 
-        <p>
+        <form
+            id="delete-form"
+            method="POST"
+        >
 
-            Выберите стажировку:
+            @csrf
+            @method('DELETE')
 
-            <select name="internship_id" id="delete-internship-select" required>
+            <p>
 
-                <option value="">-- Выберите --</option>
+                <label for="delete-internship-select">
+                    Выберите стажировку
+                </label>
 
-                @foreach ($internships as $internship)
+                <select
+                    name="internship_id"
+                    id="delete-internship-select"
+                    required
+                >
 
-                    <option value="{{ $internship->id }}">
-                        ID {{ $internship->id }} | {{ $internship->description }}
+                    <option value="">
+                        -- Выберите --
                     </option>
 
-                @endforeach
+                    @foreach ($internships as $internship)
 
-            </select>
+                        <option value="{{ $internship->id }}">
+                            ID {{ $internship->id }} | {{ $internship->description }}
+                        </option>
 
-        </p>
+                    @endforeach
 
-        <p>
+                </select>
+
+            </p>
+
             <button type="submit">
                 Удалить стажировку
             </button>
-        </p>
 
-    </form>
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>

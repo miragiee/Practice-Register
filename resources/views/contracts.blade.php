@@ -1,96 +1,345 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="ie=edge"
+    >
+
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+
     <title>CRUD Контракты</title>
-    @vite(['resources/js/app.js'])
+
+    @vite(['resources/js/app.js', 'resources/css/admin.css'])
+
 </head>
 <body>
-    <h1>CRUD Контракты</h1>
 
-    {{-- Сообщения об успехе/предупреждениях --}}
+<div class="container">
+
+    <div class="header">
+
+        <h1>CRUD Контракты</h1>
+
+        <p>
+            Управление контрактами платформы
+        </p>
+
+        <a
+            href="{{ route('admin') }}"
+            class="back-btn"
+        >
+            ← Назад в админ панель
+        </a>
+
+    </div>
+
     @if(session('success'))
-        <div style="color:green">{{ session('success') }}</div>
+
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
+
     @endif
+
     @if(session('warning'))
-        <div style="color:orange">{{ session('warning') }}</div>
+
+        <div class="alert-warning">
+            {{ session('warning') }}
+        </div>
+
     @endif
 
-    <h2>Вывод информации</h2>
-    <div id="contracts-list">Загрузка контрактов...</div>
+    <h2 class="section-title">
+        Вывод информации
+    </h2>
 
-    <h2>Добавление контракта</h2>
-    <form action="/contracts" method="POST">
-        @csrf
-        <p>ID Университета: <input type="number" name="university_id" required></p>
-        <p>ID Компании: <input type="number" name="company_id" required></p>
-        <p>Дата начала: <input type="date" name="start_date" required></p>
-        <p>Дата окончания: <input type="date" name="end_date" required></p>
-        <p>Статус: 
-            <select name="status">
-                <option value="active">Активен</option>
-                <option value="pending">В ожидании</option>
-                <option value="finished">Завершен</option>
-            </select>
-        </p>
-        <input type="submit" value="Создать контракт">
-    </form>
+    <div
+        class="data-panel"
+        id="contracts-list"
+    >
+        Загрузка контрактов...
+    </div>
 
-    <h2>Обновление данных</h2>
-    <form id="update-form" method="POST">
-        @csrf
-        @method('PUT')
-        <p>
-            Выберите контракт (ID):
-            <select name="contract_id" id="update-contract-select" required>
-                <option value="">-- Выберите контракт --</option>
-                @foreach ($contracts as $contract)
-                    <option value="{{ $contract->id }}">Контракт №{{ $contract->id }} (Унив: {{ $contract->university_id }})</option>
-                @endforeach
-            </select>
-        </p>
-        <p>Новая дата начала: <input type="date" name="start_date"></p>
-        <p>Новая дата окончания: <input type="date" name="end_date"></p>
-        <p>Новый статус: 
-            <select name="status">
-                <option value="">-- Не менять --</option>
-                <option value="active">Активен</option>
-                <option value="pending">В ожидании</option>
-                <option value="finished">Завершен</option>
-            </select>
-        </p>
-        <p><button type="submit">Обновить данные контракта</button></p>
-    </form>
+    <h2 class="section-title">
+        Добавление контракта
+    </h2>
 
-    <h2>Удаление данных</h2>
-    <form id="delete-form" method="POST">
-        @csrf
-        @method('DELETE')
-        <p>
-            Выберите контракт для удаления:
-            <select name="contract_id" id="delete-contract-select" required>
-                <option value="">-- Выберите ID --</option>
-                @foreach ($contracts as $contract)
-                    <option value="{{ $contract->id }}">Удалить контракт №{{ $contract->id }}</option>
-                @endforeach
-            </select>
-        </p>
-        <p>
-            <button type="submit">Удалить выбранный контракт</button>
-        </p>
-    </form>
+    <div class="form-panel">
 
-    <script>
-        // Скрипт для динамической подстановки ID в Action формы (как в твоем примере подразумевается логикой контроллера)
-        document.getElementById('update-contract-select').addEventListener('change', function() {
-            document.getElementById('update-form').action = '/contracts/' + this.value;
-        });
+        <form
+            action="/contracts"
+            method="POST"
+        >
 
-        document.getElementById('delete-contract-select').addEventListener('change', function() {
-            document.getElementById('delete-form').action = '/contracts/' + this.value;
-        });
-    </script>
+            @csrf
+
+            <p>
+
+                <label for="university_id">
+                    ID университета
+                </label>
+
+                <input
+                    type="number"
+                    id="university_id"
+                    name="university_id"
+                    required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="company_id">
+                    ID компании
+                </label>
+
+                <input
+                    type="number"
+                    id="company_id"
+                    name="company_id"
+                    required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="start_date">
+                    Дата начала
+                </label>
+
+                <input
+                    type="date"
+                    id="start_date"
+                    name="start_date"
+                    required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="end_date">
+                    Дата окончания
+                </label>
+
+                <input
+                    type="date"
+                    id="end_date"
+                    name="end_date"
+                    required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="status">
+                    Статус
+                </label>
+
+                <select
+                    id="status"
+                    name="status"
+                >
+
+                    <option value="active">
+                        Активен
+                    </option>
+
+                    <option value="pending">
+                        В ожидании
+                    </option>
+
+                    <option value="finished">
+                        Завершен
+                    </option>
+
+                </select>
+
+            </p>
+
+            <button type="submit">
+                Создать контракт
+            </button>
+
+        </form>
+
+    </div>
+
+    <h2 class="section-title">
+        Обновление данных
+    </h2>
+
+    <div class="form-panel">
+
+        <form
+            id="update-form"
+            method="POST"
+        >
+
+            @csrf
+            @method('PUT')
+
+            <p>
+
+                <label for="update-contract-select">
+                    Выберите контракт
+                </label>
+
+                <select
+                    name="contract_id"
+                    id="update-contract-select"
+                    required
+                >
+
+                    <option value="">
+                        -- Выберите контракт --
+                    </option>
+
+                    @foreach ($contracts as $contract)
+
+                        <option value="{{ $contract->id }}">
+                            Контракт №{{ $contract->id }}
+                        </option>
+
+                    @endforeach
+
+                </select>
+
+            </p>
+
+            <p>
+
+                <label for="update-start-date">
+                    Новая дата начала
+                </label>
+
+                <input
+                    type="date"
+                    id="update-start-date"
+                    name="start_date"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="update-end-date">
+                    Новая дата окончания
+                </label>
+
+                <input
+                    type="date"
+                    id="update-end-date"
+                    name="end_date"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="update-status">
+                    Новый статус
+                </label>
+
+                <select
+                    id="update-status"
+                    name="status"
+                >
+
+                    <option value="">
+                        -- Не менять --
+                    </option>
+
+                    <option value="active">
+                        Активен
+                    </option>
+
+                    <option value="pending">
+                        В ожидании
+                    </option>
+
+                    <option value="finished">
+                        Завершен
+                    </option>
+
+                </select>
+
+            </p>
+
+            <button type="submit">
+                Обновить данные контракта
+            </button>
+
+        </form>
+
+    </div>
+
+    <h2 class="section-title">
+        Удаление данных
+    </h2>
+
+    <div class="form-panel">
+
+        <form
+            id="delete-form"
+            method="POST"
+        >
+
+            @csrf
+            @method('DELETE')
+
+            <p>
+
+                <label for="delete-contract-select">
+                    Выберите контракт
+                </label>
+
+                <select
+                    name="contract_id"
+                    id="delete-contract-select"
+                    required
+                >
+
+                    <option value="">
+                        -- Выберите ID --
+                    </option>
+
+                    @foreach ($contracts as $contract)
+
+                        <option value="{{ $contract->id }}">
+                            Контракт №{{ $contract->id }}
+                        </option>
+
+                    @endforeach
+
+                </select>
+
+            </p>
+
+            <button type="submit">
+                Удалить выбранный контракт
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
 </body>
 </html>

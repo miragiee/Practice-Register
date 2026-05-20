@@ -11,6 +11,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StudentInternshipController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 
 Route::get("/", function () {
     return view("main");
@@ -50,16 +51,23 @@ Route::get("/students-in-search", function () {
     return view("students-in-search");
 })->name("students-in-search");
 
-Route::get("/admin", function () {
-    return view("admin_panel");
-})->name("admin");
+Route::get("/admin", [AdminController::class, "index"])
+    ->middleware(["auth", \App\Http\Middleware\AdminMiddleware::class])
+    ->name("admin");
 
-Route::resource("companies", CompanyController::class);
-Route::resource("universities", UniversityController::class);
-Route::resource("students", StudentController::class);
-Route::resource("directions", DirectionController::class);
-Route::resource("internships", InternshipController::class);
-Route::resource("contracts", ContractController::class);
-Route::resource("reservations", ReservationController::class);
-Route::resource("documents", DocumentController::class);
-Route::resource("student-internships", StudentInternshipController::class);
+Route::middleware(["auth", \App\Http\Middleware\AdminMiddleware::class])->group(
+    function () {
+        Route::resource("companies", CompanyController::class);
+        Route::resource("universities", UniversityController::class);
+        Route::resource("students", StudentController::class);
+        Route::resource("directions", DirectionController::class);
+        Route::resource("internships", InternshipController::class);
+        Route::resource("contracts", ContractController::class);
+        Route::resource("reservations", ReservationController::class);
+        Route::resource("documents", DocumentController::class);
+        Route::resource(
+            "student-internships",
+            StudentInternshipController::class,
+        );
+    },
+);
