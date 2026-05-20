@@ -43,7 +43,6 @@
 
     </div>
 
-    {{-- Сообщения --}}
     @if(session('success'))
 
         <div class="alert-success">
@@ -86,6 +85,7 @@
             @csrf
 
             <p>
+
                 <label for="name">
                     Название компании
                 </label>
@@ -96,9 +96,11 @@
                     name="name"
                     required
                 >
+
             </p>
 
             <p>
+
                 <label for="description">
                     Описание
                 </label>
@@ -109,9 +111,11 @@
                     rows="4"
                     required
                 ></textarea>
+
             </p>
 
             <p>
+
                 <label for="contact_info">
                     Почта
                 </label>
@@ -122,6 +126,36 @@
                     name="contact_info"
                     required
                 >
+
+            </p>
+
+            <p>
+
+                <label for="inn">
+                    ИНН / ОГРН
+                </label>
+
+                <input
+                    type="text"
+                    id="inn"
+                    name="inn"
+                    required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="website">
+                    Сайт компании
+                </label>
+
+                <input
+                    type="text"
+                    id="website"
+                    name="website"
+                >
+
             </p>
 
             <button type="submit">
@@ -211,6 +245,34 @@
                     type="email"
                     id="update-contact"
                     name="contact_info"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="update-inn">
+                    Новый ИНН / ОГРН
+                </label>
+
+                <input
+                    type="text"
+                    id="update-inn"
+                    name="inn"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="update-website">
+                    Новый сайт компании
+                </label>
+
+                <input
+                    type="text"
+                    id="update-website"
+                    name="website"
                 >
 
             </p>

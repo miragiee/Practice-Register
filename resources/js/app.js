@@ -4,6 +4,14 @@ const templates = {
             <td>${c.id}</td>
             <td>${c.name}</td>
             <td>${c.contact_info}</td>
+            <td>${c.inn ?? "-"}</td>
+            <td>
+                ${
+                    c.website
+                        ? `<a href="${c.website}" target="_blank">${c.website}</a>`
+                        : "-"
+                }
+            </td>
         </tr>
     `,
 
@@ -85,7 +93,7 @@ const templates = {
 };
 
 const tableHeaders = {
-    companies: ["id", "name", "contact_info"],
+    companies: ["id", "name", "contact_info", "inn", "website"],
     universities: ["id", "name", "city", "contact_info"],
     students: ["id", "full_name", "course", "email"],
     directions: ["id", "name", "description"],
