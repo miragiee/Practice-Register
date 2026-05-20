@@ -13,6 +13,8 @@ class Company extends Model
         'name',
         'description',
         'contact_info',
+        'inn',
+        'website',
     ];
 
     public function contracts()

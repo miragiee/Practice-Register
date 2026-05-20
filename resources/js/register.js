@@ -17,10 +17,3 @@ universityButton.onclick = function () {
     const url = this.getAttribute("data-url");
     window.location.href = url;
 };
-
-regSubmitButton.onclick = function () {
-    const url = this.getAttribute("data-url");
-    if (url) {
-        window.location.href = url;
-    }
-};

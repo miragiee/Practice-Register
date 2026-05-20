@@ -26,6 +26,11 @@ Route::middleware("nocache")->group(function () {
         return view("register-step-2-company");
     })->name("register-step-2-company");
 
+    Route::post("/register/company", [
+        CompanyController::class,
+        "register",
+    ])->name("company.register");
+
     Route::get("/register/step-2-university", function () {
         return view("register-step-2-university");
     })->name("register-step-2-university");
@@ -71,20 +76,12 @@ Route::middleware([
     \App\Http\Middleware\AdminMiddleware::class,
 ])->group(function () {
     Route::resource("companies", CompanyController::class);
-
     Route::resource("universities", UniversityController::class);
-
     Route::resource("students", StudentController::class);
-
     Route::resource("directions", DirectionController::class);
-
     Route::resource("internships", InternshipController::class);
-
     Route::resource("contracts", ContractController::class);
-
     Route::resource("reservations", ReservationController::class);
-
     Route::resource("documents", DocumentController::class);
-
     Route::resource("student-internships", StudentInternshipController::class);
 });

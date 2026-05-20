@@ -80,14 +80,21 @@
             Заполните данные вашей организации, чтобы начать поиск лучших стажеров.
         </p>
 
-        <form class="register-form">
+        <form
+            class="register-form"
+            action="{{ route('company.register') }}"
+            method="POST"
+        >
+            @csrf
 
             <div class="form-group">
                 <label>Название компании</label>
 
                 <input
                     type="text"
+                    name="name"
                     placeholder="ООО «Инновации»"
+                    required
                 >
             </div>
 
@@ -96,7 +103,9 @@
 
                 <input
                     type="text"
+                    name="inn"
                     placeholder="10 цифр ИНН или 13 цифр ОГРН"
+                    required
                 >
             </div>
 
@@ -104,63 +113,99 @@
                 <label>Сайт компании</label>
 
                 <div class="input-icon">
-                    <span class="icon">🌐</span>
+
+                    <span class="icon">
+                        🌐
+                    </span>
 
                     <input
                         type="text"
+                        name="website"
                         placeholder="https://example.com"
                     >
+
                 </div>
             </div>
 
             <div class="row">
+
                 <div class="form-group half">
+
                     <label>Email HR</label>
 
                     <input
                         type="email"
+                        name="contact_info"
                         placeholder="hr@company.ru"
+                        required
                     >
+
                 </div>
 
                 <div class="form-group half">
+
                     <label>Сфера деятельности</label>
 
-                    <select>
-                        <option>Выберите сферу</option>
-                    </select>
+                    <input
+                        type="text"
+                        name="description"
+                        placeholder="IT, Финансы, Дизайн..."
+                        required
+                    >
+
                 </div>
+
             </div>
 
             <div class="form-group">
+
                 <label>Пароль</label>
 
                 <div class="input-icon password">
+
                     <input
                         type="password"
+                        name="password"
                         placeholder="••••••••"
+                        required
                     >
 
-                    <span class="icon">👁</span>
+                    <span class="icon">
+                        👁
+                    </span>
+
                 </div>
+
             </div>
 
             <div class="form-group">
+
                 <label>ФИО контактного лица</label>
 
                 <input
                     type="text"
+                    name="full_name"
                     placeholder="Иванов Иван Иванович"
+                    required
                 >
+
             </div>
 
-            <button type="submit" class="submit-btn" id="register-submit" data-url="{{ route('register-step-3') }}">
+            <button
+                type="submit"
+                class="submit-btn"
+            >
                 Создать аккаунт
             </button>
 
             <div class="login-link">
+
                 Уже есть аккаунт?
-                <a href="#">Войти</a>
+
+                <a href="{{ route('auth') }}">
+                    Войти
+                </a>
+
             </div>
 
         </form>
