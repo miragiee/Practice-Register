@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Direction;
-use illuminate\http\JsonResponse;
 
 class DirectionController extends Controller
 {
@@ -23,17 +22,40 @@ class DirectionController extends Controller
         return view('directions', compact('directions'));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | STORE (создание)
+    |--------------------------------------------------------------------------
+    */
     public function store(Request $request){
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
         ]);
 
+        // ❗ Проверка на дубликат
+        $exists = Direction::where('name', $validated['name'])
+            ->where('description', $validated['description'])
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->back()
+                ->with('error', 'Такие данные уже есть в таблице');
+        }
+
         Direction::create($validated);
 
-        return redirect()->back()->with('success', 'Направление успешно добавлено');
+        return redirect()
+            ->back()
+            ->with('success', 'Направление успешно добавлено');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE (обновление)
+    |--------------------------------------------------------------------------
+    */
     public function update(Request $request, $id){
         $validated = $request->validate([
             'name' => 'nullable|string|max:255',
@@ -44,18 +66,38 @@ class DirectionController extends Controller
             return $value !== null && $value !== "";
         });
 
-        if(empty($data)) {
-            return redirect()->back()->with('warning', 'Нет данных для обновления');
+        if (empty($data)) {
+            return redirect()
+                ->back()
+                ->with('warning', 'Нет данных для обновления');
         }
 
-        $Direction = Direction::findOrFail($id);
-        $Direction->update($data);
+        $direction = Direction::findOrFail($id);
 
-        return redirect()->back()->with('success', 'Данные обновлены');
+        // ❗ Проверка на дубликат при обновлении
+        $duplicate = Direction::where('id', '!=', $id)
+            ->where('name', $data['name'] ?? $direction->name)
+            ->where('description', $data['description'] ?? $direction->description)
+            ->exists();
+
+        if ($duplicate) {
+            return redirect()
+                ->back()
+                ->with('error', 'Такие данные уже есть в таблице');
+        }
+
+        $direction->update($data);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Данные обновлены');
     }
 
     public function destroy($id){
         Direction::destroy($id);
-        return redirect()->back()->with('success', 'Направление удалёно');
+
+        return redirect()
+            ->back()
+            ->with('success', 'Направление удалёно');
     }
 }

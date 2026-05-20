@@ -24,6 +24,11 @@ class ReservationController extends Controller
         return view('reservations', compact('reservations'));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | STORE
+    |--------------------------------------------------------------------------
+    */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -33,11 +38,31 @@ class ReservationController extends Controller
             'status' => 'required|string|max:255',
         ]);
 
+        // ❗ Проверка на дубликат
+        $exists = Reservation::where('company_id', $validated['company_id'])
+            ->where('student_id', $validated['student_id'])
+            ->where('internship_id', $validated['internship_id'])
+            ->where('status', $validated['status'])
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->back()
+                ->with('error', 'Такие данные уже есть в таблице');
+        }
+
         Reservation::create($validated);
 
-        return redirect()->back()->with('success', 'Резервация успешно добавлена');
+        return redirect()
+            ->back()
+            ->with('success', 'Резервация успешно добавлена');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -52,19 +77,48 @@ class ReservationController extends Controller
         });
 
         if (empty($data)) {
-            return redirect()->back()->with('warning', 'Нет данных для обновления');
+            return redirect()
+                ->back()
+                ->with('warning', 'Нет данных для обновления');
         }
 
         $reservation = Reservation::findOrFail($id);
+
+        // итоговые значения (старые + новые)
+        $final = [
+            'company_id'    => $data['company_id'] ?? $reservation->company_id,
+            'student_id'    => $data['student_id'] ?? $reservation->student_id,
+            'internship_id' => $data['internship_id'] ?? $reservation->internship_id,
+            'status'        => $data['status'] ?? $reservation->status,
+        ];
+
+        // ❗ Проверка на дубликат (исключая текущую запись)
+        $duplicate = Reservation::where('id', '!=', $id)
+            ->where('company_id', $final['company_id'])
+            ->where('student_id', $final['student_id'])
+            ->where('internship_id', $final['internship_id'])
+            ->where('status', $final['status'])
+            ->exists();
+
+        if ($duplicate) {
+            return redirect()
+                ->back()
+                ->with('error', 'Такие данные уже есть в таблице');
+        }
+
         $reservation->update($data);
 
-        return redirect()->back()->with('success', 'Данные обновлены');
+        return redirect()
+            ->back()
+            ->with('success', 'Данные обновлены');
     }
 
     public function destroy($id)
     {
         Reservation::destroy($id);
 
-        return redirect()->back()->with('success', 'Резервация удалена');
+        return redirect()
+            ->back()
+            ->with('success', 'Резервация удалена');
     }
 }

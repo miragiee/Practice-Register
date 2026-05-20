@@ -13,6 +13,7 @@ class CompanyController extends Controller
     public function main()
     {
         $companies = Company::all();
+
         return view("companies", compact("companies"));
     }
 
@@ -23,8 +24,15 @@ class CompanyController extends Controller
         if ($request->wantsJson()) {
             return response()->json($companies);
         }
+
         return view("companies", compact("companies"));
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Добавление компании
+    |--------------------------------------------------------------------------
+    */
 
     public function store(Request $request)
     {
@@ -34,12 +42,44 @@ class CompanyController extends Controller
             "contact_info" => "required|string",
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Проверка на дубликат
+        |--------------------------------------------------------------------------
+        */
+
+        $exists = Company::where("name", $validated["name"])
+            ->where("description", $validated["description"])
+            ->where("contact_info", $validated["contact_info"])
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    "duplicate" => "Такие данные уже есть в таблице.",
+                ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Создание компании
+        |--------------------------------------------------------------------------
+        */
+
         Company::create($validated);
 
         return redirect()
             ->back()
             ->with("success", "Компания успешно добавлена");
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Обновление компании
+    |--------------------------------------------------------------------------
+    */
 
     public function update(Request $request, $id)
     {
@@ -48,6 +88,12 @@ class CompanyController extends Controller
             "description" => "nullable|string",
             "contact_info" => "nullable|string",
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Удаляем пустые поля
+        |--------------------------------------------------------------------------
+        */
 
         $data = array_filter($validated, function ($value) {
             return $value !== null && $value !== "";
@@ -59,17 +105,77 @@ class CompanyController extends Controller
                 ->with("warning", "Нет данных для обновления");
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Получаем компанию
+        |--------------------------------------------------------------------------
+        */
+
         $company = Company::findOrFail($id);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Проверка на дубликат
+        |--------------------------------------------------------------------------
+        */
+
+        $exists = Company::where(
+                "name",
+                $data["name"] ?? $company->name
+            )
+            ->where(
+                "description",
+                $data["description"] ?? $company->description
+            )
+            ->where(
+                "contact_info",
+                $data["contact_info"] ?? $company->contact_info
+            )
+            ->where("id", "!=", $company->id)
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    "duplicate" => "Такие данные уже есть в таблице.",
+                ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Обновление данных
+        |--------------------------------------------------------------------------
+        */
+
         $company->update($data);
 
-        return redirect()->back()->with("success", "Данные обновлены");
+        return redirect()
+            ->back()
+            ->with("success", "Данные обновлены");
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Удаление компании
+    |--------------------------------------------------------------------------
+    */
 
     public function destroy($id)
     {
         Company::destroy($id);
-        return redirect()->back()->with("success", "Компания удалена");
+
+        return redirect()
+            ->back()
+            ->with("success", "Компания удалена");
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Регистрация компании
+    |--------------------------------------------------------------------------
+    */
 
     public function register(Request $request)
     {
@@ -83,6 +189,33 @@ class CompanyController extends Controller
             "website" => "nullable|string|max:255",
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Проверка на полный дубликат
+        |--------------------------------------------------------------------------
+        */
+
+        $exists = Company::where("name", $validated["name"])
+            ->where("description", $validated["description"])
+            ->where("contact_info", $validated["contact_info"])
+            ->where("inn", $validated["inn"])
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    "duplicate" => "Такие данные уже есть в таблице.",
+                ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Создание компании
+        |--------------------------------------------------------------------------
+        */
+
         $company = Company::create([
             "name" => $validated["name"],
             "description" => $validated["description"],
@@ -90,6 +223,12 @@ class CompanyController extends Controller
             "inn" => $validated["inn"],
             "website" => $validated["website"],
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Создание пользователя
+        |--------------------------------------------------------------------------
+        */
 
         User::create([
             "name" => $validated["full_name"],
