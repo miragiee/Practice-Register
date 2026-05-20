@@ -85,89 +85,34 @@ const templates = {
 };
 
 const tableHeaders = {
-    companies: `
-        <tr>
-            <th>ID</th>
-            <th>Название</th>
-            <th>Почта</th>
-        </tr>
-    `,
-
-    universities: `
-        <tr>
-            <th>ID</th>
-            <th>Название</th>
-            <th>Город</th>
-            <th>Почта</th>
-        </tr>
-    `,
-
-    students: `
-        <tr>
-            <th>ID</th>
-            <th>ФИО</th>
-            <th>Курс</th>
-            <th>Email</th>
-        </tr>
-    `,
-
-    directions: `
-        <tr>
-            <th>ID</th>
-            <th>Название</th>
-            <th>Описание</th>
-        </tr>
-    `,
-
-    internships: `
-        <tr>
-            <th>ID</th>
-            <th>University ID</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Description</th>
-        </tr>
-    `,
-
-    reservations: `
-        <tr>
-            <th>ID</th>
-            <th>Company</th>
-            <th>Student</th>
-            <th>Internship</th>
-            <th>Status</th>
-        </tr>
-    `,
-
-    contracts: `
-        <tr>
-            <th>ID</th>
-            <th>University</th>
-            <th>Company</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Status</th>
-        </tr>
-    `,
-
-    documents: `
-        <tr>
-            <th>ID</th>
-            <th>Student Internship</th>
-            <th>File Path</th>
-            <th>Type</th>
-        </tr>
-    `,
-
-    student_internships: `
-        <tr>
-            <th>ID</th>
-            <th>Student</th>
-            <th>Company</th>
-            <th>Internship</th>
-            <th>Status</th>
-        </tr>
-    `,
+    companies: ["id", "name", "contact_info"],
+    universities: ["id", "name", "city", "contact_info"],
+    students: ["id", "full_name", "course", "email"],
+    directions: ["id", "name", "description"],
+    internships: [
+        "id",
+        "university_id",
+        "start_date",
+        "end_date",
+        "description",
+    ],
+    reservations: ["id", "company_id", "student_id", "internship_id", "status"],
+    contracts: [
+        "id",
+        "university_id",
+        "company_id",
+        "start_date",
+        "end_date",
+        "status",
+    ],
+    documents: ["id", "student_internship_id", "file_path", "type"],
+    student_internships: [
+        "id",
+        "student_id",
+        "company_id",
+        "internship_id",
+        "status",
+    ],
 };
 
 function initFormAction(selectId, formId, baseUrl) {
@@ -186,6 +131,70 @@ function initFormAction(selectId, formId, baseUrl) {
     });
 }
 
+function createTableHeader(headers) {
+    return `
+        <tr>
+            ${headers
+                .map(
+                    (header) => `
+                <th data-column="${header}">
+                    ${header}
+                </th>
+            `,
+                )
+                .join("")}
+        </tr>
+    `;
+}
+
+function filterData(data, search) {
+    if (!search) {
+        return data;
+    }
+
+    return data.filter((item) =>
+        Object.values(item)
+            .join(" ")
+            .toLowerCase()
+            .includes(search.toLowerCase()),
+    );
+}
+
+function sortData(data, column, direction) {
+    return [...data].sort((a, b) => {
+        const valueA = a[column];
+        const valueB = b[column];
+
+        if (valueA < valueB) {
+            return direction === "asc" ? -1 : 1;
+        }
+
+        if (valueA > valueB) {
+            return direction === "asc" ? 1 : -1;
+        }
+
+        return 0;
+    });
+}
+
+function renderTable(container, data, templateKey) {
+    const rows = data.map(templates[templateKey]).join("");
+
+    container.querySelector(".table-wrapper").innerHTML = `
+        <table>
+
+            <thead>
+                ${createTableHeader(tableHeaders[templateKey])}
+            </thead>
+
+            <tbody>
+                ${rows}
+            </tbody>
+
+        </table>
+    `;
+}
+
 async function fetchAndRender(url, containerId, templateKey) {
     const container = document.getElementById(containerId);
 
@@ -200,7 +209,7 @@ async function fetchAndRender(url, containerId, templateKey) {
             },
         });
 
-        const data = await response.json();
+        let data = await response.json();
 
         if (!data.length) {
             container.innerHTML = `
@@ -212,21 +221,83 @@ async function fetchAndRender(url, containerId, templateKey) {
             return;
         }
 
-        const rows = data.map(templates[templateKey]).join("");
-
         container.innerHTML = `
-            <table>
+            <div class="table-controls">
 
-                <thead>
-                    ${tableHeaders[templateKey]}
-                </thead>
+                <input
+                    type="text"
+                    class="table-search"
+                    placeholder="Поиск..."
+                >
 
-                <tbody>
-                    ${rows}
-                </tbody>
+                <select class="sort-column">
+                    ${tableHeaders[templateKey]
+                        .map(
+                            (column) => `
+                        <option value="${column}">
+                            ${column}
+                        </option>
+                    `,
+                        )
+                        .join("")}
+                </select>
 
-            </table>
+                <select class="sort-direction">
+                    <option value="asc">
+                        По возрастанию
+                    </option>
+
+                    <option value="desc">
+                        По убыванию
+                    </option>
+                </select>
+
+                <button class="toggle-table-btn">
+                    Свернуть таблицу
+                </button>
+
+            </div>
+
+            <div class="table-wrapper"></div>
         `;
+
+        const searchInput = container.querySelector(".table-search");
+
+        const sortColumn = container.querySelector(".sort-column");
+
+        const sortDirection = container.querySelector(".sort-direction");
+
+        const toggleButton = container.querySelector(".toggle-table-btn");
+
+        const tableWrapper = container.querySelector(".table-wrapper");
+
+        function updateTable() {
+            let filtered = filterData(data, searchInput.value);
+
+            filtered = sortData(
+                filtered,
+                sortColumn.value,
+                sortDirection.value,
+            );
+
+            renderTable(container, filtered, templateKey);
+        }
+
+        toggleButton.addEventListener("click", () => {
+            tableWrapper.classList.toggle("hidden");
+
+            toggleButton.textContent = tableWrapper.classList.contains("hidden")
+                ? "Развернуть таблицу"
+                : "Свернуть таблицу";
+        });
+
+        searchInput.addEventListener("input", updateTable);
+
+        sortColumn.addEventListener("change", updateTable);
+
+        sortDirection.addEventListener("change", updateTable);
+
+        updateTable();
     } catch (error) {
         console.error(error);
 

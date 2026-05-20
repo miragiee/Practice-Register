@@ -615,6 +615,22 @@ tbody tr:hover {
     transform: scale(1.005);
 }
 
+.table-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.table-search {
+    flex: 1;
+    min-width: 220px;
+}
+
+.hidden {
+    display: none;
+}
+
 /*
 |--------------------------------------------------------------------------
 | Alerts
