@@ -4,6 +4,7 @@ const templates = {
             <td>${c.id}</td>
             <td>${c.name}</td>
             <td>${c.contact_info}</td>
+            <td>${c.description}</td>
             <td>${c.inn ?? "-"}</td>
             <td>
                 ${
@@ -93,7 +94,7 @@ const templates = {
 };
 
 const tableHeaders = {
-    companies: ["id", "name", "contact_info", "inn", "website"],
+    companies: ["id", "name", "contact_info", "description", "inn", "website"],
     universities: ["id", "name", "city", "contact_info"],
 
     students: ["id", "full_name", "course", "email"],
@@ -108,13 +109,7 @@ const tableHeaders = {
         "description",
     ],
 
-    reservations: [
-        "id",
-        "company_id",
-        "student_id",
-        "internship_id",
-        "status",
-    ],
+    reservations: ["id", "company_id", "student_id", "internship_id", "status"],
 
     contracts: [
         "id",
@@ -125,12 +120,7 @@ const tableHeaders = {
         "status",
     ],
 
-    documents: [
-        "id",
-        "student_internship_id",
-        "file_path",
-        "type",
-    ],
+    documents: ["id", "student_internship_id", "file_path", "type"],
 
     student_internships: [
         "id",
@@ -153,9 +143,7 @@ function initFormAction(selectId, formId, baseUrl) {
     select.addEventListener("change", function () {
         const id = this.value;
 
-        form.action = id
-            ? `${baseUrl.replace(/\/$/, "")}/${id}`
-            : "";
+        form.action = id ? `${baseUrl.replace(/\/$/, "")}/${id}` : "";
     });
 }
 
@@ -356,39 +344,30 @@ async function fetchAndRender(url, containerId, templateKey) {
 
             <div class="filters-wrapper hidden">
 
-                ${createColumnFilters(
-                    tableHeaders[templateKey],
-                    data,
-                )}
+                ${createColumnFilters(tableHeaders[templateKey], data)}
 
             </div>
 
             <div class="table-wrapper"></div>
         `;
 
-        const searchInput =
-            container.querySelector(".table-search");
+        const searchInput = container.querySelector(".table-search");
 
-        const sortColumn =
-            container.querySelector(".sort-column");
+        const sortColumn = container.querySelector(".sort-column");
 
-        const sortDirection =
-            container.querySelector(".sort-direction");
+        const sortDirection = container.querySelector(".sort-direction");
 
-        const toggleButton =
-            container.querySelector(".toggle-table-btn");
+        const toggleButton = container.querySelector(".toggle-table-btn");
 
-        const toggleFiltersButton =
-            container.querySelector(".toggle-filters-btn");
+        const toggleFiltersButton = container.querySelector(
+            ".toggle-filters-btn",
+        );
 
-        const tableWrapper =
-            container.querySelector(".table-wrapper");
+        const tableWrapper = container.querySelector(".table-wrapper");
 
-        const filtersWrapper =
-            container.querySelector(".filters-wrapper");
+        const filtersWrapper = container.querySelector(".filters-wrapper");
 
-        const filterSelects =
-            container.querySelectorAll(".column-filter");
+        const filterSelects = container.querySelectorAll(".column-filter");
 
         function getCurrentFilters() {
             const filters = {};
@@ -403,15 +382,9 @@ async function fetchAndRender(url, containerId, templateKey) {
         function updateTable() {
             let filtered = [...data];
 
-            filtered = filterData(
-                filtered,
-                searchInput.value,
-            );
+            filtered = filterData(filtered, searchInput.value);
 
-            filtered = applyColumnFilters(
-                filtered,
-                getCurrentFilters(),
-            );
+            filtered = applyColumnFilters(filtered, getCurrentFilters());
 
             filtered = sortData(
                 filtered,
@@ -419,51 +392,35 @@ async function fetchAndRender(url, containerId, templateKey) {
                 sortDirection.value,
             );
 
-            renderTable(
-                container,
-                filtered,
-                templateKey,
-            );
+            renderTable(container, filtered, templateKey);
         }
 
         toggleButton.addEventListener("click", () => {
             tableWrapper.classList.toggle("hidden");
 
-            toggleButton.textContent =
-                tableWrapper.classList.contains("hidden")
-                    ? "Развернуть таблицу"
-                    : "Свернуть таблицу";
+            toggleButton.textContent = tableWrapper.classList.contains("hidden")
+                ? "Развернуть таблицу"
+                : "Свернуть таблицу";
         });
 
         toggleFiltersButton.addEventListener("click", () => {
             filtersWrapper.classList.toggle("hidden");
 
-            toggleFiltersButton.textContent =
-                filtersWrapper.classList.contains("hidden")
-                    ? "Показать фильтры"
-                    : "Скрыть фильтры";
+            toggleFiltersButton.textContent = filtersWrapper.classList.contains(
+                "hidden",
+            )
+                ? "Показать фильтры"
+                : "Скрыть фильтры";
         });
 
-        searchInput.addEventListener(
-            "input",
-            updateTable,
-        );
+        searchInput.addEventListener("input", updateTable);
 
-        sortColumn.addEventListener(
-            "change",
-            updateTable,
-        );
+        sortColumn.addEventListener("change", updateTable);
 
-        sortDirection.addEventListener(
-            "change",
-            updateTable,
-        );
+        sortDirection.addEventListener("change", updateTable);
 
         filterSelects.forEach((select) => {
-            select.addEventListener(
-                "change",
-                updateTable,
-            );
+            select.addEventListener("change", updateTable);
         });
 
         updateTable();
@@ -480,31 +437,15 @@ async function fetchAndRender(url, containerId, templateKey) {
 
 document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("companies-list")) {
-        fetchAndRender(
-            "/companies",
-            "companies-list",
-            "companies",
-        );
+        fetchAndRender("/companies", "companies-list", "companies");
 
-        initFormAction(
-            "update-company-select",
-            "update-form",
-            "/companies",
-        );
+        initFormAction("update-company-select", "update-form", "/companies");
 
-        initFormAction(
-            "delete-company-select",
-            "delete-form",
-            "/companies",
-        );
+        initFormAction("delete-company-select", "delete-form", "/companies");
     }
 
     if (document.getElementById("universities-list")) {
-        fetchAndRender(
-            "/universities",
-            "universities-list",
-            "universities",
-        );
+        fetchAndRender("/universities", "universities-list", "universities");
 
         initFormAction(
             "update-univ-select",
@@ -520,51 +461,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (document.getElementById("students-list")) {
-        fetchAndRender(
-            "/students",
-            "students-list",
-            "students",
-        );
+        fetchAndRender("/students", "students-list", "students");
 
-        initFormAction(
-            "update-student-select",
-            "update-form",
-            "/students",
-        );
+        initFormAction("update-student-select", "update-form", "/students");
 
-        initFormAction(
-            "delete-student-select",
-            "delete-form",
-            "/students",
-        );
+        initFormAction("delete-student-select", "delete-form", "/students");
     }
 
     if (document.getElementById("directions-list")) {
-        fetchAndRender(
-            "/directions",
-            "directions-list",
-            "directions",
-        );
+        fetchAndRender("/directions", "directions-list", "directions");
 
-        initFormAction(
-            "update-direction-select",
-            "update-form",
-            "/directions",
-        );
+        initFormAction("update-direction-select", "update-form", "/directions");
 
-        initFormAction(
-            "delete-direction-select",
-            "delete-form",
-            "/directions",
-        );
+        initFormAction("delete-direction-select", "delete-form", "/directions");
     }
 
     if (document.getElementById("internships-list")) {
-        fetchAndRender(
-            "/internships",
-            "internships-list",
-            "internships",
-        );
+        fetchAndRender("/internships", "internships-list", "internships");
 
         initFormAction(
             "update-internship-select",
@@ -580,11 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (document.getElementById("reservations-list")) {
-        fetchAndRender(
-            "/reservations",
-            "reservations-list",
-            "reservations",
-        );
+        fetchAndRender("/reservations", "reservations-list", "reservations");
 
         initFormAction(
             "update-reservation-select",
@@ -600,43 +509,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (document.getElementById("contracts-list")) {
-        fetchAndRender(
-            "/contracts",
-            "contracts-list",
-            "contracts",
-        );
+        fetchAndRender("/contracts", "contracts-list", "contracts");
 
-        initFormAction(
-            "update-contract-select",
-            "update-form",
-            "/contracts",
-        );
+        initFormAction("update-contract-select", "update-form", "/contracts");
 
-        initFormAction(
-            "delete-contract-select",
-            "delete-form",
-            "/contracts",
-        );
+        initFormAction("delete-contract-select", "delete-form", "/contracts");
     }
 
     if (document.getElementById("documents-list")) {
-        fetchAndRender(
-            "/documents",
-            "documents-list",
-            "documents",
-        );
+        fetchAndRender("/documents", "documents-list", "documents");
 
-        initFormAction(
-            "update-document-select",
-            "update-form",
-            "/documents",
-        );
+        initFormAction("update-document-select", "update-form", "/documents");
 
-        initFormAction(
-            "delete-document-select",
-            "delete-form",
-            "/documents",
-        );
+        initFormAction("delete-document-select", "delete-form", "/documents");
     }
 
     if (document.getElementById("student-internships-list")) {
