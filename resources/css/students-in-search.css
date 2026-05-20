@@ -807,132 +807,93 @@ main{
    FOOTER
 ========================= */
 
-footer{
-    width: 100%;
-
-    background: var(--dark-background-color);
-
+footer {
+    background-color: var(--dark-background-color);
+    color: var(--non-active-white-text-color);
+    padding: 60px 0 40px;
+    margin-top: 80px;
     border-top: 1px solid var(--border-color);
-
-    padding: 70px 0;
+    width: 100%;
 }
 
-.footer-container{
-    width: 1280px;
-
+footer .container {
+    flex-direction: row;
+    max-width: 1200px;
     margin: 0 auto;
-
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
-
     gap: 60px;
+    flex-wrap: wrap;
 }
 
-.footer-column h3{
-    color: white;
+footer > div > div:first-child {
+    flex: 1.5;
+    min-width: 200px;
+}
 
+footer h3 {
+    font-size: 20px;
+    font-weight: 600;
     margin-bottom: 20px;
-
-    font-size: 18px;
+    color: var(--non-active-white-text-color);
+    letter-spacing: -0.3px;
 }
 
-.footer-column p,
-.footer-column a{
-    display: block;
+footer > div > div:first-child h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--non-active-white-text-color);
+}
 
-    text-decoration: none;
-
+footer > div > div:first-child p {
+    font-size: 14px;
+    line-height: 1.5;
     color: var(--grey-color);
+    max-width: 320px;
+}
 
+footer > div > div:last-child {
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+    flex: 2;
+}
+
+footer > div > div:last-child > div {
+    min-width: 140px;
+}
+
+footer a {
+    display: block;
+    color: var(--grey-color);
+    text-decoration: none;
+    font-size: 14px;
     margin-bottom: 12px;
-
-    line-height: 1.6;
-
     transition: color 0.2s ease;
 }
 
-.footer-column a:hover{
-    color: var(--accent-hovered);
+footer a:hover {
+    color: var(--non-active-white-text-color);
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 1320px){
-
-    .container,
-    .header-nav,
-    .footer-container{
-        width: 95%;
-    }
+footer > div > div:last-child p {
+    font-size: 14px;
+    color: var(--grey-color);
+    margin-bottom: 8px;
+    line-height: 1.4;
 }
 
-@media (max-width: 1100px){
-
-    .content-wrapper{
-        flex-direction: column;
-    }
-
-    .sidebar{
-        width: 100%;
-    }
-
-    .students-grid{
-        grid-template-columns: 1fr;
-    }
-
-    .top-section{
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 24px;
-    }
-
-    .page-description{
-        width: 100%;
-    }
-
-    .footer-container{
-        flex-wrap: wrap;
-    }
+footer > div > div:last-child > div:last-child p:first-of-type {
+    margin-bottom: 12px;
 }
 
-@media (max-width: 768px){
-
-    .header-nav{
-        padding: 0 20px;
-    }
-
-    .header-left-side{
-        gap: 24px;
-    }
-
-    .link-list{
-        display: none;
-    }
-
-    .page-title{
-        font-size: 42px;
-    }
-
-    .page-description{
-        font-size: 18px;
-    }
-
-    .student-role{
-        font-size: 24px;
-    }
-
-    .student-name{
-        font-size: 24px;
-    }
-
-    .filters-card h3,
-    .help-card h3{
-        font-size: 28px;
-    }
-
-    .footer-container{
-        flex-direction: column;
-    }
+footer > div > div:last-child h3 {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--grey-color);
+    margin-bottom: 20px;
 }
