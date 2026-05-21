@@ -6,7 +6,7 @@
     @vite(['resources/js/main.js', 'resources/css/main.css'])
 </head>
 <body>
-    {{-- Это ссылки на тестовые страницы.
+    <!--Это ссылки на тестовые страницы.
      <h2>Сделано</h2>
     <a href="{{ route('companies.index') }}">Перейти к демонстрации CRUD операций с компаниями</a> <br>
     <a href="{{ route('universities.index') }}">Перейти к демонстрации CRUD операций с университетами</a> <br>
@@ -16,7 +16,8 @@
     <a href="{{ route('reservations.index')}}">Перейти к демонстрации CRUD операций с бронированием студентов</a> <br>
     <a href="{{ route('contracts.index')}}">Перейти к демонстрации CRUD операций с контрактами</a> <br>
     <a href="{{ route('documents.index')}}">Перейти к демонстрации CRUD операций с документами</a> <br>
-    <a href="{{ route('student-internships.index')}}">Перейти к демонстрации CRUD операций с распределением студентов на практики</a> <br>     --}}
+    <a href="{{ route('student-internships.index')}}">Перейти к демонстрации CRUD операций с распределением студентов на практики</a> <br>     -->
+
 
     <header>
         <div class="container">
@@ -24,10 +25,9 @@
                 <div class="header-left-side">
                     <a href="{{ route('main.page') }}" class="logo">Практикум</a>
                     <ul class="link-list">
-                        <li><a href="#">Студентам</a></li>
-                        <li><a href="#">Университетам</a></li>
-                        <li><a href="#">Компаниям</a></li>
-                        <li><a href="#">Тарифы</a></li>
+                        <li><a href="#for-students">Студентам</a></li>
+                        <li><a href="#for-universities">Университетам</a></li>
+                        <li><a href="#for-companies">Компаниям</a></li>
                     </ul>
                 </div>
                 <ul class="button-list">
@@ -93,9 +93,9 @@
             <div class="how-it-works">
                 <h2>Как это работает</h2>
                 <div class="hiw-buttons">
-                    <button>Студент</button>
-                    <button>Университет</button>
-                    <button>Компания</button>
+                    <button id="for-students">Студент</button>
+                    <button id="for-universities">Университет</button>
+                    <button id="for-companies">Компания</button>
                 </div>
                 <div class="hiw-cards">
                     <div class="hiw-card">

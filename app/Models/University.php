@@ -10,10 +10,24 @@ class University extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'city',
-        'contact_info',
+        "user_id",
+        "name",
+        "inn",
+        "contact_person",
+        "position",
+        "phone",
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Связи
+    |--------------------------------------------------------------------------
+    */
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function students()
     {

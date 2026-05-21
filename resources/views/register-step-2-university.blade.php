@@ -1,5 +1,3 @@
-{{-- resources/views/register-step-2-university.blade.php --}}
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -14,215 +12,187 @@
 </head>
 <body>
 
-<header class="header">
-    <div class="container header-inner">
-
-        <div class="logo">
-            Практикум
-        </div>
-
-        <nav class="nav">
-            <a href="#">Студентам</a>
-            <a href="#" class="active">Университетам</a>
-            <a href="#">Компаниям</a>
-            <a href="#">Тарифы</a>
-        </nav>
-
-    </div>
-</header>
-
 <main class="main">
 
     <section class="register-card">
 
-        <div class="steps">
-
-            <div class="step completed">
-                <div class="step-circle">
-                    ✓
-                </div>
-
-                <div class="step-label">
-                    Роль
-                </div>
-            </div>
-
-            <div class="step-line active"></div>
-
-            <div class="step current">
-                <div class="step-circle">
-                    2
-                </div>
-
-                <div class="step-label">
-                    Данные
-                </div>
-            </div>
-
-            <div class="step-line"></div>
-
-            <div class="step">
-                <div class="step-circle">
-                    3
-                </div>
-
-                <div class="step-label">
-                    Готово
-                </div>
-            </div>
-
-        </div>
-
-        <h1 class="title university-title">
+        <h1 class="title">
             Регистрация университета
         </h1>
 
-        <p class="subtitle university-subtitle">
-            Заполните данные для создания профиля учебного заведения.
-            Проверка займет 1–2 рабочих дня.
-        </p>
+        @if(session('success'))
+            <div class="success-message">
+                {{ session('success') }}
+            </div>
+        @endif
 
-        <form class="register-form">
+        @if($errors->any())
+
+            <div class="error-message">
+
+                @foreach($errors->all() as $error)
+
+                    <div>
+                        {{ $error }}
+                    </div>
+
+                @endforeach
+
+            </div>
+
+        @endif
+
+        <form
+            class="register-form"
+            method="POST"
+            action="{{ route('university.store') }}"
+        >
+
+            @csrf
 
             <div class="form-group">
-                <label>Полное название ВУЗа</label>
+
+                <label>
+                    Полное название ВУЗа
+                </label>
 
                 <input
                     type="text"
-                    placeholder="Напр. МГТУ им. Н.Э. Баумана"
+                    name="name"
+                    value="{{ old('name') }}"
+                    placeholder="МГТУ им. Баумана"
+                    required
                 >
+
             </div>
 
             <div class="row">
 
                 <div class="form-group half">
-                    <label>ИНН</label>
+
+                    <label>
+                        ИНН
+                    </label>
 
                     <input
                         type="text"
+                        name="inn"
+                        value="{{ old('inn') }}"
                         placeholder="10 или 12 цифр"
+                        required
                     >
+
                 </div>
 
                 <div class="form-group half">
-                    <label>Email ответственного</label>
+
+                    <label>
+                        Email
+                    </label>
 
                     <input
                         type="email"
+                        name="email"
+                        value="{{ old('email') }}"
                         placeholder="edu@university.ru"
+                        required
                     >
-                </div>
 
-            </div>
-
-            <div class="row">
-
-                <div class="form-group half">
-                    <label>Пароль</label>
-
-                    <div class="input-icon password">
-
-                        <input
-                            type="password"
-                            placeholder="••••••••"
-                        >
-
-                        <span class="icon">👁</span>
-
-                    </div>
                 </div>
 
             </div>
 
             <div class="form-group">
-                <label>ФИО контактного лица</label>
+
+                <label>
+                    ФИО контактного лица
+                </label>
 
                 <input
                     type="text"
+                    name="contact_person"
+                    value="{{ old('contact_person') }}"
                     placeholder="Иванов Иван Иванович"
+                    required
                 >
+
             </div>
 
             <div class="row">
 
                 <div class="form-group half">
-                    <label>Должность</label>
+
+                    <label>
+                        Должность
+                    </label>
 
                     <input
                         type="text"
-                        placeholder="Напр. Декан факультета"
+                        name="position"
+                        value="{{ old('position') }}"
+                        placeholder="Декан"
+                        required
                     >
+
                 </div>
 
                 <div class="form-group half">
-                    <label>Телефон</label>
+
+                    <label>
+                        Телефон
+                    </label>
 
                     <input
                         type="text"
-                        placeholder="+7 (___) ___-__-__"
+                        name="phone"
+                        value="{{ old('phone') }}"
+                        placeholder="+7 (999) 999-99-99"
+                        required
                     >
+
                 </div>
 
             </div>
 
             <div class="form-group">
-                <label>Пароль</label>
+
+                <label>
+                    Пароль
+                </label>
 
                 <div class="input-icon password">
 
                     <input
                         type="password"
+                        name="password"
+                        id="password"
                         placeholder="••••••••"
+                        required
                     >
 
-                    <span class="icon">👁</span>
+                    <span
+                        class="icon"
+                        id="toggle-password"
+                    >
+                        👁
+                    </span>
 
                 </div>
+
             </div>
 
-            <button type="submit" class="submit-btn">
-                Отправить заявку
+            <button
+                type="submit"
+                class="submit-btn"
+            >
+                Зарегистрироваться
             </button>
-
-            <div class="login-link">
-                Уже есть аккаунт?
-                <a href="#">Войти</a>
-            </div>
 
         </form>
 
     </section>
 
 </main>
-
-<footer class="footer">
-
-    <div class="container footer-inner">
-
-        <div class="footer-left">
-
-            <div class="footer-logo">
-                Практикум
-            </div>
-
-            <p>
-                © 2024 Практикум. Платформа для развития кадрового потенциала.
-            </p>
-
-        </div>
-
-        <div class="footer-links">
-            <a href="#">О платформе</a>
-            <a href="#">Поддержка</a>
-            <a href="#">Юридическая часть</a>
-            <a href="#">Карьера</a>
-            <a href="#">Партнерам</a>
-            <a href="#">Конфиденциальность</a>
-        </div>
-
-    </div>
-
-</footer>
 
 </body>
 </html>

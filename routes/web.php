@@ -35,6 +35,11 @@ Route::middleware("nocache")->group(function () {
         return view("register-step-2-university");
     })->name("register-step-2-university");
 
+    Route::post("/register/step-2-university", [
+        UniversityController::class,
+        "store",
+    ])->name("university.store");
+
     Route::get("/register/step-3", function () {
         return view("register-step-3");
     })->name("register-step-3");

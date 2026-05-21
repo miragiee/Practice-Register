@@ -3,20 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Models\University;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UniversityController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Список университетов
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
-        $universities = University::all();
+        $universities = University::with("user")->get();
 
         if (request()->wantsJson()) {
             return response()->json($universities);
         }
 
-        return view('universities', compact('universities'));
+        return view("universities", compact("universities"));
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Страница регистрации
+    |--------------------------------------------------------------------------
+    */
+
+    public function create()
+    {
+        return view("register-step-2-university");
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Регистрация университета
+    |--------------------------------------------------------------------------
+    */
 
     public function store(Request $request)
     {
@@ -27,93 +53,164 @@ class UniversityController extends Controller
         */
 
         $validated = $request->validate([
-            'name' => 'required|string',
-            'city' => 'required|string',
-            'contact_info' => 'required|string',
+            "name" => "required|string|max:255",
+
+            "inn" => "required|string|min:10|max:12|unique:universities,inn",
+
+            "email" => "required|email|unique:users,email",
+
+            "password" => "required|string|min:6",
+
+            "contact_person" => "required|string|max:255",
+
+            "position" => "required|string|max:255",
+
+            "phone" => "required|string|max:255",
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Проверка на дубликат
-        |--------------------------------------------------------------------------
-        */
+        DB::beginTransaction();
 
-        $exists = University::where('name', $validated['name'])
-            ->where('city', $validated['city'])
-            ->where('contact_info', $validated['contact_info'])
-            ->exists();
+        try {
+            /*
+            |--------------------------------------------------------------------------
+            | Создание пользователя
+            |--------------------------------------------------------------------------
+            */
 
-        if ($exists) {
+            $user = User::create([
+                "name" => $validated["name"],
+
+                "email" => $validated["email"],
+
+                "password" => Hash::make($validated["password"]),
+
+                "role_id" => 2,
+            ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            | Создание университета
+            |--------------------------------------------------------------------------
+            */
+
+            University::create([
+                "user_id" => $user->id,
+
+                "name" => $validated["name"],
+
+                "inn" => $validated["inn"],
+
+                "contact_person" => $validated["contact_person"],
+
+                "position" => $validated["position"],
+
+                "phone" => $validated["phone"],
+            ]);
+
+            DB::commit();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Переход на step 3
+            |--------------------------------------------------------------------------
+            */
+
+            return redirect()->route("register-step-3");
+        } catch (\Exception $e) {
+            DB::rollBack();
+
             return redirect()
                 ->back()
                 ->withInput()
                 ->withErrors([
-                    'duplicate' => 'Такие данные уже есть в таблице.',
+                    "error" => "Ошибка при регистрации университета",
                 ]);
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Создание записи
-        |--------------------------------------------------------------------------
-        */
-
-        University::create($validated);
-
-        return redirect()
-            ->back()
-            ->with('success', 'Университет добавлен');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Обновление университета
+    |--------------------------------------------------------------------------
+    */
 
     public function update(Request $request, University $university)
     {
-        $data = array_filter(
-            $request->only(['name', 'city', 'contact_info']),
-            function ($v) {
-                return !is_null($v) && $v !== '';
-            }
-        );
+        $validated = $request->validate([
+            "name" => "nullable|string|max:255",
 
-        /*
-        |--------------------------------------------------------------------------
-        | Проверка на дубликат при обновлении
-        |--------------------------------------------------------------------------
-        */
+            "inn" =>
+                "nullable|string|min:10|max:12|unique:universities,inn," .
+                $university->id,
 
-        $exists = University::where('name', $data['name'] ?? $university->name)
-            ->where('city', $data['city'] ?? $university->city)
-            ->where('contact_info', $data['contact_info'] ?? $university->contact_info)
-            ->where('id', '!=', $university->id)
-            ->exists();
+            "contact_person" => "nullable|string|max:255",
 
-        if ($exists) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors([
-                    'duplicate' => 'Такие данные уже есть в таблице.',
-                ]);
-        }
+            "position" => "nullable|string|max:255",
 
-        /*
-        |--------------------------------------------------------------------------
-        | Обновление записи
-        |--------------------------------------------------------------------------
-        */
+            "phone" => "nullable|string|max:255",
+        ]);
+
+        $data = array_filter($validated, function ($value) {
+            return !is_null($value) && $value !== "";
+        });
 
         $university->update($data);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Данные обновлены');
+        /*
+        |--------------------------------------------------------------------------
+        | Обновляем user.name
+        |--------------------------------------------------------------------------
+        */
+
+        if (isset($data["name"])) {
+            $university->user->update([
+                "name" => $data["name"],
+            ]);
+        }
+
+        return redirect()->back()->with("success", "Данные обновлены");
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Удаление университета
+    |--------------------------------------------------------------------------
+    */
 
     public function destroy(University $university)
     {
-        $university->delete();
+        DB::beginTransaction();
 
-        return redirect()
-            ->back()
-            ->with('success', 'Университет удалён');
+        try {
+            /*
+            |--------------------------------------------------------------------------
+            | Удаляем пользователя
+            |--------------------------------------------------------------------------
+            */
+
+            if ($university->user) {
+                $university->user->delete();
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Удаляем университет
+            |--------------------------------------------------------------------------
+            */
+
+            $university->delete();
+
+            DB::commit();
+
+            return redirect()->back()->with("success", "Университет удалён");
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()
+                ->back()
+                ->withErrors([
+                    "error" => "Ошибка при удалении",
+                ]);
+        }
     }
 }

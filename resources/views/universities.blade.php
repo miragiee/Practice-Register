@@ -30,7 +30,9 @@
 
     <div class="header">
 
-        <h1>CRUD Университеты</h1>
+        <h1>
+            CRUD Университеты
+        </h1>
 
         <p>
             Управление университетами платформы
@@ -53,81 +55,177 @@
 
     @endif
 
-    @if(session('warning'))
+    @if($errors->any())
 
         <div class="alert-warning">
-            {{ session('warning') }}
+
+            @foreach($errors->all() as $error)
+
+                <div>
+                    {{ $error }}
+                </div>
+
+            @endforeach
+
         </div>
 
     @endif
 
+    {{-- ====================================================== --}}
+    {{-- ВЫВОД --}}
+    {{-- ====================================================== --}}
+
     <h2 class="section-title">
-        Вывод информации
+        Список университетов
     </h2>
 
-    <div
-        class="data-panel"
-        id="universities-list"
-    >
-        Загрузка университетов...
+    <div class="data-panel">
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>ИНН</th>
+                <th>Email</th>
+                <th>Контактное лицо</th>
+                <th>Должность</th>
+                <th>Телефон</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            @foreach($universities as $univ)
+
+                <tr>
+
+                    <td>
+                        {{ $univ->id }}
+                    </td>
+
+                    <td>
+                        {{ $univ->name }}
+                    </td>
+
+                    <td>
+                        {{ $univ->inn }}
+                    </td>
+
+                    <td>
+                        {{ $univ->user->email }}
+                    </td>
+
+                    <td>
+                        {{ $univ->contact_person }}
+                    </td>
+
+                    <td>
+                        {{ $univ->position }}
+                    </td>
+
+                    <td>
+                        {{ $univ->phone }}
+                    </td>
+
+                </tr>
+
+            @endforeach
+
+            </tbody>
+
+        </table>
+
     </div>
 
+    {{-- ====================================================== --}}
+    {{-- ДОБАВЛЕНИЕ --}}
+    {{-- ====================================================== --}}
+
     <h2 class="section-title">
-        Добавление данных
+        Добавление университета
     </h2>
 
     <div class="form-panel">
 
         <form
-            action="/universities"
+            action="{{ route('universities.store') }}"
             method="POST"
         >
 
             @csrf
 
             <p>
-
-                <label for="name">
-                    Название
-                </label>
+                <label>Название ВУЗа</label>
 
                 <input
                     type="text"
-                    id="name"
                     name="name"
                     required
                 >
-
             </p>
 
             <p>
-
-                <label for="city">
-                    Город
-                </label>
+                <label>ИНН</label>
 
                 <input
                     type="text"
-                    id="city"
-                    name="city"
+                    name="inn"
                     required
                 >
-
             </p>
 
             <p>
+                <label>Email</label>
 
-                <label for="contact_info">
-                    Почта
-                </label>
+                <input
+                    type="email"
+                    name="email"
+                    required
+                >
+            </p>
+
+            <p>
+                <label>Пароль</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    required
+                >
+            </p>
+
+            <p>
+                <label>Контактное лицо</label>
 
                 <input
                     type="text"
-                    id="contact_info"
-                    name="contact_info"
+                    name="contact_person"
                     required
                 >
+            </p>
 
+            <p>
+                <label>Должность</label>
+
+                <input
+                    type="text"
+                    name="position"
+                    required
+                >
+            </p>
+
+            <p>
+                <label>Телефон</label>
+
+                <input
+                    type="text"
+                    name="phone"
+                    required
+                >
             </p>
 
             <button type="submit">
@@ -137,6 +235,10 @@
         </form>
 
     </div>
+
+    {{-- ====================================================== --}}
+    {{-- ОБНОВЛЕНИЕ --}}
+    {{-- ====================================================== --}}
 
     <h2 class="section-title">
         Обновление данных
@@ -154,7 +256,7 @@
 
             <p>
 
-                <label for="update-univ-select">
+                <label>
                     Выберите университет
                 </label>
 
@@ -167,7 +269,7 @@
                         -- Выберите --
                     </option>
 
-                    @foreach ($universities as $univ)
+                    @foreach($universities as $univ)
 
                         <option value="{{ $univ->id }}">
                             {{ $univ->name }}
@@ -180,45 +282,48 @@
             </p>
 
             <p>
-
-                <label for="update-name">
-                    Новое название
-                </label>
+                <label>Название</label>
 
                 <input
                     type="text"
-                    id="update-name"
                     name="name"
                 >
-
             </p>
 
             <p>
-
-                <label for="update-city">
-                    Новый город
-                </label>
+                <label>ИНН</label>
 
                 <input
                     type="text"
-                    id="update-city"
-                    name="city"
+                    name="inn"
                 >
-
             </p>
 
             <p>
-
-                <label for="update-contact">
-                    Новая почта
-                </label>
+                <label>Контактное лицо</label>
 
                 <input
                     type="text"
-                    id="update-contact"
-                    name="contact_info"
+                    name="contact_person"
                 >
+            </p>
 
+            <p>
+                <label>Должность</label>
+
+                <input
+                    type="text"
+                    name="position"
+                >
+            </p>
+
+            <p>
+                <label>Телефон</label>
+
+                <input
+                    type="text"
+                    name="phone"
+                >
             </p>
 
             <button type="submit">
@@ -228,6 +333,10 @@
         </form>
 
     </div>
+
+    {{-- ====================================================== --}}
+    {{-- УДАЛЕНИЕ --}}
+    {{-- ====================================================== --}}
 
     <h2 class="section-title">
         Удаление данных
@@ -245,7 +354,7 @@
 
             <p>
 
-                <label for="delete-univ-select">
+                <label>
                     Выберите университет
                 </label>
 
@@ -258,7 +367,7 @@
                         -- Выберите --
                     </option>
 
-                    @foreach ($universities as $univ)
+                    @foreach($universities as $univ)
 
                         <option value="{{ $univ->id }}">
                             {{ $univ->name }}
@@ -271,7 +380,7 @@
             </p>
 
             <button type="submit">
-                Удалить выбранный университет
+                Удалить университет
             </button>
 
         </form>
@@ -279,6 +388,42 @@
     </div>
 
 </div>
+
+<script>
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+
+    const updateForm = document.getElementById('update-univ-form');
+    const updateSelect = document.getElementById('update-univ-select');
+
+    updateForm.addEventListener('submit', function (e) {
+
+        const id = updateSelect.value;
+
+        updateForm.action = `/universities/${id}`;
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE
+    |--------------------------------------------------------------------------
+    */
+
+    const deleteForm = document.getElementById('delete-univ-form');
+    const deleteSelect = document.getElementById('delete-univ-select');
+
+    deleteForm.addEventListener('submit', function (e) {
+
+        const id = deleteSelect.value;
+
+        deleteForm.action = `/universities/${id}`;
+    });
+
+</script>
 
 </body>
 </html>
