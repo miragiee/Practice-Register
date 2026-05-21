@@ -1,92 +1,212 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\DirectionController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\UniversityController;
-use App\Http\Controllers\InternshipController;
-use App\Http\Controllers\ContractController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\StudentInternshipController;
-use App\Http\Controllers\AuthController;
+
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\DirectionController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\InternshipController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentInternshipController;
+use App\Http\Controllers\UniversityController;
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC ROUTES
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware("nocache")->group(function () {
-    Route::get("/", function () {
-        return view("main");
-    })->name("main.page");
+    /*
+    |--------------------------------------------------------------------------
+    | Главная
+    |--------------------------------------------------------------------------
+    */
 
-    Route::get("/register", function () {
-        return view("register");
-    })->name("register");
+    Route::view("/", "main")->name("main.page");
 
-    Route::get("/register/step-2-company", function () {
-        return view("register-step-2-company");
-    })->name("register-step-2-company");
+    /*
+    |--------------------------------------------------------------------------
+    | Регистрация
+    |--------------------------------------------------------------------------
+    */
 
-    Route::post("/register/company", [
-        CompanyController::class,
-        "register",
-    ])->name("company.register");
+    Route::prefix("register")->group(function () {
+        Route::view("/", "register")->name("register");
 
-    Route::get("/register/step-2-university", function () {
-        return view("register-step-2-university");
-    })->name("register-step-2-university");
+        /*
+        |--------------------------------------------------------------------------
+        | Company
+        |--------------------------------------------------------------------------
+        */
 
-    Route::post("/register/step-2-university", [
-        UniversityController::class,
-        "store",
-    ])->name("university.store");
+        Route::view("/step-2-company", "register-step-2-company")->name(
+            "register-step-2-company",
+        );
 
-    Route::get("/register/step-3", function () {
-        return view("register-step-3");
-    })->name("register-step-3");
+        Route::post("/company", [CompanyController::class, "register"])->name(
+            "company.register",
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | University
+        |--------------------------------------------------------------------------
+        */
+
+        Route::view("/step-2-university", "register-step-2-university")->name(
+            "register-step-2-university",
+        );
+
+        Route::post("/step-2-university", [
+            UniversityController::class,
+            "store",
+        ])->name("university.store");
+
+        /*
+        |--------------------------------------------------------------------------
+        | Step 3
+        |--------------------------------------------------------------------------
+        */
+
+        Route::view("/step-3", "register-step-3")->name("register-step-3");
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Авторизация
+    |--------------------------------------------------------------------------
+    */
 
     Route::get("/auth", [AuthController::class, "showLogin"])->name("auth");
 
-    Route::get("/students-in-search", function () {
-        return view("students-in-search");
-    })->name("students-in-search");
+    /*
+    |--------------------------------------------------------------------------
+    | Students Search
+    |--------------------------------------------------------------------------
+    */
+
+    Route::view("/students-in-search", "students-in-search")->name(
+        "students-in-search",
+    );
 });
 
-Route::post("/auth/student", [AuthController::class, "studentLogin"])->name(
-    "auth.student",
-);
+/*
+|--------------------------------------------------------------------------
+| AUTH ROUTES
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix("auth")->group(function () {
+    Route::post("/student", [AuthController::class, "studentLogin"])->name(
+        "auth.student",
+    );
+
+    Route::post("/company", [AuthController::class, "companyLogin"])->name(
+        "auth.company",
+    );
+
+    Route::post("/university", [
+        AuthController::class,
+        "universityLogin",
+    ])->name("auth.university");
+});
+
+/*
+|--------------------------------------------------------------------------
+| LOGOUT
+|--------------------------------------------------------------------------
+*/
 
 Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 
-Route::get("/profile/student", [AuthController::class, "studentProfile"])
-    ->middleware(["auth", "nocache"])
-    ->name("student-profile");
+/*
+|--------------------------------------------------------------------------
+| PROFILES
+|--------------------------------------------------------------------------
+*/
 
-Route::get("/profile/company", function () {
-    return view("company-profile");
-})
-    ->middleware(["auth", "nocache"])
-    ->name("company-profile");
+Route::middleware(["auth", "nocache"])->group(function () {
+    /*
+    |--------------------------------------------------------------------------
+    | Student Profile
+    |--------------------------------------------------------------------------
+    */
 
-Route::get("/admin", [AdminController::class, "index"])
-    ->middleware([
-        "auth",
-        "nocache",
-        \App\Http\Middleware\AdminMiddleware::class,
-    ])
-    ->name("admin");
+    Route::get("/profile/student", [
+        AuthController::class,
+        "studentProfile",
+    ])->name("student-profile");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Company Profile
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company", [
+        AuthController::class,
+        "companyProfile",
+    ])->name("company-profile");
+
+    /*
+    |--------------------------------------------------------------------------
+    | University Profile
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/university", [
+        AuthController::class,
+        "universityProfile",
+    ])->name("university-profile");
+});
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN PANEL
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware([
     "auth",
     "nocache",
     \App\Http\Middleware\AdminMiddleware::class,
 ])->group(function () {
-    Route::resource("companies", CompanyController::class);
-    Route::resource("universities", UniversityController::class);
-    Route::resource("students", StudentController::class);
-    Route::resource("directions", DirectionController::class);
-    Route::resource("internships", InternshipController::class);
-    Route::resource("contracts", ContractController::class);
-    Route::resource("reservations", ReservationController::class);
-    Route::resource("documents", DocumentController::class);
-    Route::resource("student-internships", StudentInternshipController::class);
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/admin", [AdminController::class, "index"])->name("admin");
+
+    /*
+    |--------------------------------------------------------------------------
+    | CRUD
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resources([
+        "companies" => CompanyController::class,
+
+        "universities" => UniversityController::class,
+
+        "students" => StudentController::class,
+
+        "directions" => DirectionController::class,
+
+        "internships" => InternshipController::class,
+
+        "contracts" => ContractController::class,
+
+        "reservations" => ReservationController::class,
+
+        "documents" => DocumentController::class,
+
+        "student-internships" => StudentInternshipController::class,
+    ]);
 });

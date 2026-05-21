@@ -124,4 +124,19 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    const passwordInput = document.querySelector('input[name="password"]');
+
+    const togglePassword = document.querySelector(".password-toggle");
+
+    if (passwordInput && togglePassword) {
+        togglePassword.addEventListener("click", function () {
+            const type =
+                passwordInput.getAttribute("type") === "password"
+                    ? "text"
+                    : "password";
+
+            passwordInput.setAttribute("type", type);
+        });
+    }
 });

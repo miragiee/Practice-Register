@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+
 use Illuminate\Support\Facades\Hash;
+
+use App\Models\Company;
 use App\Models\User;
 
 class CompanyController extends Controller
 {
-    public function main()
+    /*
+    |--------------------------------------------------------------------------
+    | INDEX
+    |--------------------------------------------------------------------------
+    */
+
+    public function index()
     {
         $companies = Company::all();
 
-        return view("companies", compact("companies"));
-    }
-
-    public function index(Request $request)
-    {
-        $companies = Company::all();
-
-        if ($request->wantsJson()) {
+        if (request()->wantsJson()) {
             return response()->json($companies);
         }
 
@@ -30,215 +30,131 @@ class CompanyController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | Добавление компании
+    | REGISTER COMPANY
+    |--------------------------------------------------------------------------
+    */
+
+    public function register(Request $request)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDATION
+        |--------------------------------------------------------------------------
+        */
+
+        $validated = $request->validate([
+            "company_name" => ["required", "string", "max:255"],
+
+            "email" => ["required", "email", "unique:users,email"],
+
+            "password" => ["required", "min:6"],
+
+            "inn" => ["nullable", "string", "max:20"],
+
+            "website" => ["nullable", "string", "max:255"],
+
+            "description" => ["nullable", "string"],
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | CREATE USER
+        |--------------------------------------------------------------------------
+        */
+
+        $user = User::create([
+            "name" => $validated["company_name"],
+
+            "email" => $validated["email"],
+
+            "password" => Hash::make($validated["password"]),
+
+            "role_id" => 4,
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | CREATE COMPANY
+        |--------------------------------------------------------------------------
+        */
+
+        Company::create([
+            "user_id" => $user->id,
+
+            "name" => $validated["company_name"],
+
+            "description" => $validated["description"] ?? null,
+
+            "contact_info" => $validated["email"],
+
+            "inn" => $validated["inn"] ?? null,
+
+            "website" => $validated["website"] ?? null,
+        ]);
+
+        return redirect()->route("register-step-3");
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | STORE
     |--------------------------------------------------------------------------
     */
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "name" => "required|string|max:255",
-            "description" => "required|string",
+            "name" => "required|string",
+
             "contact_info" => "required|string",
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Проверка на дубликат
-        |--------------------------------------------------------------------------
-        */
-
-        $exists = Company::where("name", $validated["name"])
-            ->where("description", $validated["description"])
-            ->where("contact_info", $validated["contact_info"])
-            ->exists();
-
-        if ($exists) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors([
-                    "duplicate" => "Такие данные уже есть в таблице.",
-                ]);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Создание компании
-        |--------------------------------------------------------------------------
-        */
-
         Company::create($validated);
 
-        return redirect()
-            ->back()
-            ->with("success", "Компания успешно добавлена");
+        return redirect()->back()->with("success", "Компания добавлена");
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Обновление компании
+    | UPDATE
     |--------------------------------------------------------------------------
     */
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Company $company)
     {
-        $validated = $request->validate([
-            "name" => "nullable|string|max:255",
-            "description" => "nullable|string",
-            "contact_info" => "nullable|string",
-        ]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Удаляем пустые поля
-        |--------------------------------------------------------------------------
-        */
-
-        $data = array_filter($validated, function ($value) {
-            return $value !== null && $value !== "";
-        });
-
-        if (empty($data)) {
-            return redirect()
-                ->back()
-                ->with("warning", "Нет данных для обновления");
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Получаем компанию
-        |--------------------------------------------------------------------------
-        */
-
-        $company = Company::findOrFail($id);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Проверка на дубликат
-        |--------------------------------------------------------------------------
-        */
-
-        $exists = Company::where(
+        $data = array_filter(
+            $request->only([
                 "name",
-                $data["name"] ?? $company->name
-            )
-            ->where(
+
                 "description",
-                $data["description"] ?? $company->description
-            )
-            ->where(
+
                 "contact_info",
-                $data["contact_info"] ?? $company->contact_info
-            )
-            ->where("id", "!=", $company->id)
-            ->exists();
 
-        if ($exists) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors([
-                    "duplicate" => "Такие данные уже есть в таблице.",
-                ]);
-        }
+                "inn",
 
-        /*
-        |--------------------------------------------------------------------------
-        | Обновление данных
-        |--------------------------------------------------------------------------
-        */
+                "website",
+            ]),
+
+            function ($v) {
+                return !is_null($v) && $v !== "";
+            },
+        );
 
         $company->update($data);
 
-        return redirect()
-            ->back()
-            ->with("success", "Данные обновлены");
+        return redirect()->back()->with("success", "Компания обновлена");
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Удаление компании
+    | DELETE
     |--------------------------------------------------------------------------
     */
 
-    public function destroy($id)
+    public function destroy(Company $company)
     {
-        Company::destroy($id);
+        $company->delete();
 
-        return redirect()
-            ->back()
-            ->with("success", "Компания удалена");
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Регистрация компании
-    |--------------------------------------------------------------------------
-    */
-
-    public function register(Request $request)
-    {
-        $validated = $request->validate([
-            "name" => "required|string|max:255|unique:companies,name",
-            "description" => "required|string|max:255",
-            "contact_info" => "required|email|unique:companies,contact_info",
-            "password" => "required|string|min:6",
-            "full_name" => "required|string|max:255",
-            "inn" => "required|string|unique:companies,inn",
-            "website" => "nullable|string|max:255",
-        ]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Проверка на полный дубликат
-        |--------------------------------------------------------------------------
-        */
-
-        $exists = Company::where("name", $validated["name"])
-            ->where("description", $validated["description"])
-            ->where("contact_info", $validated["contact_info"])
-            ->where("inn", $validated["inn"])
-            ->exists();
-
-        if ($exists) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors([
-                    "duplicate" => "Такие данные уже есть в таблице.",
-                ]);
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Создание компании
-        |--------------------------------------------------------------------------
-        */
-
-        $company = Company::create([
-            "name" => $validated["name"],
-            "description" => $validated["description"],
-            "contact_info" => $validated["contact_info"],
-            "inn" => $validated["inn"],
-            "website" => $validated["website"],
-        ]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Создание пользователя
-        |--------------------------------------------------------------------------
-        */
-
-        User::create([
-            "name" => $validated["full_name"],
-            "email" => $validated["contact_info"],
-            "password" => Hash::make($validated["password"]),
-            "role_id" => 4,
-        ]);
-
-        return redirect()
-            ->route("register-step-3")
-            ->with("success", "Компания успешно зарегистрирована");
+        return redirect()->back()->with("success", "Компания удалена");
     }
 }

@@ -10,12 +10,35 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
-        'contact_info',
-        'inn',
-        'website',
+        "user_id",
+
+        "name",
+
+        "description",
+
+        "contact_info",
+
+        "inn",
+
+        "website",
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Связь с user
+    |--------------------------------------------------------------------------
+    */
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Контракты
+    |--------------------------------------------------------------------------
+    */
 
     public function contracts()
     {
