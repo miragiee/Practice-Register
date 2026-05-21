@@ -78,21 +78,19 @@
         </div>
 
         <h1 class="title confirmation-title">
-            Почти готово!
+            Вы успешно зарегистрированы!
         </h1>
 
         <p class="subtitle confirmation-subtitle">
-            Мы отправили письмо на your@email.com.
-            Перейдите по ссылке для подтверждения аккаунта.
+            Теперь вы можете войти в систему
         </p>
 
-        <button class="submit-btn confirmation-btn">
-            Открыть почту ↗
-        </button>
+        <a href="/auth" class="confirmation-link">
+            <button class="submit-btn confirmation-btn">
+                Открыть страницу входа
+            </button>
+        </a>
 
-        <button class="resend-btn">
-            Отправить повторно
-        </button>
 
         <div class="confirmation-divider"></div>
 
