@@ -497,7 +497,7 @@ h2 {
     transform: translateY(-1px);
 }
 
-.hiw-buttons button:first-child {
+.hiw-buttons button.active {
     background: white;
     color: #4d6bfe;
 

@@ -90,31 +90,41 @@
                     <div class="line"></div>
                 </div>
             </div>
-            <div class="how-it-works">
-                <h2>Как это работает</h2>
-                <div class="hiw-buttons">
-                    <button id="for-students">Студент</button>
-                    <button id="for-universities">Университет</button>
-                    <button id="for-companies">Компания</button>
-                </div>
-                <div class="hiw-cards">
-                    <div class="hiw-card">
-                        <img src="{{ asset('storage/icons/magnif-glass-icon.svg') }}" alt="Найди место">
-                        <h3>Найди место</h3>
-                        <p>Выбирай из сотен предложений от ведущих компаний страны по твоему профилю.</p>
-                    </div>
-                    <div class="hiw-card">
-                        <img src="{{ asset('storage/icons/document-icon.svg') }}" alt="Подай заявку">
-                        <h3>Подай заявку</h3>
-                        <p>Загрузи резюме, пройди отбор и получи подтверждение прямо в приложении.</p>
-                    </div>
-                    <div class="hiw-card">
-                        <img src="{{ asset('storage/icons/medal-icon.svg') }}" alt="Начни практику">
-                        <h3>Начни практику</h3>
-                        <p>Получай задачи, общайся с ментором и закрывай практику официально через вуз.</p>
-                    </div>
-                </div>
-            </div>
+          <div class="how-it-works">
+    <h2>Как это работает</h2>
+
+    <div class="hiw-buttons">
+        <button class="hiw-tab active" data-role="student">Студент</button>
+        <button class="hiw-tab" data-role="university">Университет</button>
+        <button class="hiw-tab" data-role="company">Компания</button>
+    </div>
+
+    <div class="hiw-cards">
+        <div class="hiw-card">
+            <img src="{{ asset('storage/icons/magnif-glass-icon.svg') }}" alt="">
+            <h3 id="card-title-1">Найди место</h3>
+            <p id="card-text-1">
+                Выбирай из сотен предложений от ведущих компаний страны по твоему профилю.
+            </p>
+        </div>
+
+        <div class="hiw-card">
+            <img src="{{ asset('storage/icons/document-icon.svg') }}" alt="">
+            <h3 id="card-title-2">Подай заявку</h3>
+            <p id="card-text-2">
+                Загрузи резюме, пройди отбор и получи подтверждение прямо в приложении.
+            </p>
+        </div>
+
+        <div class="hiw-card">
+            <img src="{{ asset('storage/icons/medal-icon.svg') }}" alt="">
+            <h3 id="card-title-3">Начни практику</h3>
+            <p id="card-text-3">
+                Получай задачи, общайся с ментором и закрывай практику официально через вуз.
+            </p>
+        </div>
+    </div>
+</div>
             <div class="pricing-section">
             </div>
             <div class="partners">
