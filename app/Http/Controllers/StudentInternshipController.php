@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\StudentInternship;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class StudentInternshipController extends Controller
 {
@@ -21,9 +20,15 @@ class StudentInternshipController extends Controller
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json($studentInternships);
         }
+
         return view('student_internships', compact('studentInternships'));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | STORE
+    |--------------------------------------------------------------------------
+    */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -33,11 +38,31 @@ class StudentInternshipController extends Controller
             'status'        => 'required|string|max:50',
         ]);
 
+        // ❗ Проверка на дубликат
+        $exists = StudentInternship::where('student_id', $validated['student_id'])
+            ->where('company_id', $validated['company_id'])
+            ->where('internship_id', $validated['internship_id'])
+            ->where('status', $validated['status'])
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->back()
+                ->with('error', 'Такие данные уже есть в таблице');
+        }
+
         StudentInternship::create($validated);
 
-        return redirect()->back()->with('success', 'Стажировка студента успешно добавлена');
+        return redirect()
+            ->back()
+            ->with('success', 'Стажировка студента успешно добавлена');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -52,18 +77,48 @@ class StudentInternshipController extends Controller
         });
 
         if (empty($data)) {
-            return redirect()->back()->with('warning', 'Нет данных для обновления');
+            return redirect()
+                ->back()
+                ->with('warning', 'Нет данных для обновления');
         }
 
         $studentInternship = StudentInternship::findOrFail($id);
+
+        // итоговые значения (старые + новые)
+        $final = [
+            'student_id'    => $data['student_id'] ?? $studentInternship->student_id,
+            'company_id'    => $data['company_id'] ?? $studentInternship->company_id,
+            'internship_id' => $data['internship_id'] ?? $studentInternship->internship_id,
+            'status'        => $data['status'] ?? $studentInternship->status,
+        ];
+
+        // ❗ Проверка на дубликат (исключая текущую запись)
+        $duplicate = StudentInternship::where('id', '!=', $id)
+            ->where('student_id', $final['student_id'])
+            ->where('company_id', $final['company_id'])
+            ->where('internship_id', $final['internship_id'])
+            ->where('status', $final['status'])
+            ->exists();
+
+        if ($duplicate) {
+            return redirect()
+                ->back()
+                ->with('error', 'Такие данные уже есть в таблице');
+        }
+
         $studentInternship->update($data);
 
-        return redirect()->back()->with('success', 'Данные стажировки студента обновлены');
+        return redirect()
+            ->back()
+            ->with('success', 'Данные стажировки студента обновлены');
     }
 
     public function destroy($id)
     {
         StudentInternship::destroy($id);
-        return redirect()->back()->with('success', 'Стажировка студента удалена');
+
+        return redirect()
+            ->back()
+            ->with('success', 'Стажировка студента удалена');
     }
 }

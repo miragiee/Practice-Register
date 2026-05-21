@@ -25,6 +25,12 @@ class StudentController extends Controller
         return view("students", compact("students"));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | СОЗДАНИЕ СТУДЕНТА
+    |--------------------------------------------------------------------------
+    */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -35,10 +41,40 @@ class StudentController extends Controller
             "email" => "required|string|max:255",
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Проверка дубля
+        |--------------------------------------------------------------------------
+        */
+
+        $exists = Student::where("full_name", $validated["full_name"])
+            ->where("university_id", $validated["university_id"])
+            ->where("direction_id", $validated["direction_id"])
+            ->where("course", $validated["course"])
+            ->where("email", $validated["email"])
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    "duplicate" => "Такие данные уже есть в таблице.",
+                ]);
+        }
+
         Student::create($validated);
 
-        return redirect()->back()->with("success", "Студент успешно добавлен");
+        return redirect()
+            ->back()
+            ->with("success", "Студент успешно добавлен");
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ОБНОВЛЕНИЕ СТУДЕНТА
+    |--------------------------------------------------------------------------
+    */
 
     public function update(Request $request, $id)
     {
@@ -60,15 +96,44 @@ class StudentController extends Controller
                 ->with("warning", "Нет данных для обновления");
         }
 
-        $Student = Student::findOrFail($id);
-        $Student->update($data);
+        $student = Student::findOrFail($id);
 
-        return redirect()->back()->with("success", "Данные обновлены");
+        /*
+        |--------------------------------------------------------------------------
+        | Проверка дубля (с исключением текущего студента)
+        |--------------------------------------------------------------------------
+        */
+
+        $exists = Student::where("full_name", $data["full_name"] ?? $student->full_name)
+            ->where("university_id", $data["university_id"] ?? $student->university_id)
+            ->where("direction_id", $data["direction_id"] ?? $student->direction_id)
+            ->where("course", $data["course"] ?? $student->course)
+            ->where("email", $data["email"] ?? $student->email)
+            ->where("id", "!=", $student->id)
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    "duplicate" => "Такие данные уже есть в таблице.",
+                ]);
+        }
+
+        $student->update($data);
+
+        return redirect()
+            ->back()
+            ->with("success", "Данные обновлены");
     }
 
     public function destroy($id)
     {
         Student::destroy($id);
-        return redirect()->back()->with("success", "Студент удалён");
+
+        return redirect()
+            ->back()
+            ->with("success", "Студент удалён");
     }
 }
