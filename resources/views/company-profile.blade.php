@@ -15,7 +15,8 @@
     </title>
 
     @vite([
-        'resources/css/company-profile.css'
+        'resources/css/company-profile.css',
+        'resources/js/company-profile.js'
     ])
 </head>
 <body>
@@ -67,7 +68,11 @@
 
         </div>
 
-        <button class="add-vacancy-btn">
+        <button
+            class="add-vacancy-btn"
+            id="add-vacancy-btn"
+            data-url="{{ route('company-requests.index') }}"
+        >
 
             <svg viewBox="0 0 24 24" fill="none">
                 <path

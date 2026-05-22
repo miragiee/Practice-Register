@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CompanyRequestController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\DocumentController;
@@ -155,6 +156,39 @@ Route::middleware(["auth", "nocache"])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Company Requests
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company/requests", [
+        CompanyRequestController::class,
+        "index",
+    ])->name("company-requests.index");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Show Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company/requests/{id}", [
+        CompanyRequestController::class,
+        "show",
+    ])->name("company-requests.show");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::delete("/profile/company/requests/{id}", [
+        CompanyRequestController::class,
+        "destroy",
+    ])->name("company-requests.destroy");
+
+    /*
+    |--------------------------------------------------------------------------
     | University Profile
     |--------------------------------------------------------------------------
     */
@@ -208,5 +242,7 @@ Route::middleware([
         "documents" => DocumentController::class,
 
         "student-internships" => StudentInternshipController::class,
+
+        "company-requests" => CompanyRequestController::class,
     ]);
 });
