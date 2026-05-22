@@ -221,6 +221,12 @@ main {
     color: var(--text-secondary);
 }
 
+.top-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
 .search-counter {
     min-width: 180px;
 
@@ -259,6 +265,39 @@ main {
     font-weight: 800;
 
     color: var(--accent);
+}
+
+.create-request-button {
+    height: 46px;
+
+    background: var(--accent);
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    box-shadow: 0 8px 18px rgba(49, 88, 245, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.create-request-button:hover {
+    background: var(--accent-hover);
+
+    transform: translateY(-2px);
 }
 
 /* GRID */
@@ -401,6 +440,73 @@ main {
     color: #4a4a58;
 }
 
+/* FORM */
+
+.input,
+.textarea {
+    width: 100%;
+
+    border: 1px solid var(--border);
+
+    background: rgba(255, 255, 255, 0.92);
+
+    border-radius: 14px;
+
+    padding: 14px 16px;
+
+    font-size: 14px;
+
+    color: #18181b !important;
+
+    outline: none;
+
+    transition: border-color 0.2s ease;
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--accent);
+}
+
+.textarea {
+    resize: vertical;
+}
+
+/* SELECT FIX */
+
+select.input {
+    width: 100%;
+
+    height: 52px;
+
+    padding: 0 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    color: #18181b !important;
+
+    font-size: 14px;
+
+    outline: none;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    cursor: pointer;
+
+    color-scheme: light;
+}
+
+select.input option {
+    background: #ffffff !important;
+    color: #18181b !important;
+}
+
 /* ACTIONS */
 
 .card-actions {
@@ -497,26 +603,6 @@ footer {
     display: flex;
     justify-content: space-between;
     gap: 40px;
-}
-
-.footer-brand {
-    max-width: 340px;
-}
-
-.footer-brand h2 {
-    font-family: "JetBrains Mono", monospace;
-
-    margin-bottom: 12px;
-
-    font-size: 26px;
-}
-
-.footer-brand p {
-    color: #9a9aaa;
-
-    line-height: 1.8;
-
-    font-size: 13px;
 }
 
 .footer-columns {

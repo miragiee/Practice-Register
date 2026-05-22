@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CompanyRequest;
+use App\Models\Direction;
+use App\Models\Internship;
 
 use Illuminate\Http\Request;
 
@@ -30,6 +32,63 @@ class CompanyRequestController extends Controller
             ->paginate(10);
 
         return view("company-request", compact("requests"));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE FORM
+    |--------------------------------------------------------------------------
+    */
+
+    public function create()
+    {
+        $company = Auth::user()->company;
+
+        if (!$company) {
+            abort(403, "Компания не найдена");
+        }
+
+        $directions = Direction::all();
+        $internships = Internship::all();
+
+        return view(
+            "company-request-create",
+            compact("directions", "internships"),
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | STORE REQUEST
+    |--------------------------------------------------------------------------
+    */
+
+    public function store(Request $request)
+    {
+        $company = Auth::user()->company;
+
+        if (!$company) {
+            abort(403, "Компания не найдена");
+        }
+
+        $validated = $request->validate([
+            "direction_id" => "required|exists:directions,id",
+            "internship_id" => "required|exists:internships,id",
+            "required_count" => "required|integer|min:1",
+            "requirements_text" => "required|string|max:3000",
+        ]);
+
+        CompanyRequest::create([
+            "company_id" => $company->id,
+            "direction_id" => $validated["direction_id"],
+            "internship_id" => $validated["internship_id"],
+            "required_count" => $validated["required_count"],
+            "requirements_text" => $validated["requirements_text"],
+        ]);
+
+        return redirect()
+            ->route("company-requests.index")
+            ->with("success", "Заявка успешно создана");
     }
 
     /*

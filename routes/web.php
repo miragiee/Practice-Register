@@ -167,6 +167,28 @@ Route::middleware(["auth", "nocache"])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Create Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company/requests/create", [
+        CompanyRequestController::class,
+        "create",
+    ])->name("company-requests.create");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post("/profile/company/requests", [
+        CompanyRequestController::class,
+        "store",
+    ])->name("company-requests.store");
+
+    /*
+    |--------------------------------------------------------------------------
     | Show Company Request
     |--------------------------------------------------------------------------
     */
@@ -186,6 +208,28 @@ Route::middleware(["auth", "nocache"])->group(function () {
         CompanyRequestController::class,
         "destroy",
     ])->name("company-requests.destroy");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company/requests/create", [
+        CompanyRequestController::class,
+        "create",
+    ])->name("company-requests.create");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post("/profile/company/requests", [
+        CompanyRequestController::class,
+        "store",
+    ])->name("company-requests.store");
 
     /*
     |--------------------------------------------------------------------------

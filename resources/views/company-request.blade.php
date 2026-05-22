@@ -60,15 +60,26 @@
 
             </div>
 
-            <div class="search-counter">
+            <div class="top-actions">
 
-                <div class="counter-label">
-                    Всего заявок
+                <div class="search-counter">
+
+                    <div class="counter-label">
+                        Всего заявок
+                    </div>
+
+                    <div class="counter-value">
+                        {{ $requests->total() }}
+                    </div>
+
                 </div>
 
-                <div class="counter-value">
-                    {{ $requests->total() }}
-                </div>
+                <a
+                    href="{{ route('company-requests.create') }}"
+                    class="create-request-button"
+                >
+                    + Создать заявку
+                </a>
 
             </div>
 
