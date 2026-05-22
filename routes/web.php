@@ -153,6 +153,11 @@ Route::middleware(["auth", "nocache"])->group(function () {
         "companyProfile",
     ])->name("company-profile");
 
+    Route::get("/profile/university", [
+        AuthController::class,
+        "universityProfile",
+    ])->name("university-profile");
+
     /*
     |--------------------------------------------------------------------------
     | University Profile
@@ -208,5 +213,7 @@ Route::middleware([
         "documents" => DocumentController::class,
 
         "student-internships" => StudentInternshipController::class,
+
+        "profile-university" => UniversityController::class,
     ]);
 });
