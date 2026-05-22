@@ -9,16 +9,41 @@ class CompanyRequest extends Model
 {
     use HasFactory;
 
+    protected $table = "company_requests";
+
     protected $fillable = [
-        'company_id',
-        'direction_id',
-        'internship_id',
-        'required_count',
-        'requirements_text',
+        "company_id",
+        "direction_id",
+        "internship_id",
+        "required_count",
+        "requirements_text",
     ];
+
+    protected $casts = [
+        "company_id" => "integer",
+        "direction_id" => "integer",
+        "internship_id" => "integer",
+        "required_count" => "integer",
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relations
+    |--------------------------------------------------------------------------
+    */
 
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function direction()
+    {
+        return $this->belongsTo(Direction::class);
+    }
+
+    public function internship()
+    {
+        return $this->belongsTo(Internship::class);
     }
 }

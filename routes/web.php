@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CompanyRequestController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DirectionController;
 use App\Http\Controllers\DocumentController;
@@ -160,6 +161,83 @@ Route::middleware(["auth", "nocache"])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Company Requests
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company/requests", [
+        CompanyRequestController::class,
+        "index",
+    ])->name("company-requests.index");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company/requests/create", [
+        CompanyRequestController::class,
+        "create",
+    ])->name("company-requests.create");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post("/profile/company/requests", [
+        CompanyRequestController::class,
+        "store",
+    ])->name("company-requests.store");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Show Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company/requests/{id}", [
+        CompanyRequestController::class,
+        "show",
+    ])->name("company-requests.show");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::delete("/profile/company/requests/{id}", [
+        CompanyRequestController::class,
+        "destroy",
+    ])->name("company-requests.destroy");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get("/profile/company/requests/create", [
+        CompanyRequestController::class,
+        "create",
+    ])->name("company-requests.create");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store Company Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post("/profile/company/requests", [
+        CompanyRequestController::class,
+        "store",
+    ])->name("company-requests.store");
+
+    /*
+    |--------------------------------------------------------------------------
     | University Profile
     |--------------------------------------------------------------------------
     */
@@ -214,6 +292,6 @@ Route::middleware([
 
         "student-internships" => StudentInternshipController::class,
 
-        "profile-university" => UniversityController::class,
+        "company-requests" => CompanyRequestController::class,
     ]);
 });
