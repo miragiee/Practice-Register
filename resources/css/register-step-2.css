@@ -7,6 +7,20 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+:root {
+    --dark-background-color: #0f0f14;
+
+    --border-color: #1d1d1f;
+    --border-color-2: #f0f0f3;
+    --shadow-color: #000000;
+
+    --non-active-white-text-color: #e8e6df;
+    --grey-color: #e8e6df99;
+    --accent-color: #2a4dd7;
+    --accent-color-circle: #2a4dd780;
+    --accent-hovered: #b9c3ff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -27,7 +41,7 @@ body {
 /* HEADER */
 
 .header {
-    background: #36363d;
+    background: var(--dark-background-color);
     height: 70px;
     display: flex;
     align-items: center;
@@ -41,7 +55,7 @@ body {
 
 .logo {
     font-family: "JetBrains Mono", monospace;
-    color: #3150f0;
+    color: var(--accent-color);
     font-size: 22px;
     font-weight: 700;
 }

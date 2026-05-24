@@ -12,9 +12,62 @@
 </head>
 <body>
 
+<header class="header">
+    <div class="container header-inner">
+        <div class="logo">
+            Практикум
+        </div>
+
+        <nav class="nav">
+            <a href="#">Студентам</a>
+            <a href="#">Университетам</a>
+            <a href="#" class="active">Компаниям</a>
+            <a href="#">Тарифы</a>
+        </nav>
+    </div>
+</header>
+
 <main class="main">
 
     <section class="register-card">
+
+        <div class="steps">
+
+            <div class="step completed">
+                <div class="step-circle">
+                    ✓
+                </div>
+
+                <div class="step-label">
+                    Роль
+                </div>
+            </div>
+
+            <div class="step-line active"></div>
+
+            <div class="step current">
+                <div class="step-circle">
+                    2
+                </div>
+
+                <div class="step-label">
+                    Данные
+                </div>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step">
+                <div class="step-circle">
+                    3
+                </div>
+
+                <div class="step-label">
+                    Готово
+                </div>
+            </div>
+
+        </div>
 
         <h1 class="title">
             Регистрация университета
