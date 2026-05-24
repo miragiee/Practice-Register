@@ -6,28 +6,15 @@
     @vite(['resources/js/main.js', 'resources/css/main.css'])
 </head>
 <body>
-    <!--Это ссылки на тестовые страницы.
-     <h2>Сделано</h2>
-    <a href="{{ route('companies.index') }}">Перейти к демонстрации CRUD операций с компаниями</a> <br>
-    <a href="{{ route('universities.index') }}">Перейти к демонстрации CRUD операций с университетами</a> <br>
-    <a href="{{ route('students.index')}}">Перейти к демонстрации CRUD операций со студентами</a> <br>
-    <a href="{{ route('directions.index')}}">Перейти к демонстрации CRUD операций с направлениями</a> <br>
-    <a href="{{ route('internships.index')}}"">Перейти к демонстрации CRUD операций с практиками</a> <br>
-    <a href="{{ route('reservations.index')}}">Перейти к демонстрации CRUD операций с бронированием студентов</a> <br>
-    <a href="{{ route('contracts.index')}}">Перейти к демонстрации CRUD операций с контрактами</a> <br>
-    <a href="{{ route('documents.index')}}">Перейти к демонстрации CRUD операций с документами</a> <br>
-    <a href="{{ route('student-internships.index')}}">Перейти к демонстрации CRUD операций с распределением студентов на практики</a> <br>     -->
-
-
     <header>
         <div class="container">
             <nav class="header-nav">
                 <div class="header-left-side">
                     <a href="{{ route('main.page') }}" class="logo">Практикум</a>
                     <ul class="link-list">
-                        <li><a href="#for-students">Студентам</a></li>
-                        <li><a href="#for-universities">Университетам</a></li>
-                        <li><a href="#for-companies">Компаниям</a></li>
+                        <li><a href="#" id="for-students">Студентам</a></li>
+                        <li><a href="#" id="for-universities">Университетам</a></li>
+                        <li><a href="#" id="for-companies">Компаниям</a></li>
                     </ul>
                 </div>
                 <ul class="button-list">
@@ -90,7 +77,8 @@
                     <div class="line"></div>
                 </div>
             </div>
-          <div class="how-it-works">
+
+    <div class="how-it-works">
     <h2>Как это работает</h2>
 
     <div class="hiw-buttons">

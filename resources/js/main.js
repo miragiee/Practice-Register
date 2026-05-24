@@ -1,27 +1,26 @@
-const registerButton = document.getElementById("register-button");
 const loginButton = document.getElementById("login-button");
-const studLoginButton = document.getElementById("student-login-button");
-const compLoginButton = document.getElementById("company-register-button");
+const registerButton = document.getElementById("register-button");
 
-registerButton.onclick = function () {
-    const url = this.getAttribute("data-url");
-    window.location.href = url;
-};
+const studentLoginButton = document.getElementById("student-login-button");
+const companyRegisterButton = document.getElementById(
+    "company-register-button",
+);
 
-loginButton.onclick = function () {
-    const url = this.getAttribute("data-url");
-    window.location.href = url;
-};
+loginButton.addEventListener("click", () => {
+    window.location.href = loginButton.dataset.url;
+});
 
-studLoginButton.onclick = function () {
-    const url = this.getAttribute("data-url");
-    window.location.href = url;
-};
+registerButton.addEventListener("click", () => {
+    window.location.href = registerButton.dataset.url;
+});
 
-compLoginButton.onclick = function () {
-    const url = this.getAttribute("data-url");
-    window.location.href = url;
-};
+studentLoginButton.addEventListener("click", () => {
+    window.location.href = studentLoginButton.dataset.url;
+});
+
+companyRegisterButton.addEventListener("click", () => {
+    window.location.href = companyRegisterButton.dataset.url;
+});
 
 const hiwTabs = document.querySelectorAll(".hiw-tab");
 
@@ -29,61 +28,98 @@ const hiwContent = {
     student: [
         {
             title: "Найди место",
-            text: "Выбирай из сотен предложений от ведущих компаний страны по твоему профилю."
+            text: "Выбирай из сотен предложений от ведущих компаний страны по твоему профилю.",
         },
         {
             title: "Подай заявку",
-            text: "Загрузи резюме, пройди отбор и получи подтверждение прямо в приложении."
+            text: "Загрузи резюме, пройди отбор и получи подтверждение прямо в приложении.",
         },
         {
             title: "Начни практику",
-            text: "Получай задачи, общайся с ментором и закрывай практику официально через вуз."
-        }
+            text: "Получай задачи, общайся с ментором и закрывай практику официально через вуз.",
+        },
     ],
 
     university: [
         {
             title: "Добавь студентов",
-            text: "Загружай списки студентов и распределяй их по направлениям практики."
+            text: "Загружай списки студентов и управляй распределением практик централизованно.",
         },
         {
             title: "Контролируй процесс",
-            text: "Следи за заявками, согласовывай документы и отслеживай прогресс."
+            text: "Следи за прохождением практики и подписывай документы онлайн.",
         },
         {
-            title: "Закрывай практику",
-            text: "Подписывай отчёты и автоматически формируй итоговую документацию."
-        }
+            title: "Получай отчеты",
+            text: "Автоматически формируй отчеты и статистику по практикам.",
+        },
     ],
 
     company: [
         {
-            title: "Создай вакансию",
-            text: "Размещай предложения практики и находи подходящих кандидатов."
+            title: "Размести вакансию",
+            text: "Публикуй предложения практик и стажировок для студентов.",
         },
         {
-            title: "Отбирай студентов",
-            text: "Просматривай резюме, приглашай на интервью и утверждай стажёров."
+            title: "Найди кандидатов",
+            text: "Получай отклики и отбирай лучших студентов по навыкам и успеваемости.",
         },
         {
-            title: "Работай с практикантами",
-            text: "Назначай менторов, выдавай задачи и оценивай результаты работы."
-        }
-    ]
+            title: "Найми лучших",
+            text: "Формируй кадровый резерв и нанимай перспективных специалистов.",
+        },
+    ],
 };
 
-hiwTabs.forEach(tab => {
-    tab.addEventListener("click", () => {
+function updateCards(role) {
+    const content = hiwContent[role];
 
-        hiwTabs.forEach(btn => btn.classList.remove("active"));
+    content.forEach((item, index) => {
+        document.getElementById(`card-title-${index + 1}`).textContent =
+            item.title;
+
+        document.getElementById(`card-text-${index + 1}`).textContent =
+            item.text;
+    });
+}
+
+hiwTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+        hiwTabs.forEach((btn) => btn.classList.remove("active"));
+
         tab.classList.add("active");
 
         const role = tab.dataset.role;
-        const content = hiwContent[role];
 
-        content.forEach((item, index) => {
-            document.getElementById(`card-title-${index + 1}`).textContent = item.title;
-            document.getElementById(`card-text-${index + 1}`).textContent = item.text;
+        updateCards(role);
+    });
+});
+
+const howItWorksSection = document.querySelector(".how-it-works");
+
+const navLinks = {
+    "for-students": "student",
+    "for-companies": "company",
+    "for-universities": "university",
+};
+
+Object.entries(navLinks).forEach(([linkId, role]) => {
+    const navLink = document.getElementById(linkId);
+
+    navLink.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // скролл к блоку
+        howItWorksSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
         });
+
+        // активация нужного tab
+        const targetTab = document.querySelector(
+            `.hiw-tab[data-role="${role}"]`,
+        );
+
+        targetTab.click();
     });
 });
