@@ -14,6 +14,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentInternshipController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\CatalogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,10 @@ Route::middleware("nocache")->group(function () {
         Route::post("/company", [CompanyController::class, "register"])->name(
             "company.register",
         );
+
+
+
+
 
         /*
         |--------------------------------------------------------------------------
@@ -116,6 +121,8 @@ Route::prefix("auth")->group(function () {
         "universityLogin",
     ])->name("auth.university");
 });
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -253,9 +260,20 @@ Route::middleware(["auth", "nocache"])->group(function () {
     ])->name("university-profile");
 });
 
+
+Route::get(
+    '/catalog-of-universities',
+    [CatalogController::class, 'index']
+)->name('catalog-of-universities');
 /*
 |--------------------------------------------------------------------------
 | ADMIN PANEL
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Catalog Of Universities
 |--------------------------------------------------------------------------
 */
 
@@ -298,5 +316,7 @@ Route::middleware([
         "student-internships" => StudentInternshipController::class,
 
         "company-requests" => CompanyRequestController::class,
+
+
     ]);
 });
