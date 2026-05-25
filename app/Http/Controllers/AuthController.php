@@ -171,7 +171,17 @@ class AuthController extends Controller
         $universities = University::all();
         $directions = Direction::all();
 
-        return view("student-profile", compact("student", "user", "universities", "directions"));
+        $studentInternships = $student->studentInternships()
+            ->with('documents')
+            ->get();
+
+        return view("student-profile", compact(
+            "student",
+            "user",
+            "universities",
+            "directions",
+            "studentInternships"
+        ));
     }
 
     /*

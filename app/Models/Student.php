@@ -17,6 +17,12 @@ class Student extends Model
         "email",
     ];
 
+    public function studentInternships()
+    {
+        return $this->hasMany(StudentInternship::class);
+    }
+
+
     public function university()
     {
         return $this->belongsTo(University::class);

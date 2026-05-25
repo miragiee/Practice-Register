@@ -723,6 +723,49 @@ body {
 
 /* DOCUMENTS */
 
+.documents-subsection {
+    margin-bottom: 16px;
+}
+
+.documents-subtitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark-background-color);
+
+    margin: 4px 0 10px;
+}
+
+.documents-empty {
+    font-size: 13px;
+    color: #999;
+}
+
+.documents-empty-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.doc-upload-btn {
+    border: none;
+    border-radius: 12px;
+    background: var(--accent-color);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 14px;
+    cursor: pointer;
+
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.doc-upload-btn:hover {
+    transform: translateY(-2px);
+    background: var(--accent-hovered);
+}
+
+
 .documents-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

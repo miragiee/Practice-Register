@@ -159,44 +159,24 @@
                 </div>
             </div>
 
-            <div class="content-card fade-in">
-                <h2 class="section-title">Документы</h2>
-                <div class="documents-grid">
-                    <div class="doc-item">
-                        <div class="doc-icon doc-icon-pdf">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM8.5 13.5v1.5H11v-1.5H8.5zm0 3v1.5H11v-1.5H8.5zM12 12h4v1h-4v-1zm0 3h4v1h-4v-1z"/>
-                            </svg>
-                        </div>
-                        <div class="doc-details">
-                            <div class="doc-name">Резюме_Иванов_DS.pdf</div>
-                            <div class="doc-meta">PDF • 1.2 MB</div>
-                        </div>
-                        <div class="doc-download">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                        </div>
-                    </div>
+            @php
+                $documents = collect();
 
-                    <div class="doc-item">
-                        <div class="doc-icon doc-icon-zip">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                            </svg>
-                        </div>
-                        <div class="doc-details">
-                            <div class="doc-name">Портфолио_Проекты.zip</div>
-                            <div class="doc-meta">ZIP • 45 MB</div>
-                        </div>
-                        <div class="doc-download">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                if (!empty($studentInternships)) {
+                    foreach ($studentInternships as $si) {
+                        $documents = $documents->merge($si->documents ?? collect());
+                    }
+                }
+
+                $cvDocs = $documents->where('type', 'final_report')
+                    ->merge($documents->where('type', 'cv'))
+                    ->values();
+
+                $portfolioDocs = $documents->where('type', 'application')
+                    ->merge($documents->where('type', 'portfolio'))
+                    ->values();
+            @endphp
+
         </main>
     </div>
 
