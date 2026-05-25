@@ -50,19 +50,18 @@
             </div>
 
             <div class="menu-list fade-in">
-                <div class="menu-item active">
+                <div class="menu-item active" data-tab="profile">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                     </svg>
                     Профиль
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" data-tab="responses">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
                     </svg>
                     Мои отклики
                 </div>
-
             </div>
 
             <button class="edit-btn fade-in">Редактировать</button>
@@ -104,83 +103,63 @@
             </div>
         </aside>
 
-        <main class="content">
-
-            <div class="content-card fade-in">
-                <h2 class="section-title">О себе</h2>
-                <p class="about-text">
-                    Студент 3-го курса ВМК МГУ, специализируюсь на анализе данных и машинном обучении. Активно участвую в хакатонах и исследовательских проектах кафедры. Ищу возможности для стажировок в финтех-компаниях, где смогу применить свои знания Python и SQL для решения реальных бизнес-задач. Свободно владею английским языком и увлекаюсь спортивным программированием.
-                </p>
-            </div>
-
-            <div class="content-card fade-in">
-                <h2 class="section-title">Навыки</h2>
-                <div class="skills-list">
-                    <span class="skill-tag skill-blue">Python</span>
-                    <span class="skill-tag skill-blue">Data Analysis</span>
-                    <span class="skill-tag skill-blue">Machine Learning</span>
-                    <span class="skill-tag skill-blue">SQL</span>
-                    <span class="skill-tag skill-blue">PyTorch</span>
-                    <span class="skill-tag skill-green">Git</span>
-                    <span class="skill-tag skill-orange">Tableau</span>
-                    <span class="skill-tag skill-orange">English C1</span>
-                </div>
-            </div>
-
-            <div class="content-card fade-in">
-                <h2 class="section-title">Опыт</h2>
-
-                <div class="experience-item">
-                    <div class="timeline-dot"></div>
-                    <div class="experience-info">
-                        <div class="experience-header">
-                            <span class="experience-role">Стажёр Data Scientist</span>
-                            <span class="experience-date">ИЮЛЬ 202 — АВГУСТ 2024</span>
-                        </div>
-                        <div class="experience-company">Яндекс.Поиск</div>
-                        <p class="experience-desc">
-                            Участвовал в разработке алгоритмов ранжирования поисковой выдачи. Оптимизировал скрипты предобработки данных, что позволило сократить время обучения моделей на 15%. Работал в команде из 12 человек в рамках летней стажировки.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="timeline-dot secondary"></div>
-                    <div class="experience-info">
-                        <div class="experience-header">
-                            <span class="experience-role">Лаборант-исследователь</span>
-                            <span class="experience-date">ЯНВАРЬ 2026 — МАЙ 2026</span>
-                        </div>
-                        <div class="experience-company">НИИ Системных Исследований РАН</div>
-                        <p class="experience-desc">
-                            Ассистировал в проведении численных экспериментов для моделирования газодинамических процессов. Занимался визуализацией результатов исследований с использованием Matplotlib и Plotly.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            @php
-                $documents = collect();
-
-                if (!empty($studentInternships)) {
-                    foreach ($studentInternships as $si) {
-                        $documents = $documents->merge($si->documents ?? collect());
-                    }
-                }
-
-                $cvDocs = $documents->where('type', 'final_report')
-                    ->merge($documents->where('type', 'cv'))
-                    ->values();
-
-                $portfolioDocs = $documents->where('type', 'application')
-                    ->merge($documents->where('type', 'portfolio'))
-                    ->values();
-            @endphp
-
+        <main class="content" id="dynamic-content">
         </main>
     </div>
 
-    <!-- Edit Profile Modal -->
+    <template id="profile-content-template">
+        <div class="content-card fade-in">
+            <h2 class="section-title">О себе</h2>
+            <p class="about-text">
+                Студент 3-го курса ВМК МГУ, специализируюсь на анализе данных и машинном обучении. Активно участвую в хакатонах и исследовательских проектах кафедры. Ищу возможности для стажировок в финтех-компаниях, где смогу применить свои знания Python и SQL для решения реальных бизнес-задач. Свободно владею английским языком и увлекаюсь спортивным программированием.
+            </p>
+        </div>
+
+        <div class="content-card fade-in">
+            <h2 class="section-title">Навыки</h2>
+            <div class="skills-list">
+                <span class="skill-tag skill-blue">Python</span>
+                <span class="skill-tag skill-blue">Data Analysis</span>
+                <span class="skill-tag skill-blue">Machine Learning</span>
+                <span class="skill-tag skill-blue">SQL</span>
+                <span class="skill-tag skill-blue">PyTorch</span>
+                <span class="skill-tag skill-green">Git</span>
+                <span class="skill-tag skill-orange">Tableau</span>
+                <span class="skill-tag skill-orange">English C1</span>
+            </div>
+        </div>
+
+        <div class="content-card fade-in">
+            <h2 class="section-title">Опыт</h2>
+            <div class="experience-item">
+                <div class="timeline-dot"></div>
+                <div class="experience-info">
+                    <div class="experience-header">
+                        <span class="experience-role">Стажёр Data Scientist</span>
+                        <span class="experience-date">ИЮЛЬ 202 — АВГУСТ 2024</span>
+                    </div>
+                    <div class="experience-company">Яндекс.Поиск</div>
+                    <p class="experience-desc">
+                        Участвовал в разработке алгоритмов ранжирования поисковой выдачи. Оптимизировал скрипты предобработки данных, что позволило сократить время обучения моделей на 15%. Работал в команде из 12 человек в рамках летней стажировки.
+                    </p>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="timeline-dot secondary"></div>
+                <div class="experience-info">
+                    <div class="experience-header">
+                        <span class="experience-role">Лаборант-исследователь</span>
+                        <span class="experience-date">ЯНВАРЬ 2026 — МАЙ 2026</span>
+                    </div>
+                    <div class="experience-company">НИИ Системных Исследований РАН</div>
+                    <p class="experience-desc">
+                        Ассистировал в проведении численных экспериментов для моделирования газодинамических процессов. Занимался визуализацией результатов исследований с использованием Matplotlib и Plotly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
     <div id="edit-profile-modal" class="edit-profile-modal">
         <div class="edit-profile-overlay"></div>
         <div class="edit-profile-container">
@@ -191,21 +170,18 @@
             <form id="edit-profile-form" class="edit-profile-form">
                 <div class="form-group">
                     <label for="full_name">Полное имя</label>
-                    <input type="text" id="full_name" name="full_name" placeholder="Введите полное имя" value="{{ $student->full_name }}" required>
+                    <input type="text" id="full_name" name="full_name" value="{{ $student->full_name }}" required>
                 </div>
-
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Введите email" value="{{ $student->email }}" required>
+                    <input type="email" id="email" name="email" value="{{ $student->email }}" required>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label for="course">Курс</label>
-                        <input type="number" id="course" name="course" placeholder="Номер курса" value="{{ $student->course }}" min="1" max="6" required>
+                        <input type="number" id="course" name="course" value="{{ $student->course }}" min="1" max="6" required>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="university_id">Университет</label>
                     <select id="university_id" name="university_id" required>
@@ -219,7 +195,6 @@
                         @endif
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="direction_id">Направление</label>
                     <select id="direction_id" name="direction_id" required>
@@ -233,7 +208,6 @@
                         @endif
                     </select>
                 </div>
-
                 <div class="form-actions">
                     <button type="button" class="btn-cancel">Отмена</button>
                     <button type="submit" class="btn-save">Сохранить изменения</button>

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\Reservation;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -25,12 +27,6 @@ class StudentController extends Controller
         return view("students", compact("students"));
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | СОЗДАНИЕ СТУДЕНТА
-    |--------------------------------------------------------------------------
-    */
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -40,12 +36,6 @@ class StudentController extends Controller
             "course" => "required|integer",
             "email" => "required|string|max:255",
         ]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Проверка дубля
-        |--------------------------------------------------------------------------
-        */
 
         $exists = Student::where("full_name", $validated["full_name"])
             ->where("university_id", $validated["university_id"])
@@ -69,12 +59,6 @@ class StudentController extends Controller
             ->back()
             ->with("success", "Студент успешно добавлен");
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | ОБНОВЛЕНИЕ СТУДЕНТА
-    |--------------------------------------------------------------------------
-    */
 
     public function update(Request $request, $id)
     {
@@ -100,12 +84,6 @@ class StudentController extends Controller
         }
 
         $student = Student::findOrFail($id);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Проверка дубля (с исключением текущего студента)
-        |--------------------------------------------------------------------------
-        */
 
         $exists = Student::where("full_name", $data["full_name"] ?? $student->full_name)
             ->where("university_id", $data["university_id"] ?? $student->university_id)
@@ -141,9 +119,41 @@ class StudentController extends Controller
     public function destroy($id)
     {
         Student::destroy($id);
-
         return redirect()
             ->back()
             ->with("success", "Студент удалён");
+    }
+
+        public function reservations()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return view('partials.reservations-list', ['reservations' => collect()]);
+        }
+
+        $student = Student::where('email', $user->email)->first();
+        if (!$student) {
+            return view('partials.reservations-list', ['reservations' => collect()]);
+        }
+
+        $reservations = $student->reservations()
+            ->with(['internship', 'company'])
+            ->latest()
+            ->get();
+
+        return view('partials.reservations-list', compact('reservations'));
+    }
+
+    public function cancelReservation(Reservation $reservation)
+    {
+        $user = Auth::user();
+        $student = Student::where('email', $user->email)->first();
+
+        if (!$student || $reservation->student_id !== $student->id) {
+            return response()->json(['error' => 'Доступ запрещён'], 403);
+        }
+
+        $reservation->delete();
+        return response()->json(['success' => true]);
     }
 }
