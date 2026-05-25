@@ -12,6 +12,12 @@ use App\Models\Direction;
 
 class AuthController extends Controller
 {
+    // ID ролей (лучше вынести в конфиг или модель)
+    const ROLE_ADMIN      = 1;
+    const ROLE_UNIVERSITY = 2;
+    const ROLE_STUDENT    = 3;
+    const ROLE_COMPANY    = 4;
+
     /*
     |--------------------------------------------------------------------------
     | LOGIN PAGE
@@ -31,12 +37,7 @@ class AuthController extends Controller
 
     public function studentLogin(Request $request)
     {
-        return $this->loginByRole(
-            $request,
-            3,
-            "student-profile",
-            "Это не аккаунт студента",
-        );
+        return $this->loginByRole($request, self::ROLE_STUDENT);
     }
 
     /*
@@ -47,12 +48,7 @@ class AuthController extends Controller
 
     public function companyLogin(Request $request)
     {
-        return $this->loginByRole(
-            $request,
-            4,
-            "company-profile",
-            "Это не аккаунт компании",
-        );
+        return $this->loginByRole($request, self::ROLE_COMPANY);
     }
 
     /*
@@ -63,12 +59,7 @@ class AuthController extends Controller
 
     public function universityLogin(Request $request)
     {
-        return $this->loginByRole(
-            $request,
-            2,
-            "university-profile",
-            "Это не аккаунт университета",
-        );
+        return $this->loginByRole($request, self::ROLE_UNIVERSITY);
     }
 
     /*
@@ -77,12 +68,8 @@ class AuthController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    private function loginByRole(
-        Request $request,
-        int $roleId,
-        string $route,
-        string $roleError,
-    ) {
+    private function loginByRole(Request $request, int $expectedRoleId)
+    {
         /*
         |--------------------------------------------------------------------------
         | VALIDATION
@@ -90,8 +77,7 @@ class AuthController extends Controller
         */
 
         $request->validate([
-            "email" => ["required", "email"],
-
+            "email"    => ["required", "email"],
             "password" => ["required", "string", "min:6"],
         ]);
 
@@ -129,25 +115,46 @@ class AuthController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | ROLE CHECK
+        | ADMIN CAN LOGIN VIA ANY TAB
         |--------------------------------------------------------------------------
         */
 
-        if ($user->role_id != $roleId) {
-            Auth::logout();
+        if ($user->role_id === self::ROLE_ADMIN) {
+            return redirect()->route('admin');
+        }
 
+        /*
+        |--------------------------------------------------------------------------
+        | ROLE CHECK (for non‑admin users)
+        |--------------------------------------------------------------------------
+        */
+
+        if ($user->role_id !== $expectedRoleId) {
+            Auth::logout();
             return back()->withErrors([
-                "email" => $roleError,
+                "email" => "Это не аккаунт выбранной роли.",
             ]);
         }
 
         /*
         |--------------------------------------------------------------------------
-        | REDIRECT
+        | REDIRECT ACCORDING TO ROLE
         |--------------------------------------------------------------------------
         */
 
-        return redirect()->route($route);
+        switch ($user->role_id) {
+            case self::ROLE_STUDENT:
+                return redirect()->route('student-profile');
+            case self::ROLE_COMPANY:
+                return redirect()->route('company-profile');
+            case self::ROLE_UNIVERSITY:
+                return redirect()->route('university-profile');
+            default:
+                Auth::logout();
+                return redirect()->route('auth')->withErrors([
+                    'email' => 'Неизвестная роль пользователя.'
+                ]);
+        }
     }
 
     /*
@@ -202,6 +209,7 @@ class AuthController extends Controller
 
         return view("company-profile", compact("company", "user"));
     }
+
     /*
     |--------------------------------------------------------------------------
     | UNIVERSITY PROFILE

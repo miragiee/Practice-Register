@@ -71,6 +71,13 @@
                 <span class="badge">contracts</span>
             </a>
 
+            <a href="{{ route('contract-requests.index') }}" class="card">
+                <div class="card-icon">📄</div>
+                <div class="card-title">Заявки на договор</div>
+                <div class="card-desc">Управление заявками между компаниями и университетами</div>
+                <div class="badge">CRUD</div>
+            </a>
+
             {{-- Резервации (Reservations) --}}
             <a href="{{ route('reservations.index') }}" class="card">
                 <div class="card-icon">📅</div>

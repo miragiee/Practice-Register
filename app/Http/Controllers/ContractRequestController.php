@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ContractRequest;
 use Illuminate\Http\Request;
+use App\Models\Company;
+use App\Models\University;
 
 class ContractRequestController extends Controller
 {
@@ -11,7 +13,7 @@ class ContractRequestController extends Controller
     {
         $contractRequests = ContractRequest::with(['company', 'university'])->get();
 
-        return view('contract_requests', compact('contractRequests'));
+        return view('contract_request', compact('contractRequests'));
     }
 
     public function index(Request $request)
@@ -21,8 +23,11 @@ class ContractRequestController extends Controller
         if ($request->wantsJson()) {
             return response()->json($contractRequests);
         }
+    
+        $companies = Company::all();
+        $universities = University::all();
 
-        return view('contract_requests', compact('contractRequests'));
+        return view('contract_request', compact('contractRequests', 'companies', 'universities'));
     }
 
     /*

@@ -91,6 +91,16 @@ const templates = {
             <td>${si.status}</td>
         </tr>
     `,
+
+    contract_requests: (cr) => `
+    <tr>
+            <td>${cr.id}</td>
+            <td>${cr.company?.name ?? `Компания ${cr.company_id}`}</td>
+            <td>${cr.university?.name ?? `Университет ${cr.university_id}`}</td>
+            <td>${cr.company_accept ? '✅ Да' : '❌ Нет'}</td>
+            <td>${cr.university_accept ? '✅ Да' : '❌ Нет'}</td>
+        </tr>
+    `,
 };
 
 const tableHeaders = {
@@ -128,6 +138,14 @@ const tableHeaders = {
         "company_id",
         "internship_id",
         "status",
+    ],
+
+    contract_requests: [
+        "id",
+        "company_id",
+        "university_id",
+        "company_accept",
+        "university_accept"
     ],
 };
 
@@ -542,5 +560,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "delete-form",
             "/student-internships",
         );
+    }
+
+    if (document.getElementById("contract-requests-list")) {
+        fetchAndRender("/contract-requests", "contract-requests-list", "contract_requests");
+        initFormAction("update-contract-select", "update-form", "/contract-requests");
+        initFormAction("delete-contract-select", "delete-form", "/contract-requests");
     }
 });
