@@ -91,6 +91,9 @@ class StudentController extends Controller
         });
 
         if (empty($data)) {
+            if ($request->wantsJson()) {
+                return response()->json(["message" => "Нет данных для обновления"], 400);
+            }
             return redirect()
                 ->back()
                 ->with("warning", "Нет данных для обновления");
@@ -113,6 +116,9 @@ class StudentController extends Controller
             ->exists();
 
         if ($exists) {
+            if ($request->wantsJson()) {
+                return response()->json(["message" => "Такие данные уже есть в таблице"], 400);
+            }
             return redirect()
                 ->back()
                 ->withInput()
@@ -122,6 +128,10 @@ class StudentController extends Controller
         }
 
         $student->update($data);
+
+        if ($request->wantsJson()) {
+            return response()->json(["message" => "Данные обновлены", "student" => $student]);
+        }
 
         return redirect()
             ->back()

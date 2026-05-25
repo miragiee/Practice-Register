@@ -143,6 +143,11 @@ Route::middleware(["auth", "nocache"])->group(function () {
         "studentProfile",
     ])->name("student-profile");
 
+    Route::put("/student/{id}", [
+        StudentController::class,
+        "update",
+    ])->name("student.update");
+
     /*
     |--------------------------------------------------------------------------
     | Company Profile

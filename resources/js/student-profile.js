@@ -5,11 +5,63 @@ document.querySelectorAll(".header-nav a, .footer-col a").forEach((link) => {
 });
 
 const editBtn = document.querySelector(".edit-btn");
+const editModal = document.getElementById("edit-profile-modal");
+const closeEditBtn = document.querySelector(".close-edit-btn");
+const cancelBtn = document.querySelector(".btn-cancel");
+const editForm = document.getElementById("edit-profile-form");
+
+// Open edit modal
 editBtn.addEventListener("click", function () {
-    this.style.transform = "scale(0.95)";
-    setTimeout(() => {
-        this.style.transform = "";
-    }, 150);
+    editModal.classList.add("active");
+    document.body.style.overflow = "hidden";
+});
+
+// Close edit modal
+function closeEditModal() {
+    editModal.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+closeEditBtn.addEventListener("click", closeEditModal);
+cancelBtn.addEventListener("click", closeEditModal);
+
+// Close modal on overlay click
+document.querySelector(".edit-profile-overlay").addEventListener("click", closeEditModal);
+
+// Handle form submission
+editForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(editForm);
+    const studentId = document.body.getAttribute('data-student-id');
+    
+    try {
+        const response = await fetch(`/student/${studentId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+            },
+            body: JSON.stringify({
+                full_name: formData.get('full_name'),
+                email: formData.get('email'),
+                course: formData.get('course'),
+                university_id: formData.get('university_id'),
+                direction_id: formData.get('direction_id'),
+            })
+        });
+
+        if (response.ok) {
+            closeEditModal();
+            // Reload page to see updated data
+            window.location.reload();
+        } else {
+            alert('Ошибка при обновлении профиля');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Ошибка при обновлении профиля');
+    }
 });
 
 document.querySelectorAll(".menu-item").forEach((item) => {

@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Профиль студента — Практикум</title>
     @vite([
         'resources/css/student-profile.css', 'resources/js/student-profile.js'
     ])
 </head>
-<body>
+<body data-student-id="{{ $student->id }}">
 
     <header class="header">
         <div class="header-logo">Практикум</div>
@@ -61,12 +62,7 @@
                     </svg>
                     Мои отклики
                 </div>
-                <div class="menu-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                    </svg>
-                    Настройки
-                </div>
+
             </div>
 
             <button class="edit-btn fade-in">Редактировать</button>
@@ -202,6 +198,68 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="edit-profile-modal">
+        <div class="edit-profile-overlay"></div>
+        <div class="edit-profile-container">
+            <div class="edit-profile-header">
+                <h2>Редактировать профиль</h2>
+                <button class="close-edit-btn" aria-label="Close">×</button>
+            </div>
+            <form id="edit-profile-form" class="edit-profile-form">
+                <div class="form-group">
+                    <label for="full_name">Полное имя</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="Введите полное имя" value="{{ $student->full_name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Введите email" value="{{ $student->email }}" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="course">Курс</label>
+                        <input type="number" id="course" name="course" placeholder="Номер курса" value="{{ $student->course }}" min="1" max="6" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="university_id">Университет</label>
+                    <select id="university_id" name="university_id" required>
+                        <option value="">Выберите университет</option>
+                        @if($universities ?? false)
+                            @foreach($universities as $uni)
+                                <option value="{{ $uni->id }}" {{ $student->university_id == $uni->id ? 'selected' : '' }}>
+                                    {{ $uni->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="direction_id">Направление</label>
+                    <select id="direction_id" name="direction_id" required>
+                        <option value="">Выберите направление</option>
+                        @if($directions ?? false)
+                            @foreach($directions as $dir)
+                                <option value="{{ $dir->id }}" {{ $student->direction_id == $dir->id ? 'selected' : '' }}>
+                                    {{ $dir->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel">Отмена</button>
+                    <button type="submit" class="btn-save">Сохранить изменения</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <footer class="footer">

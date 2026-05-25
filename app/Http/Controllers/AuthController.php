@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Student;
 use App\Models\Company;
 use App\Models\University;
+use App\Models\Direction;
 
 class AuthController extends Controller
 {
@@ -167,7 +168,10 @@ class AuthController extends Controller
             abort(404, "Студент не найден");
         }
 
-        return view("student-profile", compact("student", "user"));
+        $universities = University::all();
+        $directions = Direction::all();
+
+        return view("student-profile", compact("student", "user", "universities", "directions"));
     }
 
     /*
