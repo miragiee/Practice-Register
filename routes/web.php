@@ -13,6 +13,13 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentInternshipController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\CatalogController;
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC ROUTES
+|--------------------------------------------------------------------------
+*/
 use App\Http\Controllers\ContractRequestController;
 
 Route::middleware("nocache")->group(function () {

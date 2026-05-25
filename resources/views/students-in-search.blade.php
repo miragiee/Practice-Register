@@ -9,27 +9,6 @@
 </head>
 <body>
 
-<header class="header">
-    <div class="container header-container">
-
-        <div class="logo">
-            Практикум
-        </div>
-
-        <nav class="nav">
-            <a href="#">Студентам</a>
-            <a href="#" class="active">Университетам</a>
-            <a href="#">Компаниям</a>
-            <a href="#">Тарифы</a>
-        </nav>
-
-        <div class="profile-link">
-            Профиль
-        </div>
-
-    </div>
-</header>
-
 <main class="main">
 
     <div class="container">
@@ -39,15 +18,6 @@
         </div>
 
         <div class="top-section">
-
-            <div>
-                <h1>Студенты в поиске</h1>
-
-                <p class="description">
-                    Мониторинг студентов вашего вуза, активно ищущих места для прохождения практики.
-                    Помогайте им находить лучшие предложения от компаний-партнеров.
-                </p>
-            </div>
 
             <div class="search-counter">
                 <div class="counter-title">Активный поиск</div>
