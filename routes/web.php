@@ -13,6 +13,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentInternshipController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\ContractRequestController;
 
 Route::middleware("nocache")->group(function () {
     Route::view("/", "main")->name("main.page");
@@ -70,5 +71,6 @@ Route::middleware(["auth", "nocache", \App\Http\Middleware\AdminMiddleware::clas
         "documents" => DocumentController::class,
         "student-internships" => StudentInternshipController::class,
         "company-requests" => CompanyRequestController::class,
+        "contract-requests" => ContractRequestController::class,
     ]);
 });

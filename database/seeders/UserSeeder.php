@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
 
         $studentRole = Role::where("name", "Студент")->first();
 
-        $companyRole = Role::where("name", "Компания")->first();
+        $companyRole = Role::where("name", "Работодатель")->first();
 
         if (!$adminRole || !$studentRole || !$companyRole) {
             $this->command->error(

@@ -123,7 +123,7 @@
         <div class="auth-footer">
             <span>Нет аккаунта?</span>
 
-            <a href="#">
+            <a href="{{ route('register') }}" class="register-link">
                 Зарегистрироваться
             </a>
         </div>

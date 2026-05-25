@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             InternshipSeeder::class,
             StudentInternshipSeeder::class,
             CompanyRequestSeeder::class,
+            ContractRequestSeeder::class,
             ContractSeeder::class,
             DocumentSeeder::class,
             ReservationSeeder::class,
