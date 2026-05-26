@@ -601,6 +601,6 @@ td {
 /* правая группа кнопок */
 .actions {
     display: flex;
-    gap: 14px; /* 🔥 вот это даёт отступ между кнопками */
+    gap: 14px;
     align-items: center;
 }
