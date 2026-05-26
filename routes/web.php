@@ -48,9 +48,7 @@ Route::middleware("nocache")->group(function () {
     Route::view("/students-in-search", "students-in-search")->name(
         "students-in-search",
     );
-    Route::view("universal-profile", "universal-profile")->name(
-        "universal-profile",
-    );
+    Route::view("partnerships", "partnerships")->name("partnerships");
 });
 
 Route::prefix("auth")->group(function () {

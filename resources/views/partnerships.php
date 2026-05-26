@@ -6,8 +6,8 @@
     <title>Партнёры</title>
 
     @vite([
-        'resources/css/universal-profile.css',
-        'resources/js/universal-profile.js'
+        'resources/css/partnerships.css',
+        'resources/js/partnerships.js'
     ])
 </head>
 <body>
