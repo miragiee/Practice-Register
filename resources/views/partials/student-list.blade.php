@@ -48,12 +48,8 @@
 <section class="student-page">
     <div class="student-page__top">
         <div>
-            <div class="student-page__breadcrumbs">
-                Университет
-                <span>›</span>
-                <a href="#">
-                    База студентов
-                </a>
+            <div class="breadcrumbs">
+                ГЛАВНАЯ > СТУДЕНТЫ
             </div>
 
             <h1 class="student-page__title">
