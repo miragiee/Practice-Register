@@ -14,6 +14,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentInternshipController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\PartnershipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +49,8 @@ Route::middleware("nocache")->group(function () {
     Route::view("/students-in-search", "students-in-search")->name(
         "students-in-search",
     );
-    Route::view("partnerships", "partnerships")->name("partnerships");
+    Route::get('/partnerships', [PartnershipController::class, 'index'])
+    ->name('partnerships');
 });
 
 Route::prefix("auth")->group(function () {
