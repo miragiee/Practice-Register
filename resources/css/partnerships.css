@@ -629,3 +629,80 @@ td {
 .requests-wrapper:hover {
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
 }
+
+/* =========================
+   REQUEST ACTION BUTTONS
+========================= */
+
+.actions-cell {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* base button reset */
+.btn-success,
+.btn-danger {
+    border: none;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+/* ACCEPT */
+.btn-success {
+    background: #ddf7ea;
+    color: #1b9b67;
+    border: 1px solid #bfead6;
+}
+
+.btn-success:hover {
+    background: #c8f2dc;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(27, 155, 103, 0.12);
+}
+
+.btn-success:active {
+    transform: scale(0.98);
+}
+
+/* REJECT */
+.btn-danger {
+    background: #ffe1e1;
+    color: #c0392b;
+    border: 1px solid #f5b5b5;
+}
+
+.btn-danger:hover {
+    background: #ffcbcb;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(192, 57, 43, 0.12);
+}
+
+.btn-danger:active {
+    transform: scale(0.98);
+}
+
+.student-avatar-text {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+    margin-right: 12px;
+}

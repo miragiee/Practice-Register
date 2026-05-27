@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -80,114 +81,7 @@
             @include('partials.student-list')
         </div>
 
-{{-- Incoming Requests --}}
-<section class="requests-wrapper">
 
-    <div class="table-header">
-
-        <h2>Входящие заявки</h2>
-
-        <div class="table-count">
-            Всего:
-            <strong>{{ $requests->count() }}</strong>
-        </div>
-
-    </div>
-
-    <table>
-
-        <thead>
-
-        <tr>
-            <th>ID</th>
-            <th>Компания</th>
-            <th>Университет</th>
-            <th>Статус компании</th>
-            <th>Статус университета</th>
-            <th>Общий статус</th>
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-        @foreach($requests as $request)
-
-            <tr>
-
-                <td>#{{ $request->id }}</td>
-
-                <td>
-                    Компания ID:
-                    <strong>{{ $request->company_id }}</strong>
-                </td>
-
-                <td>
-                    Университет ID:
-                    <strong>{{ $request->university_id }}</strong>
-                </td>
-
-                <td>
-
-                    @if($request->company_accept)
-                        <span class="status success">
-                            Подтверждено
-                        </span>
-                    @else
-                        <span class="status archive">
-                            Ожидание
-                        </span>
-                    @endif
-
-                </td>
-
-                <td>
-
-                    @if($request->university_accept)
-                        <span class="status success">
-                            Подтверждено
-                        </span>
-                    @else
-                        <span class="status archive">
-                            Ожидание
-                        </span>
-                    @endif
-
-                </td>
-
-                <td>
-
-                    @if($request->company_accept && $request->university_accept)
-
-                        <span class="status success">
-                            Партнёрство активно
-                        </span>
-
-                    @elseif(!$request->company_accept && !$request->university_accept)
-
-                        <span class="status warning">
-                            Новая заявка
-                        </span>
-
-                    @else
-
-                        <span class="status warning">
-                            Ожидает подтверждения
-                        </span>
-
-                    @endif
-
-                </td>
-
-            </tr>
-
-        @endforeach
-
-        </tbody>
-
-    </table>
-
-</section>
 
     </main>
 

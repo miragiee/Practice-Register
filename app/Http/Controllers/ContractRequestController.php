@@ -3,142 +3,97 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContractRequest;
-use Illuminate\Http\Request;
-use App\Models\Company;
-use App\Models\University;
+use App\Models\Contract;
+use Illuminate\Support\Facades\Log;
 
 class ContractRequestController extends Controller
 {
-    public function main()
+    public function acceptCompany($id)
     {
-        $contractRequests = ContractRequest::with(['company', 'university'])->get();
+        $request = ContractRequest::findOrFail($id);
 
-        return view('contract_request', compact('contractRequests'));
-    }
-
-    public function index(Request $request)
-    {
-        $contractRequests = ContractRequest::with(['company', 'university'])->get();
-
-        if ($request->wantsJson()) {
-            return response()->json($contractRequests);
-        }
-    
-        $companies = Company::all();
-        $universities = University::all();
-
-        return view('contract_request', compact('contractRequests', 'companies', 'universities'));
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | STORE
-    |--------------------------------------------------------------------------
-    */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'company_id'        => 'required|integer|exists:companies,id',
-            'university_id'     => 'required|integer|exists:universities,id',
-            'company_accept'    => 'nullable|boolean',
-            'university_accept' => 'nullable|boolean',
+        $request->update([
+            'company_accept' => true,
         ]);
 
-        // Значения по умолчанию для булевых полей
-        $validated['company_accept']    = $validated['company_accept'] ?? false;
-        $validated['university_accept'] = $validated['university_accept'] ?? false;
+        Log::info('ACCEPT COMPANY', $request->toArray());
 
-        // ❗ Проверка на дубликат (уникальность по всем полям)
-        $exists = ContractRequest::where('company_id', $validated['company_id'])
-            ->where('university_id', $validated['university_id'])
-            ->where('company_accept', $validated['company_accept'])
-            ->where('university_accept', $validated['university_accept'])
-            ->exists();
+        $this->syncContract($request);
 
-        if ($exists) {
-            return redirect()
-                ->back()
-                ->with('error', 'Такая заявка уже существует');
-        }
-
-        ContractRequest::create($validated);
-
-        return redirect()
-            ->back()
-            ->with('success', 'Заявка успешно добавлена');
+        return back()->with('success', 'Компания приняла заявку');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | UPDATE
-    |--------------------------------------------------------------------------
-    */
-    public function update(Request $request, $id)
+    public function acceptUniversity($id)
     {
-        $validated = $request->validate([
-            'company_id'        => 'nullable|integer|exists:companies,id',
-            'university_id'     => 'nullable|integer|exists:universities,id',
-            'company_accept'    => 'nullable|boolean',
-            'university_accept' => 'nullable|boolean',
+        $request = ContractRequest::findOrFail($id);
+
+        $request->update([
+            'university_accept' => true,
         ]);
 
-        // Удаляем null и пустые строки
-        $data = array_filter($validated, function ($value) {
-            return $value !== null && $value !== "";
-        });
+        Log::info('ACCEPT UNIVERSITY', $request->toArray());
 
-        if (empty($data)) {
-            return redirect()
-                ->back()
-                ->with('warning', 'Нет данных для обновления');
-        }
+        $this->syncContract($request);
 
-        $contractRequest = ContractRequest::findOrFail($id);
+        return back()->with('success', 'Университет принял заявку');
+    }
 
-        // Итоговые значения (старые + новые)
-        $final = [
-            'company_id'        => $data['company_id']        ?? $contractRequest->company_id,
-            'university_id'     => $data['university_id']     ?? $contractRequest->university_id,
-            'company_accept'    => $data['company_accept']    ?? $contractRequest->company_accept,
-            'university_accept' => $data['university_accept'] ?? $contractRequest->university_accept,
-        ];
+    public function reject($id)
+    {
+        $request = ContractRequest::findOrFail($id);
 
-        // Преобразуем булевы значения к типу bool (на случай, если пришли как строка)
-        $final['company_accept']    = (bool) $final['company_accept'];
-        $final['university_accept'] = (bool) $final['university_accept'];
+        Log::warning('REJECT REQUEST', $request->toArray());
 
-        // ❗ Проверка на дубликат (кроме текущей записи)
-        $duplicate = ContractRequest::where('id', '!=', $id)
-            ->where('company_id', $final['company_id'])
-            ->where('university_id', $final['university_id'])
-            ->where('company_accept', $final['company_accept'])
-            ->where('university_accept', $final['university_accept'])
-            ->exists();
+        $request->delete();
 
-        if ($duplicate) {
-            return redirect()
-                ->back()
-                ->with('error', 'Такая заявка уже существует');
-        }
-
-        $contractRequest->update($data);
-
-        return redirect()
-            ->back()
-            ->with('success', 'Заявка обновлена');
+        return back()->with('success', 'Заявка удалена');
     }
 
     /*
     |--------------------------------------------------------------------------
-    | DESTROY
+    | SYNC CONTRACT (ключевая логика)
     |--------------------------------------------------------------------------
     */
-    public function destroy($id)
+    private function syncContract(ContractRequest $request)
     {
-        ContractRequest::destroy($id);
+        Log::info('SYNC CONTRACT CHECK', [
+            'id' => $request->id,
+            'company_accept' => $request->company_accept,
+            'university_accept' => $request->university_accept,
+        ]);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Заявка удалена');
+        // ❗ пока не оба true — ничего не делаем
+        if (! $request->company_accept || ! $request->university_accept) {
+            return;
+        }
+
+        $contract = Contract::where('company_id', $request->company_id)
+            ->where('university_id', $request->university_id)
+            ->first();
+
+        if ($contract) {
+            $contract->update([
+                'status' => 'active',
+            ]);
+
+            Log::info('CONTRACT UPDATED TO ACTIVE', $contract->toArray());
+        } else {
+            $contract = Contract::create([
+                'company_id'    => $request->company_id,
+                'university_id' => $request->university_id,
+                'start_date'    => now(),
+                'end_date'      => now()->addYear(),
+                'status'        => 'active',
+            ]);
+
+            Log::info('CONTRACT CREATED', $contract->toArray());
+        }
+
+        // ❗ ВАЖНО: удаляем заявку после успешного создания/активации контракта
+        $request->delete();
+
+        Log::info('REQUEST DELETED AFTER CONTRACT SYNC', [
+            'request_id' => $request->id,
+        ]);
     }
 }
