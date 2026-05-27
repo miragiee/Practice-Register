@@ -1,49 +1,4 @@
-{{-- resources/views/partials/student/student-list.blade.php --}}
-
-@php
-    $students = [
-        [
-            'name' => 'Александр Волков',
-            'student_id' => '482931',
-            'speciality' => 'Кибербезопасность',
-            'course' => '4 курс',
-            'gpa' => '4.8',
-            'status' => 'Завершена',
-            'status_class' => 'success',
-            'avatar' => asset('images/students/student-1.jpg'),
-        ],
-        [
-            'name' => 'Мария Иванова',
-            'student_id' => '591022',
-            'speciality' => 'Информационные технологии',
-            'course' => '3 курс',
-            'gpa' => '4.5',
-            'status' => 'В процессе',
-            'status_class' => 'warning',
-            'avatar' => asset('images/students/student-2.jpg'),
-        ],
-        [
-            'name' => 'Дмитрий Петров',
-            'student_id' => '334190',
-            'speciality' => 'Промышленный дизайн',
-            'course' => '2 курс',
-            'gpa' => '3.9',
-            'status' => 'Не начата',
-            'status_class' => 'inactive',
-            'avatar' => asset('images/students/student-3.jpg'),
-        ],
-        [
-            'name' => 'Елена Соколова',
-            'student_id' => '772109',
-            'speciality' => 'Менеджмент',
-            'course' => 'Магистратура',
-            'gpa' => '5.0',
-            'status' => 'Завершена',
-            'status_class' => 'success',
-            'avatar' => asset('images/students/student-4.jpg'),
-        ],
-    ];
-@endphp
+{{-- resources/views/partials/student-list.blade.php --}}
 
 <section class="student-page">
     <div class="student-page__top">
@@ -76,30 +31,30 @@
         <div class="student-search">
             <input
                 type="text"
+                id="student-search-input"
                 placeholder="Поиск по имени или ID..."
             >
         </div>
 
-        <select class="student-select">
-            <option>Все специальности</option>
+        <select id="speciality-filter" class="student-select">
+            <option value="">Все специальности</option>
         </select>
 
-        <select class="student-select student-select--small">
-            <option>Курс</option>
+        <select id="course-filter" class="student-select student-select--small">
+            <option value="">Курс</option>
         </select>
 
-        <button class="student-filter">
+        <button id="filter-button" class="student-filter">
             Фильтры
         </button>
 
-        <button class="student-reset">
+        <button id="reset-button" class="student-reset">
             Сбросить
         </button>
     </div>
 
-
     <div class="student-list">
-        <table>
+        <table class="students-table">
             <thead>
                 <tr>
                     <th><input type="checkbox"></th>
@@ -114,40 +69,39 @@
 
             <tbody>
                 @forelse($students as $student)
-                    <tr>
+                    <tr data-student-id="{{ $student->id }}">
                         <td><input type="checkbox"></td>
-
                         <td>
                             <div class="student-profile">
-                                <img src="{{ $student['avatar'] }}" alt="{{ $student['name'] }}">
-
+                                <div class="student-avatar-text">{{ mb_substr($student->full_name, 0, 1) }}</div>
                                 <div>
-                                    <h4>{{ $student['name'] }}</h4>
-                                    <p>ID: {{ $student['student_id'] }}</p>
+                                    <h4>{{ $student->full_name }}</h4>
+                                    <p>ID: {{ $student->id }}</p>
                                 </div>
                             </div>
                         </td>
-
-                        <td>{{ $student['speciality'] }}</td>
-
+                        <td class="student-speciality">{{ $student->direction->name ?? '—' }}</td>
                         <td>
                             <span class="student-badge">
-                                {{ $student['course'] }}
+                                {{ $student->course }} курс
                             </span>
                         </td>
-
                         <td>
-                            <span class="student-gpa">
-                                {{ $student['gpa'] }}
-                            </span>
+                            <span class="student-gpa">—</span>
                         </td>
-
                         <td>
-                            <span class="student-status student-status--{{ $student['status_class'] }}">
-                                {{ $student['status'] }}
+                            @php
+                                $status = $student->internship_status ?? 'Не начата';
+                                $class = match($status) {
+                                    'Завершена', 'completed' => 'success',
+                                    'В процессе', 'active'   => 'warning',
+                                    default                  => 'inactive',
+                                };
+                            @endphp
+                            <span class="student-status student-status--{{ $class }}">
+                                {{ $status }}
                             </span>
                         </td>
-
                         <td>
                             <button class="student-more">⋮</button>
                         </td>
@@ -163,6 +117,5 @@
                 @endforelse
             </tbody>
         </table>
-
     </div>
 </section>
