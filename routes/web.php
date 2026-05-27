@@ -140,11 +140,11 @@ Route::get('/internships/create', [InternshipController::class, 'create'])
 Route::post('/internships/store', [InternshipController::class, 'store'])
     ->name('internships.store');
 
-Route::get('/internships/create', [InternshipController::class, 'create'])
-    ->name('internships.create');
+Route::put('/internships/{internship}', [InternshipController::class, 'update'])
+    ->name('internships.update');
 
-Route::post('/internships/store', [InternshipController::class, 'store'])
-    ->name('internships.store');
+Route::delete('/internships/{internship}', [InternshipController::class, 'destroy'])
+    ->name('internships.destroy');
 
 Route::middleware([
     "auth",
