@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentInternship;
+use App\Models\Internship;
+use App\Models\Student;
+use App\Models\Contract;
 use Illuminate\Http\Request;
 
 class StudentInternshipController extends Controller
@@ -38,6 +41,27 @@ class StudentInternshipController extends Controller
             'status'        => 'required|string|max:50',
         ]);
 
+        // Проверяем существование студентa и стажировки
+        $student = Student::findOrFail($validated['student_id']);
+        $internship = Internship::findOrFail($validated['internship_id']);
+
+        // Студент должен принадлежать тому же вузу, что и стажировка
+        if ($student->university_id !== $internship->university_id) {
+            return redirect()->back()->with('error', 'Студент и стажировка из разных вузов');
+        }
+
+        // Проверяем наличие активного контракта между вузом и компанией, покрывающего даты стажировки
+        $hasContract = Contract::where('company_id', $validated['company_id'])
+            ->where('university_id', $internship->university_id)
+            ->where('status', 'active')
+            ->where('start_date', '<=', $internship->start_date)
+            ->where('end_date', '>=', $internship->end_date)
+            ->exists();
+
+        if (! $hasContract) {
+            return redirect()->back()->with('error', 'Нет активного контракта между вузом и этой компанией, покрывающего даты стажировки');
+        }
+
         // ❗ Проверка на дубликат
         $exists = StudentInternship::where('student_id', $validated['student_id'])
             ->where('company_id', $validated['company_id'])
@@ -46,16 +70,12 @@ class StudentInternshipController extends Controller
             ->exists();
 
         if ($exists) {
-            return redirect()
-                ->back()
-                ->with('error', 'Такие данные уже есть в таблице');
+            return redirect()->back()->with('error', 'Такие данные уже есть в таблице');
         }
 
         StudentInternship::create($validated);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Стажировка студента успешно добавлена');
+        return redirect()->back()->with('success', 'Стажировка студента успешно добавлена');
     }
 
     /*

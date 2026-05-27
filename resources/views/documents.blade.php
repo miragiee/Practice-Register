@@ -79,8 +79,9 @@
     <div class="form-panel">
 
         <form
-            action="/documents"
+            action="{{ route('documents.upload') }}"
             method="POST"
+            enctype="multipart/form-data"
         >
 
             @csrf
@@ -102,15 +103,14 @@
 
             <p>
 
-                <label for="file_path">
-                    Путь к файлу
+                <label for="file">
+                    Файл
                 </label>
 
                 <input
-                    type="text"
-                    id="file_path"
-                    name="file_path"
-                    required
+                    type="file"
+                    id="file"
+                    name="file"
                 >
 
             </p>

@@ -77,8 +77,11 @@ const templates = {
         <tr>
             <td>${doc.id}</td>
             <td>${doc.student_internship_id}</td>
-            <td>${doc.file_path}</td>
+            <td>${doc.original_name ?? '-'}<br><small>${doc.file_path}</small></td>
             <td>${doc.type}</td>
+            <td>
+                <a href="/documents/${doc.id}/download" target="_blank">Скачать</a>
+            </td>
         </tr>
     `,
 
@@ -130,7 +133,7 @@ const tableHeaders = {
         "status",
     ],
 
-    documents: ["id", "student_internship_id", "file_path", "type"],
+    documents: ["id", "student_internship_id", "original_name", "file_path", "type", "download"],
 
     student_internships: [
         "id",

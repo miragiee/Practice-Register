@@ -63,6 +63,9 @@
     <a href="{{ route('internships.create') }}" class="create-practice-btn">
         ➕ Создать практику
     </a>
+    <a href="{{ route('university.calendar') }}" class="calendar-btn">
+        📅 Календарь практик
+    </a>
 </div>
 
             <button class="settings-btn">

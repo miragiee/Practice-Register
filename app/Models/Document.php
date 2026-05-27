@@ -12,6 +12,7 @@ class Document extends Model
     protected $fillable = [
         'student_internship_id',
         'file_path',
+        'original_name',
         'type',
     ];
 

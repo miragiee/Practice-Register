@@ -16,6 +16,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\ContractRequestController;
+use App\Http\Controllers\CalendarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,9 @@ Route::middleware(["auth", "nocache"])->group(function () {
     Route::get("/profile/university", [AuthController::class, "universityProfile"])
         ->name("university-profile");
 
+    Route::get('/profile/university/calendar', [CalendarController::class, 'index'])
+        ->name('university.calendar');
+
     Route::get("/profile/company/requests", [CompanyRequestController::class, "index"])
         ->name("company-requests.index");
 
@@ -97,6 +101,17 @@ Route::middleware(["auth", "nocache"])->group(function () {
 
     Route::delete("/profile/company/requests/{id}", [CompanyRequestController::class, "destroy"])
         ->name("company-requests.destroy");
+
+    // Documents upload for authenticated company/university users
+    Route::post('/documents/upload', [\App\Http\Controllers\DocumentController::class, 'store'])
+        ->name('documents.upload');
+
+    Route::get('/documents/{id}/download', [\App\Http\Controllers\DocumentController::class, 'download'])
+        ->name('documents.download');
+
+    // Booking by company (authenticated users)
+    Route::post('/reservations/book', [\App\Http\Controllers\ReservationController::class, 'store'])
+        ->name('reservations.book');
 
     Route::get("/student/reservations", [StudentController::class, "reservations"])
         ->name("student.reservations");

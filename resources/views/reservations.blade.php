@@ -97,7 +97,7 @@
     <div class="form-panel">
 
         <form
-            action="/reservations"
+            action="{{ route('reservations.book') }}"
             method="POST"
         >
 

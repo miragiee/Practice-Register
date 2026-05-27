@@ -7,18 +7,33 @@ use App\Models\Student;
 use App\Models\Reservation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Models\University;
 
 class StudentController extends Controller
 {
     public function main()
     {
-        $students = Student::all();
+        $user = Auth::user();
+        $university = $user?->university;
+
+        if ($university) {
+            $students = Student::where('university_id', $university->id)->get();
+        } else {
+            $students = Student::all();
+        }
         return view("students", compact("students"));
     }
 
     public function index(Request $request)
     {
-        $students = Student::all();
+        $user = Auth::user();
+        $university = $user?->university;
+
+        if ($university) {
+            $students = Student::where('university_id', $university->id)->get();
+        } else {
+            $students = Student::all();
+        }
 
         if ($request->wantsJson()) {
             return response()->json($students);
@@ -31,11 +46,19 @@ class StudentController extends Controller
     {
         $validated = $request->validate([
             "full_name" => "required|string|max:255",
-            "university_id" => "required|exists:universities,id",
+            "university_id" => "nullable|exists:universities,id",
             "direction_id" => "required|exists:directions,id",
             "course" => "required|integer",
             "email" => "required|string|max:255",
         ]);
+
+        $user = Auth::user();
+        $university = $user?->university;
+
+        // Если пользователь — вуз, привязываем студента к его вузу
+        if ($university) {
+            $validated['university_id'] = $university->id;
+        }
 
         $exists = Student::where("full_name", $validated["full_name"])
             ->where("university_id", $validated["university_id"])
@@ -85,6 +108,16 @@ class StudentController extends Controller
 
         $student = Student::findOrFail($id);
 
+        $user = Auth::user();
+        $university = $user?->university;
+
+        if ($university && $student->university_id !== $university->id) {
+            if ($request->wantsJson()) {
+                return response()->json(["message" => "Доступ запрещён"], 403);
+            }
+            return redirect()->back()->with('error', 'Доступ запрещён');
+        }
+
         $exists = Student::where("full_name", $data["full_name"] ?? $student->full_name)
             ->where("university_id", $data["university_id"] ?? $student->university_id)
             ->where("direction_id", $data["direction_id"] ?? $student->direction_id)
@@ -118,6 +151,15 @@ class StudentController extends Controller
 
     public function destroy($id)
     {
+        $student = Student::findOrFail($id);
+
+        $user = Auth::user();
+        $university = $user?->university;
+
+        if ($university && $student->university_id !== $university->id) {
+            return redirect()->back()->with('error', 'Доступ запрещён');
+        }
+
         Student::destroy($id);
         return redirect()
             ->back()
