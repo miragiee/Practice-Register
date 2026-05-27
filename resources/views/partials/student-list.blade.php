@@ -164,16 +164,5 @@
             </tbody>
         </table>
 
-        <div class="student-list__footer">
-            <p>Показано 1-4 из 1,284 студентов</p>
-
-            <div class="students-pagination">
-                <button>‹</button>
-                <button class="active">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>›</button>
-            </div>
-        </div>
     </div>
 </section>

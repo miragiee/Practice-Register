@@ -3,25 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contract;
+use App\Models\Company;
+use App\Models\University;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ContractController extends Controller
 {
-    public function main()
-    {
-        $contracts = Contract::all();
-        return view('contracts', compact('contracts'));
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | INDEX (ПАРТНЁРЫ ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ)
+    |--------------------------------------------------------------------------
+    */
 
     public function index(Request $request)
     {
-        $contracts = Contract::all();
+        $user = Auth::user();
+
+        $company = Company::where('user_id', $user->id)->first();
+        $university = University::where('user_id', $user->id)->first();
+
+        $query = Contract::query();
+
+        // показываем только активные партнёрства
+        $query->where('status', 'active');
+
+        // если пользователь — компания
+        if ($company) {
+            $query->where('company_id', $company->id);
+        }
+
+        // если пользователь — университет
+        if ($university) {
+            $query->where('university_id', $university->id);
+        }
+
+        $contracts = $query
+            ->orderByDesc('id')
+            ->get();
 
         if ($request->wantsJson()) {
             return response()->json($contracts);
         }
 
-        return view('contracts', compact('contracts'));
+        return view('contracts', compact('contracts', 'user'));
     }
 
     /*
@@ -29,6 +54,7 @@ class ContractController extends Controller
     | STORE
     |--------------------------------------------------------------------------
     */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -39,7 +65,6 @@ class ContractController extends Controller
             'status'        => 'required|string|max:50',
         ]);
 
-        // ❗ Проверка на дубликат
         $exists = Contract::where('university_id', $validated['university_id'])
             ->where('company_id', $validated['company_id'])
             ->where('start_date', $validated['start_date'])
@@ -48,16 +73,12 @@ class ContractController extends Controller
             ->exists();
 
         if ($exists) {
-            return redirect()
-                ->back()
-                ->with('error', 'Такие данные уже есть в таблице');
+            return back()->with('error', 'Такие данные уже есть в таблице');
         }
 
         Contract::create($validated);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Контракт успешно добавлен');
+        return back()->with('success', 'Контракт успешно добавлен');
     }
 
     /*
@@ -65,8 +86,11 @@ class ContractController extends Controller
     | UPDATE
     |--------------------------------------------------------------------------
     */
+
     public function update(Request $request, $id)
     {
+        $contract = Contract::findOrFail($id);
+
         $validated = $request->validate([
             'university_id' => 'nullable|integer|exists:universities,id',
             'company_id'    => 'nullable|integer|exists:companies,id',
@@ -75,19 +99,14 @@ class ContractController extends Controller
             'status'        => 'nullable|string|max:50',
         ]);
 
-        $data = array_filter($validated, function ($value) {
-            return $value !== null && $value !== "";
-        });
+        // убираем пустые значения
+        $data = array_filter($validated, fn ($v) => $v !== null && $v !== '');
 
         if (empty($data)) {
-            return redirect()
-                ->back()
-                ->with('warning', 'Нет данных для обновления');
+            return back()->with('warning', 'Нет данных для обновления');
         }
 
-        $contract = Contract::findOrFail($id);
-
-        // итоговые значения (старые + новые)
+        // итоговое состояние записи
         $final = [
             'university_id' => $data['university_id'] ?? $contract->university_id,
             'company_id'    => $data['company_id'] ?? $contract->company_id,
@@ -96,7 +115,7 @@ class ContractController extends Controller
             'status'        => $data['status'] ?? $contract->status,
         ];
 
-        // ❗ Проверка на дубликат (исключая текущий контракт)
+        // проверка дубля
         $duplicate = Contract::where('id', '!=', $id)
             ->where('university_id', $final['university_id'])
             ->where('company_id', $final['company_id'])
@@ -106,24 +125,24 @@ class ContractController extends Controller
             ->exists();
 
         if ($duplicate) {
-            return redirect()
-                ->back()
-                ->with('error', 'Такие данные уже есть в таблице');
+            return back()->with('error', 'Такие данные уже есть в таблице');
         }
 
         $contract->update($data);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Данные контракта обновлены');
+        return back()->with('success', 'Контракт обновлён');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DESTROY
+    |--------------------------------------------------------------------------
+    */
 
     public function destroy($id)
     {
         Contract::destroy($id);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Контракт удален');
+        return back()->with('success', 'Контракт удалён');
     }
 }
