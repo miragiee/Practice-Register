@@ -49,7 +49,7 @@ Route::middleware("nocache")->group(function () {
     Route::view("/students-in-search", "students-in-search")->name(
         "students-in-search",
     );
-    
+
 });
 
 Route::prefix("auth")->group(function () {
@@ -128,6 +128,12 @@ Route::middleware(["auth", "nocache"])->group(function () {
     Route::get('/partnerships', [PartnershipController::class, 'index'])
     ->name('partnerships');
 });
+
+Route::get('/internships/create', [InternshipController::class, 'create'])
+    ->name('internships.create');
+
+Route::post('/internships/store', [InternshipController::class, 'store'])
+    ->name('internships.store');
 
 Route::middleware([
     "auth",
