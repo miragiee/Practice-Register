@@ -40,11 +40,6 @@
                     <span>◉</span>
                     <span>Студенты</span>
                 </a>
-
-                <a href="#" class="nav-item">
-                    <span>⚙</span>
-                    <span>Настройки</span>
-                </a>
             </nav>
 
         </div>
