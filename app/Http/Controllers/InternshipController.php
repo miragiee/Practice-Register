@@ -30,6 +30,12 @@ class InternshipController extends Controller
     | STORE
     |--------------------------------------------------------------------------
     */
+
+    public function create()
+{
+    return view('create_internship');
+}
+
     public function store(Request $request)
     {
         $validated = $request->validate([

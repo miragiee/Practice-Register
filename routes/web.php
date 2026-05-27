@@ -44,9 +44,10 @@ Route::middleware("nocache")->group(function () {
     });
 
     Route::get("/auth", [AuthController::class, "showLogin"])->name("auth");
+    Route::view("/students-in-search", "students-in-search")->name(
+        "students-in-search",
+    );
 
-    Route::view("/students-in-search", "students-in-search")
-        ->name("students-in-search");
 });
 
 Route::prefix("auth")->group(function () {
@@ -132,6 +133,18 @@ Route::middleware(["auth", "nocache"])->group(function () {
 | ADMIN ROUTES
 |--------------------------------------------------------------------------
 */
+
+Route::get('/internships/create', [InternshipController::class, 'create'])
+    ->name('internships.create');
+
+Route::post('/internships/store', [InternshipController::class, 'store'])
+    ->name('internships.store');
+
+Route::get('/internships/create', [InternshipController::class, 'create'])
+    ->name('internships.create');
+
+Route::post('/internships/store', [InternshipController::class, 'store'])
+    ->name('internships.store');
 
 Route::middleware([
     "auth",
