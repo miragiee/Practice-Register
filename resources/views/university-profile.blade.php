@@ -67,6 +67,10 @@
                 ✎ Редактировать
             </button>
 
+            <button class="partnerships-btn" data-url="{{ route('partnerships') }}">
+                🤝 Партнёрства
+            </button>
+
         </div>
 
     </section>

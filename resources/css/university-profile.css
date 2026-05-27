@@ -139,7 +139,7 @@ body {
 }
 
 .settings-btn,
-.edit-btn {
+.edit-btn,.partnerships-btn {
     border: none;
     border-radius: 20px;
 
@@ -157,13 +157,13 @@ body {
     color: black;
 }
 
-.edit-btn {
+.edit-btn, .partnerships-btn {
     background: var(--accent-color);
     color: white;
 }
 
 .settings-btn:hover,
-.edit-btn:hover {
+.edit-btn:hover, .partnerships-btn:hover {
     transform: translateY(-4px);
 }
 

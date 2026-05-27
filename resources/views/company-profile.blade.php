@@ -68,7 +68,8 @@
 
         </div>
 
-        <button
+        <div class="buttons">
+            <button
             class="add-vacancy-btn"
             id="add-vacancy-btn"
             data-url="{{ route('company-requests.index') }}"
@@ -86,6 +87,26 @@
             Добавить вакансию
 
         </button>
+
+        <button
+           class="add-vacancy-btn partnerships-btn"
+           data-url="{{ route('partnerships') }}"
+        >
+
+           <svg viewBox="0 0 24 24" fill="none">
+               <path
+                   d="M7 12h10M12 7l5 5-5 5"
+                   stroke="currentColor"
+                   stroke-width="2"
+                   stroke-linecap="round"
+                   stroke-linejoin="round"
+               />
+           </svg>
+       
+           Партнёрства
+       
+        </button>
+        </div>
 
     </section>
 

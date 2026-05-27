@@ -49,8 +49,7 @@ Route::middleware("nocache")->group(function () {
     Route::view("/students-in-search", "students-in-search")->name(
         "students-in-search",
     );
-    Route::get('/partnerships', [PartnershipController::class, 'index'])
-    ->name('partnerships');
+    
 });
 
 Route::prefix("auth")->group(function () {
@@ -125,6 +124,9 @@ Route::middleware(["auth", "nocache"])->group(function () {
         StudentController::class,
         "cancelReservation",
     ])->name("reservations.cancel");
+
+    Route::get('/partnerships', [PartnershipController::class, 'index'])
+    ->name('partnerships');
 });
 
 Route::middleware([

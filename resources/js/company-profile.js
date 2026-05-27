@@ -1,4 +1,5 @@
 const vacancy_btn = document.getElementById("add-vacancy-btn");
+const partnershipsBtn = document.querySelector(".partnerships-btn");
 
 if (vacancy_btn) {
     vacancy_btn.onclick = function () {
@@ -8,6 +9,20 @@ if (vacancy_btn) {
             window.location.href = url;
         }
     };
+}
+
+if (partnershipsBtn) {
+
+    partnershipsBtn.addEventListener("click", function () {
+
+        const url = this.getAttribute("data-url");
+
+        if (url) {
+            window.location.href = url;
+        }
+
+    });
+
 }
 
 window.addEventListener("scroll", () => {

@@ -24,8 +24,8 @@
                 <div class="logo-icon">✦</div>
 
                 <div>
-                    <h2>Global Network</h2>
-                    <p>Enterprise Admin</p>
+                    <h2>Практикум</h2>
+                    <p>Партнёрства</p>
                 </div>
             </div>
 
@@ -61,8 +61,8 @@
             <div class="topbar-right">
                 <div class="profile">
                     <div class="profile-info">
-                        <h4>Пользователь</h4>
-                        <p>Система управления</p>
+                        <h4>{{ $user->name }}</h4>
+                        <p>{{ $user->email }}</p>
                     </div>
 
                     <div class="avatar-placeholder">П</div>

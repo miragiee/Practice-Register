@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContractRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PartnershipController extends Controller
 {
@@ -10,6 +11,11 @@ class PartnershipController extends Controller
     {
         $requests = ContractRequest::latest()->get();
 
-        return view('partnerships', compact('requests'));
+        $user = Auth::user();
+
+        return view('partnerships', compact(
+            'requests',
+            'user'
+        ));
     }
 }

@@ -186,6 +186,14 @@ body {
 
 /* BUTTON */
 
+.buttons{
+    display: flex;
+    gap: 16px;
+
+    align-items: center;
+    justify-content: center;
+}
+
 .add-vacancy-btn {
     display: flex;
     align-items: center;
