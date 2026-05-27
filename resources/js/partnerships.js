@@ -16,10 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     navItems.forEach((item) => {
         item.addEventListener("click", (e) => {
-            e.preventDefault();
-
             const view = item.dataset.view;
-            if (!view || !views[view]) return;
+            // Если это не вкладка (например, кнопка «В профиль»), не мешаем переходу
+            if (!view || !views[view]) {
+                // Не вызываем preventDefault, ссылка сработает как обычная
+                return;
+            }
+
+            e.preventDefault();
 
             navItems.forEach((i) => i.classList.remove("active"));
             item.classList.add("active");
@@ -73,11 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const courses = new Set();
         table.querySelectorAll(".student-badge").forEach(badge => {
             const courseText = badge.textContent.trim();
-            // извлекаем только число (например, "4 курс" -> "4")
             const courseNumber = courseText.match(/\d+/);
             if (courseNumber) courses.add(courseNumber[0]);
         });
-        // Сортируем курсы по возрастанию
         Array.from(courses)
             .sort((a, b) => a - b)
             .forEach(course => {
@@ -95,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const rows = table.querySelectorAll("tbody tr:not(.table-footer-row)");
             rows.forEach(row => {
-                // Пропускаем служебные строки (например, "Нет студентов")
                 if (row.querySelector(".student-list__empty")) return;
 
                 const name = row.querySelector("h4")?.textContent.toLowerCase() || "";
@@ -123,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Обработчики событий
         if (searchInput) {
             searchInput.addEventListener("input", filterRows);
         }
@@ -134,7 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
             courseSelect.addEventListener("change", filterRows);
         }
 
-        // Сброс фильтров
         if (resetButton) {
             resetButton.addEventListener("click", () => {
                 if (searchInput) searchInput.value = "";
@@ -144,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Кнопка "Фильтры" (пока просто лог)
         if (filterButton) {
             filterButton.addEventListener("click", () => {
                 console.log("Открыть расширенные фильтры (пока не реализовано)");

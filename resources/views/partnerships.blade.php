@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -31,6 +30,12 @@
             </div>
 
             <nav class="sidebar-nav">
+                {{-- Кнопка возврата в профиль --}}
+                <a href="{{ $profileUrl }}" class="nav-item">
+                    <span>←</span>
+                    <span>В профиль</span>
+                </a>
+
                 <a href="#" class="nav-item" data-view="partners">
                     <span>◈</span>
                     <span>Партнёры</span>
@@ -75,8 +80,6 @@
         <div id="view-students" style="display:none;">
             @include('partials.student-list')
         </div>
-
-
 
     </main>
 

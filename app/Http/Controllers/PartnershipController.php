@@ -45,7 +45,6 @@ class PartnershipController extends Controller
 
         // Студенты
         $students = collect();
-
         if ($companyId) {
             $students = Student::whereHas('studentInternships', function ($q) use ($companyId) {
                     $q->where('company_id', $companyId);
@@ -73,6 +72,14 @@ class PartnershipController extends Controller
             });
         }
 
-        return view('partnerships', compact('user', 'partners', 'requests', 'students'));
+        // Ссылка на профиль
+        $profileUrl = url('/'); // fallback
+        if ($user->role_id === 4) {
+            $profileUrl = route('company-profile');
+        } elseif ($user->role_id === 2) {
+            $profileUrl = route('university-profile');
+        }
+
+        return view('partnerships', compact('user', 'partners', 'requests', 'students', 'profileUrl'));
     }
 }
