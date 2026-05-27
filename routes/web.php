@@ -68,10 +68,20 @@ Route::prefix("auth")->group(function () {
 Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 
 Route::middleware(["auth", "nocache"])->group(function () {
+Route::resource('internships', InternshipController::class);
     Route::get("/profile/student", [
         AuthController::class,
         "studentProfile",
     ])->name("student-profile");
+    Route::get('/internships/create', [
+    InternshipController::class,
+    'create'
+    ])->name('internships.create');
+
+    Route::post('/internships', [
+    InternshipController::class,
+    'store'
+    ])->name('internships.store');
     Route::put("/student/{id}", [StudentController::class, "update"])->name(
         "student.update",
     );
@@ -124,16 +134,12 @@ Route::middleware(["auth", "nocache"])->group(function () {
         StudentController::class,
         "cancelReservation",
     ])->name("reservations.cancel");
-
-    Route::get('/partnerships', [PartnershipController::class, 'index'])
-    ->name('partnerships');
+    Route::get('/partnerships', [
+        PartnershipController::class,
+    'index'
+])->name('partnerships');
 });
 
-Route::get('/internships/create', [InternshipController::class, 'create'])
-    ->name('internships.create');
-
-Route::post('/internships/store', [InternshipController::class, 'store'])
-    ->name('internships.store');
 
 Route::middleware([
     "auth",
@@ -146,7 +152,6 @@ Route::middleware([
         "universities" => UniversityController::class,
         "students" => StudentController::class,
         "directions" => DirectionController::class,
-        "internships" => InternshipController::class,
         "contracts" => ContractController::class,
         "reservations" => ReservationController::class,
         "documents" => DocumentController::class,

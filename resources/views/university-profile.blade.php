@@ -59,6 +59,12 @@
 
         <div class="hero-actions">
 
+            <div class="hero-actions">
+    <a href="{{ route('internships.create') }}" class="create-practice-btn">
+        ➕ Создать практику
+    </a>
+</div>
+
             <button class="settings-btn">
                 ⚙ Настройки
             </button>

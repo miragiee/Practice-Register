@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Internship;
 use Illuminate\Http\Request;
+use App\Models\University;
 
 class InternshipController extends Controller
 {
@@ -33,7 +34,10 @@ class InternshipController extends Controller
 
     public function create()
 {
-    return view('create_internship');
+    $internships = Internship::latest()->get();
+    $universities = University::all();
+
+    return view('create_internship', compact('internships', 'universities'));
 }
 
     public function store(Request $request)
@@ -62,7 +66,7 @@ class InternshipController extends Controller
 
         return redirect()
             ->back()
-            ->with('success', 'Стажировка успешно добавлена');
+            ->with('success', 'Практика успешно добавлена');
     }
 
     /*

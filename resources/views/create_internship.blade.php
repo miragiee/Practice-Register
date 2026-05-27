@@ -6,50 +6,13 @@
     <title>Создание практики</title>
 
     @vite([
-        'resources/css/create_internship.css'
+        'resources/css/create_internship.css',
+        'resources/js/create_internship.js'
     ])
 </head>
 <body>
 
 <div class="layout">
-
-    {{-- SIDEBAR --}}
-    <aside class="sidebar">
-
-        <div>
-
-            <div class="logo">
-
-                <div class="logo-icon">
-                    ✦
-                </div>
-
-                <div>
-                    <h2>Global Network</h2>
-                    <p>Enterprise Admin</p>
-                </div>
-
-            </div>
-
-            <nav class="sidebar-nav">
-
-                <a href="#" class="nav-item">
-                    ◈ Профиль
-                </a>
-
-                <a href="#" class="nav-item active">
-                    ◈ Создание практики
-                </a>
-
-                <a href="#" class="nav-item">
-                    ◉ Практики
-                </a>
-
-            </nav>
-
-        </div>
-
-    </aside>
 
     {{-- CONTENT --}}
     <main class="content">
@@ -63,10 +26,6 @@
             <div>
 
                 <h1>Создание практики</h1>
-
-                <p>
-                    Добавьте новую программу стажировки.
-                </p>
 
             </div>
 
@@ -153,6 +112,56 @@
             </form>
 
         </section>
+
+        <section class="existing-internships">
+
+    <h2>Существующие практики</h2>
+
+    @foreach($internships as $internship)
+
+       <div class="internship-card">
+
+    <div class="internship-header" onclick="toggleCard(this)">
+        <div>
+            <strong>{{ $internship->description }}</strong>
+        </div>
+
+        <div class="arrow">▼</div>
+    </div>
+
+    <div class="internship-body hidden">
+
+        {{-- UPDATE --}}
+        <form action="{{ route('internships.update', $internship->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <input type="number" name="university_id" value="{{ $internship->university_id }}">
+
+            <input type="date" name="start_date" value="{{ $internship->start_date }}">
+
+            <input type="date" name="end_date" value="{{ $internship->end_date }}">
+
+            <textarea name="description">{{ $internship->description }}</textarea>
+
+            <button type="submit">💾 Обновить</button>
+        </form>
+
+        {{-- DELETE --}}
+        <form action="{{ route('internships.destroy', $internship->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <button onclick="return confirm('Удалить?')">
+                🗑 Удалить
+            </button>
+        </form>
+
+    </div>
+</div>
+
+    @endforeach
+
 
     </main>
 
