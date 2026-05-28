@@ -114,6 +114,71 @@ class CompanyRequestController extends Controller
 
     /*
     |--------------------------------------------------------------------------
+    | EDIT FORM
+    |--------------------------------------------------------------------------
+    */
+
+    public function edit($id)
+    {
+        $company = Auth::user()->company;
+
+        if (!$company) {
+            abort(403, "Компания не найдена");
+        }
+
+        $request = CompanyRequest::with(["company", "direction", "internship"])
+            ->where("company_id", $company->id)
+            ->findOrFail($id);
+
+        $directions = Direction::all();
+        $internships = Internship::all();
+
+        return view(
+            "company-request-edit",
+            compact("request", "directions", "internships"),
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE REQUEST
+    |--------------------------------------------------------------------------
+    */
+
+    public function update(Request $request, $id)
+    {
+        $company = Auth::user()->company;
+
+        if (!$company) {
+            abort(403, "Компания не найдена");
+        }
+
+        $companyRequest = CompanyRequest::where(
+            "company_id",
+            $company->id,
+        )->findOrFail($id);
+
+        $validated = $request->validate([
+            "direction_id" => "required|exists:directions,id",
+            "internship_id" => "required|exists:internships,id",
+            "required_count" => "required|integer|min:1",
+            "requirements_text" => "required|string|max:3000",
+        ]);
+
+        $companyRequest->update([
+            "direction_id" => $validated["direction_id"],
+            "internship_id" => $validated["internship_id"],
+            "required_count" => $validated["required_count"],
+            "requirements_text" => $validated["requirements_text"],
+        ]);
+
+        return redirect()
+            ->route("company-requests.index")
+            ->with("success", "Заявка успешно обновлена");
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | DELETE REQUEST
     |--------------------------------------------------------------------------
     */

@@ -105,6 +105,12 @@ Route::middleware(["auth", "nocache"])->group(function () {
     Route::get("/profile/company/requests/{id}", [CompanyRequestController::class, "show"])
         ->name("profile.company-requests.show");
 
+    Route::get("/profile/company/requests/{id}/edit", [CompanyRequestController::class, "edit"])
+        ->name("profile.company-requests.edit");
+
+    Route::put("/profile/company/requests/{id}", [CompanyRequestController::class, "update"])
+        ->name("profile.company-requests.update");
+
     Route::delete("/profile/company/requests/{id}", [CompanyRequestController::class, "destroy"])
         ->name("profile.company-requests.destroy");
 

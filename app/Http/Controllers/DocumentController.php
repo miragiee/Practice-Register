@@ -69,7 +69,7 @@ class DocumentController extends Controller
     {
         $validated = $request->validate([
             'student_internship_id' => 'required|integer|exists:student_internships,id',
-            'file'                  => 'nullable|file|max:5120',
+            'file'                  => 'nullable|file|mimes:pdf,docx,doc|max:5120',
             'file_path'             => 'nullable|string|max:255',
             'type'                  => 'required|string|max:100',
         ]);
@@ -159,7 +159,7 @@ class DocumentController extends Controller
     {
         $validated = $request->validate([
             'student_internship_id' => 'nullable|integer|exists:student_internships,id',
-            'file'                  => 'nullable|file|max:5120',
+            'file'                  => 'nullable|file|mimes:pdf,docx,doc|max:5120',
             'file_path'             => 'nullable|string|max:255',
             'type'                  => 'nullable|string|max:100',
         ]);
