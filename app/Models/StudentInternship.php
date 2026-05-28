@@ -13,6 +13,7 @@ class StudentInternship extends Model
         'student_id',
         'company_id',
         'internship_id',
+        'contract_id',
         'status',
     ];
 
@@ -29,6 +30,11 @@ class StudentInternship extends Model
     public function internship()
     {
         return $this->belongsTo(Internship::class);
+    }
+
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class);
     }
 
     public function documents()
