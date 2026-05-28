@@ -9,6 +9,10 @@ use App\Models\Student;
 use App\Models\Company;
 use App\Models\University;
 use App\Models\Direction;
+use App\Models\CompanyRequest;
+use App\Models\Reservation;
+use App\Models\StudentInternship;
+use App\Models\Contract;
 
 class AuthController extends Controller
 {
@@ -207,7 +211,40 @@ class AuthController extends Controller
             abort(404, "Компания не найдена");
         }
 
-        return view("company-profile", compact("company", "user"));
+        $companyRequests = CompanyRequest::with(["direction", "internship"])
+            ->where("company_id", $company->id)
+            ->latest()
+            ->get();
+
+        $companyReservations = Reservation::with(["student", "internship"])
+            ->where("company_id", $company->id)
+            ->latest()
+            ->get();
+
+        $assignedInternships = StudentInternship::with(["student", "internship"])
+            ->where("company_id", $company->id)
+            ->latest()
+            ->get();
+
+        $activeContractsCount = Contract::where("company_id", $company->id)
+            ->where("status", "active")
+            ->count();
+
+        $vacancyCount = $companyRequests->count();
+        $assignedCount = $assignedInternships->count();
+        $activeReservationsCount = $companyReservations->where('status', '!=', 'cancelled')->count();
+
+        return view("company-profile", compact(
+            "company",
+            "user",
+            "companyRequests",
+            "companyReservations",
+            "assignedInternships",
+            "vacancyCount",
+            "assignedCount",
+            "activeReservationsCount",
+            "activeContractsCount",
+        ));
     }
 
     /*

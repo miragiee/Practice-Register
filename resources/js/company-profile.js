@@ -110,6 +110,37 @@ document.querySelectorAll(".gallery-item").forEach((item) => {
     });
 });
 
+document.querySelectorAll(".cancel-reservation-btn").forEach((button) => {
+    button.addEventListener("click", async function () {
+        const action = this.getAttribute("data-action");
+
+        if (!action) return;
+
+        if (!confirm("Вы уверены, что хотите отменить бронирование?")) {
+            return;
+        }
+
+        try {
+            const response = await fetch(action, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')?.content || "",
+                    "Accept": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to cancel reservation");
+            }
+
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+            alert("Не удалось отменить бронирование");
+        }
+    });
+});
+
 document.querySelectorAll(".vacancy-card").forEach((card) => {
     card.addEventListener("click", function (e) {
         if (

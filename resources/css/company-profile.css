@@ -480,6 +480,32 @@ body {
     gap: 16px;
 }
 
+.empty-state {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 96px;
+    padding: 20px;
+
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px dashed rgba(74, 108, 247, 0.26);
+
+    color: #666;
+    font-size: 14px;
+}
+
+.empty-state a {
+    color: var(--accent-color);
+    font-weight: 700;
+    text-decoration: none;
+}
+
 .vacancy-card {
     position: relative;
     overflow: hidden;
@@ -671,6 +697,98 @@ body {
 
 .vacancy-card:hover .vacancy-detail-link svg {
     transform: translateX(2px);
+}
+
+.reservations-section {
+    margin-bottom: 40px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+.reservations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.reservation-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    padding: 18px 20px;
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(74, 108, 247, 0.16);
+    box-shadow: 0 16px 40px rgba(67, 77, 104, 0.08);
+}
+
+.reservation-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.reservation-meta {
+    margin-top: 4px;
+
+    font-size: 13px;
+    color: #666;
+}
+
+.reservation-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reservation-status-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 10px;
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-pending {
+    background: #fff5db;
+    color: #b7791f;
+}
+
+.status-assigned {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.cancel-reservation-btn {
+    border: none;
+    border-radius: 999px;
+
+    padding: 8px 12px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    background: rgba(255, 77, 77, 0.12);
+    color: #c62828;
 }
 
 /* BOTTOM */

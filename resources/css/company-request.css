@@ -440,6 +440,28 @@ main {
     color: #4a4a58;
 }
 
+.requirements-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+.requirement-tag {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 10px;
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    background: #eef2ff;
+    color: var(--accent);
+}
+
 /* FORM */
 
 .input,

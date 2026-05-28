@@ -50,7 +50,10 @@ class StudentController extends Controller
             "direction_id" => "required|exists:directions,id",
             "course" => "required|integer",
             "email" => "required|string|max:255",
+            "qualities" => "nullable",
         ]);
+
+        $validated['qualities'] = $this->normalizeQualities($request->input('qualities'));
 
         $user = Auth::user();
         $university = $user?->university;
@@ -91,7 +94,12 @@ class StudentController extends Controller
             "direction_id" => "nullable|exists:directions,id",
             "course" => "nullable|integer",
             "email" => "nullable|string|max:255",
+            "qualities" => "nullable",
         ]);
+
+        if ($request->has('qualities')) {
+            $validated['qualities'] = $this->normalizeQualities($request->input('qualities'));
+        }
 
         $data = array_filter($validated, function ($value) {
             return $value !== null && $value !== "";
@@ -197,5 +205,24 @@ class StudentController extends Controller
 
         $reservation->delete();
         return response()->json(['success' => true]);
+    }
+
+    protected function normalizeQualities($qualities): array
+    {
+        if (is_array($qualities)) {
+            return array_values(array_filter(array_map('trim', $qualities), fn($item) => $item !== ''));
+        }
+
+        if (is_string($qualities)) {
+            $decoded = json_decode($qualities, true);
+
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                return array_values(array_filter(array_map('trim', $decoded), fn($item) => $item !== ''));
+            }
+
+            return array_values(array_filter(array_map('trim', preg_split('/,/', $qualities) ?: []), fn($item) => $item !== ''));
+        }
+
+        return [];
     }
 }

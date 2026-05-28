@@ -118,14 +118,16 @@
         <div class="content-card fade-in">
             <h2 class="section-title">Навыки</h2>
             <div class="skills-list">
-                <span class="skill-tag skill-blue">Python</span>
-                <span class="skill-tag skill-blue">Data Analysis</span>
-                <span class="skill-tag skill-blue">Machine Learning</span>
-                <span class="skill-tag skill-blue">SQL</span>
-                <span class="skill-tag skill-blue">PyTorch</span>
-                <span class="skill-tag skill-green">Git</span>
-                <span class="skill-tag skill-orange">Tableau</span>
-                <span class="skill-tag skill-orange">English C1</span>
+                @php
+                    $skills = is_array($student->qualities) ? $student->qualities : json_decode($student->qualities, true);
+                    $skills = is_array($skills) ? $skills : [];
+                @endphp
+
+                @forelse($skills as $skill)
+                    <span class="skill-tag skill-blue">{{ $skill }}</span>
+                @empty
+                    <span class="skill-tag skill-blue">Навыки не указаны</span>
+                @endforelse
             </div>
         </div>
 
@@ -207,6 +209,10 @@
                             @endforeach
                         @endif
                     </select>
+                </div>
+                <div class="form-group">
+                    <label for="qualities">Навыки</label>
+                    <textarea id="qualities" name="qualities" rows="4">{{ is_array($student->qualities) ? implode(', ', $student->qualities) : '' }}</textarea>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn-cancel">Отмена</button>

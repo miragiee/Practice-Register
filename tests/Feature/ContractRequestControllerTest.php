@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
@@ -68,6 +69,8 @@ class ContractRequestControllerTest extends TestCase
             'university_accept' => false,
         ]);
 
+        Notification::fake();
+
         $this->actingAs($adminUser);
 
         $resp1 = $this->put("/contract-requests/{$cr->id}/accept-company");
@@ -88,5 +91,8 @@ class ContractRequestControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseCount('contract_requests', 0);
+
+        Notification::assertSentTo($companyUser, \App\Notifications\ContractActivated::class);
+        Notification::assertSentTo($uniUser, \App\Notifications\ContractActivated::class);
     }
 }

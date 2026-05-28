@@ -157,6 +157,14 @@
                             {{ $request->requirements_text }}
                         </p>
 
+                        @if(!empty($request->requirements_tags))
+                            <div class="requirements-tags">
+                                @foreach($request->requirements_tags as $tag)
+                                    <span class="requirement-tag">{{ $tag }}</span>
+                                @endforeach
+                            </div>
+                        @endif
+
                     </div>
 
                     <div class="card-actions">

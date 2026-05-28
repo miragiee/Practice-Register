@@ -65,6 +65,17 @@
 
                 </div>
 
+                <div class="form-group">
+
+                    <label>ID направления</label>
+
+                    <input
+                        type="number"
+                        name="direction_id"
+                    >
+
+                </div>
+
                 <div class="form-row">
 
                     <div class="form-group">
@@ -90,6 +101,31 @@
                         >
 
                     </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Вместимость</label>
+
+                    <input
+                        type="number"
+                        name="capacity"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Качества (JSON или список через запятую)</label>
+
+                    <textarea
+                        name="qualities"
+                        rows="4"
+                        placeholder='["PHP","Laravel"]'
+                    ></textarea>
 
                 </div>
 

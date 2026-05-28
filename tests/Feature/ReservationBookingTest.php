@@ -24,6 +24,7 @@ class ReservationBookingTest extends TestCase
 
         $companyUser = User::factory()->create(['role_id' => $roleCompany->id]);
         $uniUser = User::factory()->create(['role_id' => $roleUni->id]);
+        $studentUser = User::factory()->create(['email' => 'a@b.test', 'role_id' => $roleUni->id]);
 
         $company = Company::create(['user_id' => $companyUser->id, 'name' => 'C', 'description' => 'd', 'contact_info' => 'c', 'inn' => '123', 'website' => '']);
         $university = University::create(['user_id' => $uniUser->id, 'name' => 'U', 'inn' => '1', 'contact_person' => 'X', 'position' => 'P', 'phone' => '111']);
@@ -68,5 +69,51 @@ class ReservationBookingTest extends TestCase
 
         Notification::assertSentTo($companyUser, \App\Notifications\ReservationCreated::class);
         Notification::assertSentTo($uniUser, \App\Notifications\ReservationCreated::class);
+        Notification::assertSentTo($companyUser, \App\Notifications\StudentAssigned::class);
+        Notification::assertSentTo($uniUser, \App\Notifications\StudentAssigned::class);
+        Notification::assertSentTo($studentUser, \App\Notifications\StudentAssigned::class);
+    }
+
+    public function test_company_can_cancel_reservation_and_notify_parties()
+    {
+        $roleCompany = Role::create(['name' => 'Компания']);
+        $roleUni = Role::create(['name' => 'Университет']);
+
+        $companyUser = User::factory()->create(['role_id' => $roleCompany->id]);
+        $uniUser = User::factory()->create(['role_id' => $roleUni->id]);
+        $studentUser = User::factory()->create(['email' => 'student@example.test', 'role_id' => $roleUni->id]);
+
+        $company = Company::create(['user_id' => $companyUser->id, 'name' => 'C', 'description' => 'd', 'contact_info' => 'c', 'inn' => '123', 'website' => '']);
+        $university = University::create(['user_id' => $uniUser->id, 'name' => 'U', 'inn' => '1', 'contact_person' => 'X', 'position' => 'P', 'phone' => '111']);
+
+        $direction = \App\Models\Direction::create(['name' => 'D', 'description' => 'd']);
+
+        $internship = Internship::create(['university_id' => $university->id, 'start_date' => now()->toDateString(), 'end_date' => now()->addDays(5)->toDateString(), 'description' => 'd', 'capacity' => 2]);
+
+        $student = Student::create(['full_name' => 'Ivan', 'university_id' => $university->id, 'direction_id' => $direction->id, 'course' => 1, 'email' => 'student@example.test']);
+
+        $reservation = \App\Models\Reservation::create([
+            'company_id' => $company->id,
+            'student_id' => $student->id,
+            'internship_id' => $internship->id,
+            'status' => 'pending',
+        ]);
+
+        $this->actingAs($companyUser);
+
+        Notification::fake();
+
+        $response = $this->delete('/reservations/' . $reservation->id . '/cancel-by-company');
+
+        $response->assertOk();
+
+        $this->assertDatabaseHas('reservations', [
+            'id' => $reservation->id,
+            'status' => 'cancelled',
+        ]);
+
+        Notification::assertSentTo($companyUser, \App\Notifications\ReservationCancelled::class);
+        Notification::assertSentTo($uniUser, \App\Notifications\ReservationCancelled::class);
+        Notification::assertSentTo($studentUser, \App\Notifications\ReservationCancelled::class);
     }
 }

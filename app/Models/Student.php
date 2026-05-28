@@ -15,6 +15,11 @@ class Student extends Model
         "direction_id",
         "course",
         "email",
+        "qualities",
+    ];
+
+    protected $casts = [
+        'qualities' => 'array',
     ];
 
     public function studentInternships()

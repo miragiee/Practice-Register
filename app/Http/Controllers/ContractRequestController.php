@@ -6,8 +6,10 @@ use App\Models\ContractRequest;
 use App\Models\Contract;
 use App\Models\Company;
 use App\Models\University;
+use App\Notifications\ContractActivated;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class ContractRequestController extends Controller
 {
@@ -179,6 +181,17 @@ class ContractRequestController extends Controller
             ]);
 
             Log::info('CONTRACT CREATED', $contract->toArray());
+        }
+
+        $companyUser = $contract->company->user ?? null;
+        $universityUser = $contract->university->user ?? null;
+
+        if ($companyUser && method_exists($companyUser, 'notify')) {
+            $companyUser->notify(new ContractActivated($contract));
+        }
+
+        if ($universityUser && method_exists($universityUser, 'notify')) {
+            $universityUser->notify(new ContractActivated($contract));
         }
 
         // ❗ ВАЖНО: удаляем заявку после успешного создания/активации контракта

@@ -97,7 +97,7 @@
     <div class="form-panel">
 
         <form
-            action="/internships"
+            action="{{ route('internships.store') }}"
             method="POST"
         >
 
@@ -114,6 +114,20 @@
                     id="university_id"
                     name="university_id"
                     required
+                >
+
+            </p>
+
+            <p>
+
+                <label for="direction_id">
+                    ID направления
+                </label>
+
+                <input
+                    type="number"
+                    id="direction_id"
+                    name="direction_id"
                 >
 
             </p>
@@ -145,6 +159,37 @@
                     name="end_date"
                     required
                 >
+
+            </p>
+
+            <p>
+
+                <label for="capacity">
+                    Вместимость
+                </label>
+
+                <input
+                    type="number"
+                    id="capacity"
+                    name="capacity"
+                    min="0"
+                    value="0"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="qualities">
+                    Качества (JSON или через запятую)
+                </label>
+
+                <textarea
+                    id="qualities"
+                    name="qualities"
+                    rows="3"
+                    placeholder='["PHP","Laravel"]'
+                ></textarea>
 
             </p>
 
@@ -229,6 +274,20 @@
 
             <p>
 
+                <label for="update-direction-id">
+                    Новый ID направления
+                </label>
+
+                <input
+                    type="number"
+                    id="update-direction-id"
+                    name="direction_id"
+                >
+
+            </p>
+
+            <p>
+
                 <label for="update-start-date">
                     Новая дата начала
                 </label>
@@ -252,6 +311,36 @@
                     id="update-end-date"
                     name="end_date"
                 >
+
+            </p>
+
+            <p>
+
+                <label for="update-capacity">
+                    Новая вместимость
+                </label>
+
+                <input
+                    type="number"
+                    id="update-capacity"
+                    name="capacity"
+                    min="0"
+                >
+
+            </p>
+
+            <p>
+
+                <label for="update-qualities">
+                    Новые качества (JSON или через запятую)
+                </label>
+
+                <textarea
+                    id="update-qualities"
+                    name="qualities"
+                    rows="3"
+                    placeholder='["PHP","Laravel"]'
+                ></textarea>
 
             </p>
 

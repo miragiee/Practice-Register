@@ -31,6 +31,7 @@ const templates = {
             <td>${s.full_name}</td>
             <td>${s.course}</td>
             <td>${s.email}</td>
+            <td>${Array.isArray(s.qualities) ? s.qualities.join(', ') : (s.qualities || '-')}</td>
         </tr>
     `,
 
@@ -46,8 +47,11 @@ const templates = {
         <tr>
             <td>${i.id}</td>
             <td>${i.university_id}</td>
+            <td>${i.direction_id ?? '-'}</td>
             <td>${i.start_date}</td>
             <td>${i.end_date}</td>
+            <td>${i.capacity ?? 0}</td>
+            <td>${Array.isArray(i.qualities) ? i.qualities.join(', ') : (i.qualities || '-')}</td>
             <td>${i.description}</td>
         </tr>
     `,
@@ -110,15 +114,18 @@ const tableHeaders = {
     companies: ["id", "name", "contact_info", "description", "inn", "website"],
     universities: ["id", "name", "city", "contact_info"],
 
-    students: ["id", "full_name", "course", "email"],
+    students: ["id", "full_name", "course", "email", "qualities"],
 
     directions: ["id", "name", "description"],
 
     internships: [
         "id",
         "university_id",
+        "direction_id",
         "start_date",
         "end_date",
+        "capacity",
+        "qualities",
         "description",
     ],
 

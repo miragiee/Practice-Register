@@ -44,10 +44,15 @@ class InternshipController extends Controller
     {
         $validated = $request->validate([
             'university_id' => 'required|integer',
+            'direction_id' => 'nullable|integer',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
+            'capacity' => 'nullable|integer|min:0',
+            'qualities' => 'nullable',
             'description' => 'required|string',
         ]);
+
+        $validated['qualities'] = $this->normalizeQualities($request->input('qualities'));
 
         // ❗ Проверка на дубликат
         $exists = Internship::where('university_id', $validated['university_id'])
@@ -78,10 +83,17 @@ class InternshipController extends Controller
     {
         $validated = $request->validate([
             'university_id' => 'nullable|integer',
+            'direction_id' => 'nullable|integer',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
+            'capacity' => 'nullable|integer|min:0',
+            'qualities' => 'nullable',
             'description' => 'nullable|string',
         ]);
+
+        if ($request->has('qualities')) {
+            $validated['qualities'] = $this->normalizeQualities($request->input('qualities'));
+        }
 
         $data = array_filter($validated, function ($value) {
             return $value !== null && $value !== "";
@@ -131,5 +143,24 @@ class InternshipController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Стажировка удалена');
+    }
+
+    protected function normalizeQualities($qualities): array
+    {
+        if (is_array($qualities)) {
+            return array_values(array_filter(array_map('trim', $qualities), fn($item) => $item !== ''));
+        }
+
+        if (is_string($qualities)) {
+            $decoded = json_decode($qualities, true);
+
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                return array_values(array_filter(array_map('trim', $decoded), fn($item) => $item !== ''));
+            }
+
+            return array_values(array_filter(array_map('trim', preg_split('/,/', $qualities) ?: []), fn($item) => $item !== ''));
+        }
+
+        return [];
     }
 }

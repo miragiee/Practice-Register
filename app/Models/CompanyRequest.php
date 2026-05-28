@@ -46,4 +46,18 @@ class CompanyRequest extends Model
     {
         return $this->belongsTo(Internship::class);
     }
+
+    public function getRequirementsTagsAttribute(): array
+    {
+        $text = (string) $this->requirements_text;
+
+        $parts = preg_split('/\r\n|\r|\n|,/', $text);
+
+        $tags = array_filter(array_map(function ($part) {
+            $tag = trim($part);
+            return $tag === '' ? null : $tag;
+        }, $parts ?? []));
+
+        return array_values($tags);
+    }
 }

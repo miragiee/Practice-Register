@@ -9,6 +9,10 @@ use App\Models\Student;
 use App\Models\Internship;
 use App\Models\Contract;
 use App\Models\StudentInternship;
+use App\Notifications\ReservationCancelled;
+use App\Notifications\StudentAssigned;
+use App\Models\User;
+use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
@@ -96,11 +100,15 @@ class ReservationController extends Controller
             'status' => $validated['status'],
         ]);
 
+        $universityUser = $reservation->internship->university->user ?? null;
+        $companyUser = $company->user ?? null;
+        $studentUser = User::where('email', $student->email)->first();
+
         // Если есть контракт — автоматически переводим студента в стажировку
         try {
             if ($hasContract) {
                 // создаём запись о передаче студента
-                StudentInternship::create([
+                $studentInternship = StudentInternship::create([
                     'student_id' => $student->id,
                     'company_id' => $company->id,
                     'internship_id' => $internship->id,
@@ -109,6 +117,18 @@ class ReservationController extends Controller
 
                 // обновим статус резервации на assigned, если исходный статус был pending
                 $reservation->update(['status' => 'assigned']);
+
+                if ($companyUser && method_exists($companyUser, 'notify')) {
+                    $companyUser->notify(new StudentAssigned($studentInternship));
+                }
+
+                if ($universityUser && method_exists($universityUser, 'notify')) {
+                    $universityUser->notify(new StudentAssigned($studentInternship));
+                }
+
+                if ($studentUser && method_exists($studentUser, 'notify')) {
+                    $studentUser->notify(new StudentAssigned($studentInternship));
+                }
             }
         } catch (\Throwable $e) {
             // не мешаем основному процессу, просто логируем при необходимости
@@ -116,15 +136,16 @@ class ReservationController extends Controller
 
         // уведомления вузу и компании (попытка, ошибки игнорируем)
         try {
-            $universityUser = $reservation->internship->university->user ?? null;
-            $companyUser = $company->user ?? null;
-
             if ($universityUser && method_exists($universityUser, 'notify')) {
                 $universityUser->notify(new \App\Notifications\ReservationCreated($reservation));
             }
 
             if ($companyUser && method_exists($companyUser, 'notify')) {
                 $companyUser->notify(new \App\Notifications\ReservationCreated($reservation));
+            }
+
+            if ($studentUser && method_exists($studentUser, 'notify')) {
+                $studentUser->notify(new \App\Notifications\ReservationCreated($reservation));
             }
         } catch (\Throwable $e) {
             // ignore
@@ -186,6 +207,52 @@ class ReservationController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Данные обновлены');
+    }
+
+    public function cancelByCompany(Reservation $reservation)
+    {
+        $user = Auth::user();
+        $company = $user?->company;
+
+        if (! $company) {
+            abort(403, 'Только компания может отменять бронирования');
+        }
+
+        if ($reservation->company_id !== $company->id) {
+            return response()->json(['error' => 'Доступ запрещён'], 403);
+        }
+
+        $reservation->update(['status' => 'cancelled']);
+
+        StudentInternship::where('student_id', $reservation->student_id)
+            ->where('company_id', $reservation->company_id)
+            ->where('internship_id', $reservation->internship_id)
+            ->delete();
+
+        try {
+            $universityUser = $reservation->internship->university->user ?? null;
+            $companyUser = $company->user ?? null;
+            $studentUser = User::where('email', $reservation->student->email)->first();
+
+            if ($universityUser && method_exists($universityUser, 'notify')) {
+                $universityUser->notify(new ReservationCancelled($reservation));
+            }
+
+            if ($companyUser && method_exists($companyUser, 'notify')) {
+                $companyUser->notify(new ReservationCancelled($reservation));
+            }
+
+            if ($studentUser && method_exists($studentUser, 'notify')) {
+                $studentUser->notify(new ReservationCancelled($reservation));
+            } else {
+                Notification::route('mail', $reservation->student->email)
+                    ->notify(new ReservationCancelled($reservation));
+            }
+        } catch (\Throwable $e) {
+            // ignore
+        }
+
+        return response()->json(['success' => true, 'status' => $reservation->status]);
     }
 
     public function destroy($id)

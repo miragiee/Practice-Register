@@ -129,6 +129,9 @@ Route::middleware(["auth", "nocache"])->group(function () {
     Route::post('/reservations/book', [\App\Http\Controllers\ReservationController::class, 'store'])
         ->name('reservations.book');
 
+    Route::delete('/reservations/{reservation}/cancel-by-company', [\App\Http\Controllers\ReservationController::class, 'cancelByCompany'])
+        ->name('reservations.cancel-by-company');
+
     Route::get("/student/reservations", [StudentController::class, "reservations"])
         ->name("student.reservations");
 
@@ -167,6 +170,9 @@ Route::middleware(["auth", "nocache"])->group(function () {
 | ADMIN ROUTES
 |--------------------------------------------------------------------------
 */
+
+Route::get('/internships', [InternshipController::class, 'index'])
+    ->name('internships.index');
 
 Route::get('/internships/create', [InternshipController::class, 'create'])
     ->name('internships.create');

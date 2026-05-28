@@ -9,6 +9,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
         Профиль компании
@@ -103,9 +104,9 @@
                    stroke-linejoin="round"
                />
            </svg>
-       
+
            Партнёрства
-       
+
         </button>
         </div>
 
@@ -142,11 +143,11 @@
                 <div>
 
                     <div class="stat-value">
-                        500+
+                        {{ $vacancyCount }}
                     </div>
 
                     <div class="stat-label">
-                        сотрудников
+                        активных вакансий
                     </div>
 
                 </div>
@@ -212,11 +213,11 @@
                 <div>
 
                     <div class="stat-value">
-                        12
+                        {{ $assignedCount }}
                     </div>
 
                     <div class="stat-label">
-                        стран присутствия
+                        назначенных студентов
                     </div>
 
                 </div>
@@ -238,11 +239,11 @@
                 <div>
 
                     <div class="stat-value">
-                        150+
+                        {{ $activeReservationsCount }}
                     </div>
 
                     <div class="stat-label">
-                        выпускников практик
+                        активных бронирований
                     </div>
 
                 </div>
@@ -324,159 +325,123 @@
             </h2>
 
             <div class="vacancies-badge">
-                3 доступно
+                {{ $vacancyCount }} доступно
             </div>
 
         </div>
 
         <div class="vacancies-grid">
 
-            {{-- CARD --}}
-            <div class="vacancy-card">
+            @forelse($companyRequests as $vacancy)
+                @php
+                    $skills = collect($vacancy->internship->qualities ?? [])
+                        ->merge($vacancy->requirements_tags)
+                        ->unique()
+                        ->take(6);
+                @endphp
 
-                <div class="vacancy-top">
+                <div class="vacancy-card">
 
-                    <div class="vacancy-type type-remote">
-                        remote
+                    <div class="vacancy-top">
+
+                        <div class="vacancy-type type-remote">
+                            Практика
+                        </div>
+
+                        <div class="vacancy-bookmark">
+                            ☆
+                        </div>
+
                     </div>
 
-                    <div class="vacancy-bookmark">
-                        ☆
+                    <div class="vacancy-title">
+                        {{ $vacancy->internship->title ?? 'Практика' }}
+                    </div>
+
+                    <div class="vacancy-desc">
+                        {{ Str::limit($vacancy->requirements_text, 120) }}
+                    </div>
+
+                    <div class="vacancy-tags">
+                        @foreach($skills as $skill)
+                            <div class="vacancy-tag">
+                                {{ $skill }}
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="vacancy-footer">
+
+                        <div class="vacancy-format">
+                            Нужно: {{ $vacancy->required_count }} студент{{ $vacancy->required_count === 1 ? '' : 'а' }}
+                        </div>
+
+                        <a href="{{ route('profile.company-requests.show', $vacancy->id) }}" class="vacancy-detail-link">
+                            Детали →
+                        </a>
+
                     </div>
 
                 </div>
-
-                <div class="vacancy-title">
-                    Frontend Developer Intern
+            @empty
+                <div class="empty-state">
+                    У вас пока нет активных вакансий. <a href="{{ route('profile.company-requests.create') }}">Создать заявку</a>
                 </div>
+            @endforelse
 
-                <div class="vacancy-desc">
-                    Разработка пользовательских интерфейсов и работа с React.
-                </div>
+        </div>
 
-                <div class="vacancy-tags">
+    </section>
 
-                    <div class="vacancy-tag">
-                        React
-                    </div>
+    <section class="reservations-section fade-in">
 
-                    <div class="vacancy-tag">
-                        JS
-                    </div>
+        <div class="section-header">
 
-                </div>
+            <h2 class="section-title-large">
+                Бронирования компании
+            </h2>
 
-                <div class="vacancy-footer">
-
-                    <div class="vacancy-format">
-                        Оплачиваемая
-                    </div>
-
-                    <a href="#" class="vacancy-detail-link">
-                        Детали →
-                    </a>
-
-                </div>
-
+            <div class="vacancies-badge">
+                {{ $companyReservations->count() }} записей
             </div>
 
-            {{-- CARD --}}
-            <div class="vacancy-card">
+        </div>
 
-                <div class="vacancy-top">
+        <div class="reservations-list">
 
-                    <div class="vacancy-type type-office">
-                        office
+            @forelse($companyReservations as $reservation)
+                <article class="reservation-row">
+
+                    <div class="reservation-main">
+                        <div class="reservation-title">
+                            {{ $reservation->student->full_name ?? 'Студент' }} · {{ $reservation->internship->title ?? 'Практика' }}
+                        </div>
+                        <div class="reservation-meta">
+                            {{ $reservation->status }} · {{ $reservation->created_at->format('d.m.Y') }}
+                        </div>
                     </div>
 
-                    <div class="vacancy-bookmark">
-                        ☆
+                    <div class="reservation-actions">
+                        <span class="reservation-status-badge status-{{ strtolower($reservation->status) }}">
+                            {{ $reservation->status }}
+                        </span>
+                        @if($reservation->status !== 'cancelled')
+                            <button
+                                type="button"
+                                class="cancel-reservation-btn"
+                                data-action="{{ route('reservations.cancel-by-company', $reservation) }}"
+                            >
+                                Отменить
+                            </button>
+                        @endif
                     </div>
 
+                </article>
+            @empty
+                <div class="empty-state">
+                    Бронирований пока нет.
                 </div>
-
-                <div class="vacancy-title">
-                    QA Automation Intern
-                </div>
-
-                <div class="vacancy-desc">
-                    Автоматизация тестирования API и UI.
-                </div>
-
-                <div class="vacancy-tags">
-
-                    <div class="vacancy-tag">
-                        Python
-                    </div>
-
-                    <div class="vacancy-tag">
-                        Selenium
-                    </div>
-
-                </div>
-
-                <div class="vacancy-footer">
-
-                    <div class="vacancy-format">
-                        Оплачиваемая
-                    </div>
-
-                    <a href="#" class="vacancy-detail-link">
-                        Детали →
-                    </a>
-
-                </div>
-
-            </div>
-
-            {{-- CARD --}}
-            <div class="vacancy-card">
-
-                <div class="vacancy-top">
-
-                    <div class="vacancy-type type-hybrid">
-                        hybrid
-                    </div>
-
-                    <div class="vacancy-bookmark">
-                        ☆
-                    </div>
-
-                </div>
-
-                <div class="vacancy-title">
-                    UI/UX Designer Trainee
-                </div>
-
-                <div class="vacancy-desc">
-                    Создание прототипов и дизайн внутренних сервисов.
-                </div>
-
-                <div class="vacancy-tags">
-
-                    <div class="vacancy-tag">
-                        Figma
-                    </div>
-
-                    <div class="vacancy-tag">
-                        UI/UX
-                    </div>
-
-                </div>
-
-                <div class="vacancy-footer">
-
-                    <div class="vacancy-format">
-                        Проектная
-                    </div>
-
-                    <a href="#" class="vacancy-detail-link">
-                        Детали →
-                    </a>
-
-                </div>
-
-            </div>
+            @endforelse
 
         </div>
 

@@ -34,4 +34,9 @@ class Internship extends Model
     {
         return $this->belongsTo(Direction::class);
     }
+
+    public function getTitleAttribute($value)
+    {
+        return $value ?? ($this->attributes['description'] ?? 'Практика #' . $this->id);
+    }
 }

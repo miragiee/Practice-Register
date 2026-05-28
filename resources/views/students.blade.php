@@ -178,6 +178,21 @@
 
             </p>
 
+            <p>
+
+                <label for="qualities">
+                    Качества (JSON или через запятую)
+                </label>
+
+                <textarea
+                    id="qualities"
+                    name="qualities"
+                    rows="3"
+                    placeholder='["PHP","SQL"]'
+                ></textarea>
+
+            </p>
+
             <button type="submit">
                 Добавить студента
             </button>
@@ -295,6 +310,21 @@
                     id="update-email"
                     name="email"
                 >
+
+            </p>
+
+            <p>
+
+                <label for="update-qualities">
+                    Новые качества (JSON или через запятую)
+                </label>
+
+                <textarea
+                    id="update-qualities"
+                    name="qualities"
+                    rows="3"
+                    placeholder='["PHP","SQL"]'
+                ></textarea>
 
             </p>
 
