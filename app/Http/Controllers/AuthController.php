@@ -229,6 +229,38 @@ class AuthController extends Controller
         return view("university-profile", compact("university", "user"));
     }
 
+    public function updateUniversityProfile(Request $request)
+    {
+        $user = Auth::user();
+        $university = University::where("user_id", $user->id)->first();
+
+        if (!$university) {
+            return response()->json(["message" => "Университет не найден"], 404);
+        }
+
+        $validated = $request->validate([
+            "name" => "nullable|string|max:255",
+            "inn" => "nullable|string|min:10|max:12|unique:universities,inn," . $university->id,
+            "contact_person" => "nullable|string|max:255",
+            "position" => "nullable|string|max:255",
+            "phone" => "nullable|string|max:255",
+        ]);
+
+        $data = array_filter($validated, function ($value) {
+            return !is_null($value) && $value !== "";
+        });
+
+        $university->update($data);
+
+        if (isset($data["name"])) {
+            $university->user->update([
+                "name" => $data["name"],
+            ]);
+        }
+
+        return response()->json(["message" => "Данные обновлены"], 200);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | LOGOUT

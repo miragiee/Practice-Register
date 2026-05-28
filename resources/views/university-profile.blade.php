@@ -12,17 +12,62 @@
         Профиль университета
     </title>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     @vite([
         'resources/css/university-profile.css',
-        'resources/js/university-profile.js'
+        'resources/js/university-profile.js',
+        'resources/js/profile-documents.js'
     ])
 </head>
 <body>
 
-<main class="university-page">
+<header class="page-header">
+    <div class="header-container">
+        <a href="{{ route('main.page') }}" class="page-logo">Практикум</a>
+        <nav class="page-nav">
+            <button class="page-nav-link logout-button" type="button">Выйти</button>
+        </nav>
+    </div>
+</header>
 
-    {{-- HERO --}}
-    <section class="hero-section fade-in">
+<div class="modal-overlay hidden" id="edit-modal">
+    <div class="modal-window">
+        <div class="modal-header">
+            <h2>Редактировать университет</h2>
+            <button class="modal-close" type="button" aria-label="Закрыть">×</button>
+        </div>
+        <form id="university-edit-form">
+            <div class="modal-field">
+                <label for="edit-name">Название</label>
+                <input id="edit-name" name="name" type="text" required />
+            </div>
+            <div class="modal-field">
+                <label for="edit-inn">ИНН</label>
+                <input id="edit-inn" name="inn" type="text" required />
+            </div>
+            <div class="modal-field">
+                <label for="edit-contact-person">Контактное лицо</label>
+                <input id="edit-contact-person" name="contact_person" type="text" required />
+            </div>
+            <div class="modal-field">
+                <label for="edit-position">Должность</label>
+                <input id="edit-position" name="position" type="text" required />
+            </div>
+            <div class="modal-field">
+                <label for="edit-phone">Телефон</label>
+                <input id="edit-phone" name="phone" type="text" required />
+            </div>
+            <div class="modal-actions">
+                <button class="button button-secondary" type="button" id="edit-cancel">Отмена</button>
+                <button class="button button-primary" type="submit">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<main class="university-page">
+    <section class="hero-section fade-in" data-university-id="{{ $university->id }}">
 
         <div class="hero-left">
 
@@ -45,12 +90,18 @@
 
                 </div>
 
-                <h1>
-                     Московский Государственный Технический Университет им. Н.Э. Баумана
-                </h1>
+                <h1 id="university-name">{{ $university->name }}</h1>
 
-                <p>
-                    Ведущий технический университет России, формирующий кадровый резерв для высокотехнологичных отраслей экономики.
+                <p id="university-inn">
+                    {{ $university->inn ? 'ИНН: ' . $university->inn : 'Университет без ИНН' }}
+                </p>
+
+                <p id="university-contact">
+                    {{ $university->contact_person ? 'Контактное лицо: ' . $university->contact_person . ' (' . $university->position . ')' : 'Информация о контактном лице отсутствует' }}
+                </p>
+
+                <p id="university-phone">
+                    {{ $university->phone ? 'Телефон: ' . $university->phone : 'Телефон не указан' }}
                 </p>
 
             </div>
@@ -58,28 +109,18 @@
         </div>
 
         <div class="hero-actions">
-
-            <div class="hero-actions">
-    <a href="{{ route('internships.create') }}" class="create-practice-btn">
-        ➕ Создать практику
-    </a>
-    <a href="{{ route('university.calendar') }}" class="calendar-btn">
-        📅 Календарь практик
-    </a>
-</div>
-
-            <button class="settings-btn">
-                ⚙ Настройки
-            </button>
-
-            <button class="edit-btn">
+            <a href="{{ route('internships.create') }}" class="create-practice-btn">
+                ➕ Создать практику
+            </a>
+            <a href="{{ route('university.calendar') }}" class="calendar-btn">
+                📅 Календарь практик
+            </a>
+            <button class="edit-btn" type="button">
                 ✎ Редактировать
             </button>
-
-            <button class="partnerships-btn" data-url="{{ route('partnerships') }}">
+            <button class="partnerships-btn" data-url="{{ route('partnerships') }}" type="button">
                 🤝 Партнёрства
             </button>
-
         </div>
 
     </section>
@@ -96,7 +137,7 @@
                 </div>
 
                 <div class="stat-value">
-                    24.500+
+                    {{ $university->students()->count() }}
                 </div>
 
                 <div class="stat-label">
@@ -112,7 +153,7 @@
                 </div>
 
                 <div class="stat-value">
-                    184
+                    {{ $university->contracts()->distinct('company_id')->count() }}
                 </div>
 
                 <div class="stat-label">
@@ -128,11 +169,11 @@
                 </div>
 
                 <div class="stat-value">
-                    98%
+                    {{ $university->internships()->count() }}
                 </div>
 
                 <div class="stat-label">
-                    ТРУДОУСТРОЙСТВО
+                    АКТИВНЫХ ПРАКТИК
                 </div>
 
             </div>
@@ -145,16 +186,33 @@
                 📄 Документы
             </h3>
 
-            <div class="document-item">
-                📕 Лицензия №1284-9
-            </div>
+            <p class="document-description">
+                Загрузите документы, связанные с практиками студентов вашего вуза.
+            </p>
 
             <div class="document-item">
-                📕 Аккредитация 2024
-            </div>
+                <form id="profile-document-form" action="{{ route('documents.upload') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-            <div class="document-item">
-                📕 Устав университета
+                    <div class="form-row">
+                        <label for="profile-student-internship-select">Стажировка</label>
+                        <select id="profile-student-internship-select" name="student_internship_id" required>
+                            <option value="">Загрузка...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="profile-file">Файл</label>
+                        <input type="file" id="profile-file" name="file" required />
+                    </div>
+
+                    <div class="form-row">
+                        <label for="profile-type">Тип</label>
+                        <input type="text" id="profile-type" name="type" required />
+                    </div>
+
+                    <button type="submit" class="upload-button">Загрузить</button>
+                </form>
             </div>
 
         </div>

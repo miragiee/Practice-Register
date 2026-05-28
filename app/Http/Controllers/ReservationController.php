@@ -96,6 +96,24 @@ class ReservationController extends Controller
             'status' => $validated['status'],
         ]);
 
+        // Если есть контракт — автоматически переводим студента в стажировку
+        try {
+            if ($hasContract) {
+                // создаём запись о передаче студента
+                StudentInternship::create([
+                    'student_id' => $student->id,
+                    'company_id' => $company->id,
+                    'internship_id' => $internship->id,
+                    'status' => 'assigned',
+                ]);
+
+                // обновим статус резервации на assigned, если исходный статус был pending
+                $reservation->update(['status' => 'assigned']);
+            }
+        } catch (\Throwable $e) {
+            // не мешаем основному процессу, просто логируем при необходимости
+        }
+
         // уведомления вузу и компании (попытка, ошибки игнорируем)
         try {
             $universityUser = $reservation->internship->university->user ?? null;

@@ -43,7 +43,7 @@
 
         <div class="breadcrumbs">
             Dashboard >
-            <a href="{{ route('company-requests.index') }}">
+            <a href="{{ route('profile.company-requests.index') }}">
                 Заявки компаний
             </a>
             >
@@ -88,7 +88,7 @@
         @endif
 
         <form
-            action="{{ route('company-requests.store') }}"
+            action="{{ route('profile.company-requests.store') }}"
             method="POST"
             class="request-card"
         >
@@ -180,7 +180,7 @@
                 </button>
 
                 <a
-                    href="{{ route('company-requests.index') }}"
+                    href="{{ route('profile.company-requests.index') }}"
                     class="delete-button"
                     style="
                         text-decoration: none;

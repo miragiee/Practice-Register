@@ -16,7 +16,8 @@
 
     @vite([
         'resources/css/company-profile.css',
-        'resources/js/company-profile.js'
+        'resources/js/company-profile.js',
+        'resources/js/profile-documents.js'
     ])
 </head>
 <body>
@@ -72,7 +73,7 @@
             <button
             class="add-vacancy-btn"
             id="add-vacancy-btn"
-            data-url="{{ route('company-requests.index') }}"
+            data-url="{{ route('profile.company-requests.index') }}"
         >
 
             <svg viewBox="0 0 24 24" fill="none">
@@ -149,6 +150,35 @@
                     </div>
 
                 </div>
+
+            </div>
+
+            <div class="stat-item documents-upload">
+
+                <h4>Загрузить документ</h4>
+
+                <form id="profile-document-form" action="{{ route('documents.upload') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <p>
+                        <label for="profile-student-internship-select">Стажировка</label>
+                        <select id="profile-student-internship-select" name="student_internship_id" required>
+                            <option value="">Загрузка...</option>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="profile-file">Файл</label>
+                        <input type="file" id="profile-file" name="file" />
+                    </p>
+
+                    <p>
+                        <label for="profile-type">Тип</label>
+                        <input type="text" id="profile-type" name="type" required />
+                    </p>
+
+                    <button type="submit">Загрузить</button>
+                </form>
 
             </div>
 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Студенты в поиске</title>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite(['resources/js/students-in-search.js', 'resources/css/students-in-search.css'])
 </head>
 <body>
@@ -38,8 +39,8 @@
                     <div class="filter-group">
                         <label>Направление</label>
 
-                        <select>
-                            <option>Все направления</option>
+                        <select id="direction-select">
+                            <option value="">Все направления</option>
                         </select>
                     </div>
 
@@ -47,10 +48,10 @@
                         <label>Курс</label>
 
                         <div class="course-buttons">
-                            <button class="active">Все</button>
-                            <button>3 курс</button>
-                            <button>4 курс</button>
-                            <button>Магистратура</button>
+                            <button class="active" data-course="">Все</button>
+                            <button data-course="3">3 курс</button>
+                            <button data-course="4">4 курс</button>
+                            <button data-course="m">Магистратура</button>
                         </div>
                     </div>
 
@@ -301,7 +302,7 @@
         </div>
     </footer>
 
-<script src="{{ asset('js/students-in-search.js') }}"></script>
+
 
 </body>
 </html>

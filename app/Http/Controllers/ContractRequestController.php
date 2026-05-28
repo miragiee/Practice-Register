@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\ContractRequest;
 use App\Models\Contract;
+use App\Models\Company;
+use App\Models\University;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class ContractRequestController extends Controller
 {
@@ -47,6 +50,95 @@ class ContractRequestController extends Controller
         $request->delete();
 
         return back()->with('success', 'Заявка удалена');
+    }
+
+    /*
+    |
+    | ADMIN CRUD
+    |
+    */
+
+    public function index()
+    {
+        $contractRequests = ContractRequest::with(['company', 'university'])
+            ->orderByDesc('id')
+            ->get();
+
+        $companies = Company::orderBy('name')->get();
+        $universities = University::orderBy('name')->get();
+
+        return view('contract_request', compact('contractRequests', 'companies', 'universities'));
+    }
+
+    public function create()
+    {
+        return redirect()->route('contract-requests.index');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'company_id' => 'required|exists:companies,id',
+            'university_id' => 'required|exists:universities,id',
+            'company_accept' => 'nullable|in:1',
+            'university_accept' => 'nullable|in:1',
+        ]);
+
+        $cr = ContractRequest::create([
+            'company_id' => $validated['company_id'],
+            'university_id' => $validated['university_id'],
+            'company_accept' => isset($validated['company_accept']) && $validated['company_accept'] == 1,
+            'university_accept' => isset($validated['university_accept']) && $validated['university_accept'] == 1,
+        ]);
+
+        $this->syncContract($cr);
+
+        return redirect()->route('contract-requests.index')->with('success', 'Заявка добавлена');
+    }
+
+    public function show($id)
+    {
+        $req = ContractRequest::with(['company', 'university'])->findOrFail($id);
+        return response()->json($req);
+    }
+
+    public function edit($id)
+    {
+        return redirect()->route('contract-requests.index');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'company_id' => 'nullable|exists:companies,id',
+            'university_id' => 'nullable|exists:universities,id',
+            'company_accept' => 'nullable|in:1',
+            'university_accept' => 'nullable|in:1',
+        ]);
+
+        $cr = ContractRequest::findOrFail($id);
+
+        $data = [];
+        if (isset($validated['company_id'])) $data['company_id'] = $validated['company_id'];
+        if (isset($validated['university_id'])) $data['university_id'] = $validated['university_id'];
+        if (array_key_exists('company_accept', $validated)) $data['company_accept'] = $validated['company_accept'] == 1;
+        if (array_key_exists('university_accept', $validated)) $data['university_accept'] = $validated['university_accept'] == 1;
+
+        if (!empty($data)) {
+            $cr->update($data);
+        }
+
+        $this->syncContract($cr);
+
+        return redirect()->route('contract-requests.index')->with('success', 'Заявка обновлена');
+    }
+
+    public function destroy($id)
+    {
+        $cr = ContractRequest::findOrFail($id);
+        $cr->delete();
+
+        return redirect()->route('contract-requests.index')->with('success', 'Заявка удалена');
     }
 
     /*

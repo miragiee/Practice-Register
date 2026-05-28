@@ -75,7 +75,7 @@
                 </div>
 
                 <a
-                    href="{{ route('company-requests.create') }}"
+                    href="{{ route('profile.company-requests.create') }}"
                     class="create-request-button"
                 >
                     + Создать заявку
@@ -162,14 +162,14 @@
                     <div class="card-actions">
 
                         <a
-                            href="{{ route('company-requests.show', $request->id) }}"
+                            href="{{ route('profile.company-requests.show', $request->id) }}"
                             class="details-button"
                         >
                             Подробнее
                         </a>
 
                         <form
-                            action="{{ route('company-requests.destroy', $request->id) }}"
+                            action="{{ route('profile.company-requests.destroy', $request->id) }}"
                             method="POST"
                         >
                             @csrf

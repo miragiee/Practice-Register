@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StudentInternship;
+use App\Models\Student;
 
 class DocumentController extends Controller
 {
@@ -20,11 +21,43 @@ class DocumentController extends Controller
     {
         $documents = Document::all();
 
+        // additionally provide student internships for admin select
+        $studentInternships = StudentInternship::with(['student', 'internship', 'company'])->get();
+
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json($documents);
         }
 
-        return view('documents', compact('documents'));
+        return view('documents', compact('documents', 'studentInternships'));
+    }
+
+    /**
+     * Return student_internship options available to the authenticated company or university.
+     */
+    public function options(Request $request)
+    {
+        $user = Auth::user();
+
+        $query = StudentInternship::with(['student', 'internship']);
+
+        if ($user?->company) {
+            $query->where('company_id', $user->company->id);
+        } elseif ($user?->university) {
+            $query->whereHas('student', function ($q) use ($user) {
+                $q->where('university_id', $user->university->id);
+            });
+        } else {
+            return response()->json([]);
+        }
+
+        $list = $query->get()->map(function ($si) {
+            return [
+                'id' => $si->id,
+                'label' => "ID {$si->id} — {$si->student->full_name} (internship {$si->internship_id})",
+            ];
+        });
+
+        return response()->json($list);
     }
 
     /*

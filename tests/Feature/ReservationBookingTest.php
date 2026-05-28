@@ -44,6 +44,7 @@ class ReservationBookingTest extends TestCase
             'internship_id' => $internship->id,
             'status' => 'pending',
         ]);
+        $response->assertSessionHas('error');
 
         $response->assertSessionHas('error');
 
@@ -57,6 +58,13 @@ class ReservationBookingTest extends TestCase
         ]);
 
         $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('student_internships', [
+            'student_id' => $student->id,
+            'company_id' => $company->id,
+            'internship_id' => $internship->id,
+            'status' => 'assigned',
+        ]);
 
         Notification::assertSentTo($companyUser, \App\Notifications\ReservationCreated::class);
         Notification::assertSentTo($uniUser, \App\Notifications\ReservationCreated::class);

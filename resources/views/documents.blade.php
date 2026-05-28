@@ -89,15 +89,15 @@
             <p>
 
                 <label for="student_internship_id">
-                    Student Internship ID
+                    Student Internship
                 </label>
 
-                <input
-                    type="number"
-                    id="student_internship_id"
-                    name="student_internship_id"
-                    required
-                >
+                <select id="student_internship_id" name="student_internship_id" required>
+                    <option value="">-- Выберите стажировку --</option>
+                    @foreach($studentInternships as $si)
+                        <option value="{{ $si->id }}">ID {{ $si->id }} — {{ $si->student->full_name }} (internship {{ $si->internship_id }})</option>
+                    @endforeach
+                </select>
 
             </p>
 

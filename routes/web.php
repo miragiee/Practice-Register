@@ -45,11 +45,17 @@ Route::middleware("nocache")->group(function () {
     });
 
     Route::get("/auth", [AuthController::class, "showLogin"])->name("auth");
+    // Compatibility route used by some views (welcome.blade)
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::view("/students-in-search", "students-in-search")->name(
         "students-in-search",
     );
 
 });
+
+// Public API for students search (used by students-in-search page)
+Route::get('/api/students', [App\Http\Controllers\StudentController::class, 'index'])
+    ->name('api.students');
 
 Route::prefix("auth")->group(function () {
     Route::post("/student", [AuthController::class, "studentLogin"])
@@ -88,23 +94,27 @@ Route::middleware(["auth", "nocache"])->group(function () {
         ->name('university.calendar');
 
     Route::get("/profile/company/requests", [CompanyRequestController::class, "index"])
-        ->name("company-requests.index");
+        ->name("profile.company-requests.index");
 
     Route::get("/profile/company/requests/create", [CompanyRequestController::class, "create"])
-        ->name("company-requests.create");
+        ->name("profile.company-requests.create");
 
     Route::post("/profile/company/requests", [CompanyRequestController::class, "store"])
-        ->name("company-requests.store");
+        ->name("profile.company-requests.store");
 
     Route::get("/profile/company/requests/{id}", [CompanyRequestController::class, "show"])
-        ->name("company-requests.show");
+        ->name("profile.company-requests.show");
 
     Route::delete("/profile/company/requests/{id}", [CompanyRequestController::class, "destroy"])
-        ->name("company-requests.destroy");
+        ->name("profile.company-requests.destroy");
 
     // Documents upload for authenticated company/university users
     Route::post('/documents/upload', [\App\Http\Controllers\DocumentController::class, 'store'])
         ->name('documents.upload');
+
+    // Options for student_internships available to current user (company/university)
+    Route::get('/profile/documents/options', [\App\Http\Controllers\DocumentController::class, 'options'])
+        ->name('profile.documents.options');
 
     Route::get('/documents/{id}/download', [\App\Http\Controllers\DocumentController::class, 'download'])
         ->name('documents.download');
@@ -126,6 +136,9 @@ Route::middleware(["auth", "nocache"])->group(function () {
     */
     Route::get('/partnerships', [PartnershipController::class, 'index'])
         ->name('partnerships');
+
+    Route::put('/profile/university', [AuthController::class, 'updateUniversityProfile'])
+        ->name('profile.university.update');
 
     /*
     |--------------------------------------------------------------------------
