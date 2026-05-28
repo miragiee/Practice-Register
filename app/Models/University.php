@@ -16,6 +16,7 @@ class University extends Model
         "contact_person",
         "position",
         "phone",
+        "description",
     ];
 
     /*

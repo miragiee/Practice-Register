@@ -14,6 +14,42 @@ document.querySelectorAll('.practice-item').forEach(item => {
 });
 
 if (partnershipsBtn) {
+
+// Staggered fade-in for .content-grid.fade-in
+(() => {
+    const init = () => {
+        const grids = document.querySelectorAll('.content-grid.fade-in');
+        if (!grids.length) return;
+
+        const applyStagger = (container) => {
+            const children = Array.from(container.querySelectorAll('.stagger-fade'));
+            children.forEach((el, idx) => {
+                const delay = idx * 120;
+                el.style.animation = `fadeIn 0.45s ease ${delay}ms forwards`;
+            });
+        };
+
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    applyStagger(entry.target);
+                    observer.unobserve(entry.target);
+                });
+            }, { threshold: 0.15 });
+
+            grids.forEach(g => obs.observe(g));
+        } else {
+            grids.forEach(g => applyStagger(g));
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
     partnershipsBtn.addEventListener('click', function () {
         const url = this.getAttribute('data-url');
         if (url) {

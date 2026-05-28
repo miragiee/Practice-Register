@@ -304,13 +304,8 @@ body {
 }
 
 .document-item {
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.document-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-    background: #f8f8fb;
+    padding: 0;
+    font-size: 16px;
 }
 
 .document-description {
@@ -319,16 +314,20 @@ body {
     line-height: 1.6;
 }
 
-.document-item {
-    padding: 0;
-    font-size: 16px;
-}
-
 .documents-card .form-row {
     display: flex;
     flex-direction: column;
     gap: 8px;
     margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 18px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.documents-card .form-row:hover {
+    background-color: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    cursor: text;
 }
 
 .documents-card label {
@@ -346,6 +345,14 @@ body {
     background: white;
     color: #1d1d1d;
     font-size: 14px;
+    transition: border-color 0.2s ease;
+    cursor: text;
+}
+
+.documents-card input[type="file"]:hover,
+.documents-card input[type="text"]:hover,
+.documents-card select:hover {
+    border-color: rgba(59, 130, 246, 0.35);
 }
 
 .documents-card .upload-button {
@@ -577,6 +584,12 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Elements used for staggered animations inside .content-grid */
+.stagger-fade {
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .modal-overlay {

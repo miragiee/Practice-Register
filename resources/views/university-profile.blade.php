@@ -82,14 +82,6 @@
 
             <div class="hero-content">
 
-                <div class="university-status">
-
-                    ГОСУДАРСТВЕННЫЙ ВУЗ
-
-                    <span class="verified-dot"></span>
-
-                </div>
-
                 <h1 id="university-name">{{ $university->name }}</h1>
 
                 <p id="university-inn">
@@ -207,6 +199,16 @@
                     </div>
 
                     <div class="form-row">
+                        <label for="profile-label">Метка (label)</label>
+                        <input type="text" id="profile-label" name="label" placeholder="Например: договор_студента" />
+                    </div>
+
+                    <div class="form-row">
+                        <label for="profile-title">Заголовок (title)</label>
+                        <input type="text" id="profile-title" name="title" placeholder="Краткое описание документа" />
+                    </div>
+
+                    <div class="form-row">
                         <label for="profile-type">Тип</label>
                         <input type="text" id="profile-type" name="type" required />
                     </div>
@@ -223,7 +225,7 @@
     <section class="content-grid fade-in">
 
         {{-- ABOUT --}}
-        <div class="about-card">
+        <div class="about-card stagger-fade">
 
             <h2>
                 Об университете
@@ -254,146 +256,30 @@
         </div>
 
         {{-- PRACTICES --}}
-        <div class="practice-card">
+        <div class="practice-card stagger-fade">
 
             <h2>
                 Активные практики
             </h2>
 
-            <div class="practice-item">
-
-                <div>
-
-                    <h3>
-                        Программная инженерия
-                    </h3>
-
-                    <p>
-                        42 компании-партнера
-                    </p>
-
+            @forelse($university->internships as $internship)
+                <div class="practice-item stagger-fade">
+                    <div>
+                        <h3>{{ $internship->direction?->name ?? 'Практика' }}</h3>
+                        <p>{{ \Illuminate\Support\Str::limit($internship->description ?? '', 100) }}</p>
+                    </div>
+                    <span>›</span>
                 </div>
+            @empty
+                <p>Практики не найдены</p>
+            @endforelse
 
-                <span>
-                    ›
-                </span>
-
-            </div>
-
-            <div class="practice-item">
-
-                <div>
-
-                    <h3>
-                        Кибербезопасность
-                    </h3>
-
-                    <p>
-                        15 активных потоков
-                    </p>
-
-                </div>
-
-                <span>
-                    ›
-                </span>
-
-            </div>
-
-            <div class="practice-item">
-
-                <div>
-
-                    <h3>
-                        Системы управления ИИ
-                    </h3>
-
-                    <p>
-                        Новое направление
-                    </p>
-
-                </div>
-
-                <span>
-                    ›
-                </span>
-
-            </div>
-
-            <button class="show-btn">
-                Смотреть все (12)
-            </button>
+            @if($university->internships->count())
+                <button class="show-btn">Смотреть все ({{ $university->internships->count() }})</button>
+            @endif
 
         </div>
 
-    </section>
-
-    {{-- CONTACTS --}}
-    <section class="contacts-section fade-in">
-
-        <h2>
-            Контактные лица
-        </h2>
-
-        <div class="contacts-grid">
-
-            <div class="contact-card">
-
-                <div class="contact-avatar avatar-1"></div>
-
-                <div>
-
-                    <h3>
-                        Иван Соколов
-                    </h3>
-
-                    <p>
-                        Проректор по учебной работе
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="contact-card">
-
-                <div class="contact-avatar avatar-2"></div>
-
-                <div>
-
-                    <h3>
-                        Елена Петрова
-                    </h3>
-
-                    <p>
-                        Руководитель отдела практик
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="contact-card add-card">
-
-                <div class="add-circle">
-                    +
-                </div>
-
-                <div>
-
-                    <h3>
-                        Добавить контакт
-                    </h3>
-
-                    <p>
-                        Новое ответственное лицо
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
 
     </section>
 
