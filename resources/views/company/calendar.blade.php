@@ -133,7 +133,21 @@
                 <h3>{{ $i['university_name'] ?? '—' }}</h3>
                 <p><strong>Период:</strong> {{ $i['start_date'] }} — {{ $i['end_date'] }}</p>
                 <p><strong>Вместимость:</strong> {{ $i['capacity'] }}</p>
-                <p><strong>Зарезервировано:</strong> {{ $i['reserved_count'] }} · <strong>Доступно:</strong> {{ $i['available'] }}</p>
+                @php
+                    $capacity = (int)($i['capacity'] ?? 0);
+                    $reserved = (int)($i['reserved_count'] ?? 0);
+                    $available = max(0, $capacity - $reserved);
+                    $percent = $capacity > 0 ? (int) (100 * min($reserved, $capacity) / $capacity) : 0;
+                @endphp
+
+                <p><strong>Зарезервировано:</strong> {{ $reserved }} · <strong>Доступно:</strong> {{ $available }}</p>
+
+                <div style="margin-top:10px;">
+                    <div style="height:10px;background:#eef2ff;border-radius:8px;overflow:hidden;border:1px solid rgba(74,108,247,0.06)">
+                        <div style="width:{{ $percent }}%;height:100%;background: linear-gradient(90deg,#4a6cf7,#6366f1);"></div>
+                    </div>
+                    <div style="font-size:12px;color:#6b7280;margin-top:6px;">Заполнено: {{ $percent }}%</div>
+                </div>
                 <p><strong>Качества:</strong> {{ $qualities ? implode(', ', $qualities) : '—' }}</p>
             </article>
         @empty

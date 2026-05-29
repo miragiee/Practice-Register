@@ -14,6 +14,7 @@ class Document extends Model
         'file_path',
         'original_name',
         'type',
+        'version',
     ];
 
     public function studentInternship()

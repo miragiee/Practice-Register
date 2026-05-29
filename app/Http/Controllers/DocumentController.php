@@ -108,21 +108,19 @@ class DocumentController extends Controller
             return redirect()->back()->with('error', 'Файл не загружен и путь не указан');
         }
 
-        // ❗ Проверка на дубликат
-        $exists = Document::where('student_internship_id', $validated['student_internship_id'])
-            ->where('file_path', $filePath)
+        // For versioning: compute next version for this student_internship_id + type
+        $lastVersion = Document::where('student_internship_id', $validated['student_internship_id'])
             ->where('type', $validated['type'])
-            ->exists();
+            ->max('version');
 
-        if ($exists) {
-            return redirect()->back()->with('error', 'Такие данные уже есть в таблице');
-        }
+        $nextVersion = ($lastVersion ?? 0) + 1;
 
         $document = Document::create([
             'student_internship_id' => $validated['student_internship_id'],
             'file_path' => $filePath,
             'original_name' => $originalName,
             'type' => $validated['type'],
+            'version' => $nextVersion,
         ]);
 
         // уведомления: студенту, компании и вузу
