@@ -1,27 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const courseButtons = document.querySelectorAll('.course-buttons button');
-    const directionSelect = document.getElementById('direction-select');
-    const verifiedCheckbox = document.getElementById('verified');
-
-    courseButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            courseButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            renderStudents();
-        });
-    });
-
-    if (directionSelect) {
-        directionSelect.addEventListener('change', () => renderStudents());
-    }
-
-    if (verifiedCheckbox) {
-        verifiedCheckbox.addEventListener('change', () => renderStudents());
-    }
-
-});
-
-// Fetch students from public API and render cards
 let allStudents = [];
 
 function getSelectedCourse() {
@@ -51,7 +27,6 @@ async function fetchStudents() {
 
         populateDirections(allStudents);
         renderStudents();
-
     } catch (e) {
         console.error('Failed to load students:', e);
     }
@@ -66,7 +41,6 @@ function populateDirections(students) {
         if (s.direction && s.direction.id) dirs[s.direction.id] = s.direction.name;
     });
 
-    // clear except first
     sel.innerHTML = '<option value="">Все направления</option>';
     Object.keys(dirs).forEach(id => {
         const opt = document.createElement('option');
@@ -74,6 +48,25 @@ function populateDirections(students) {
         opt.textContent = dirs[id];
         sel.appendChild(opt);
     });
+}
+
+function sanitizeText(value) {
+    return String(value ?? '').replace(/[<>]/g, '');
+}
+
+function formatCourse(course) {
+    if (course === 'm') return 'Магистратура';
+    if (course === null || course === undefined || course === '') return 'Не указан';
+
+    return `${course} курс`;
+}
+
+function updateCounter(count) {
+    const counter = document.querySelector('.counter-value');
+    if (!counter) return;
+
+    const label = count === 1 ? 'студент' : count >= 2 && count <= 4 ? 'студента' : 'студентов';
+    counter.textContent = `${count} ${label}`;
 }
 
 function renderStudents() {
@@ -87,50 +80,64 @@ function renderStudents() {
     const verified = onlyVerified();
 
     const filtered = allStudents.filter(s => {
-        if (course && course !== String(s.course) && !(course === 'm' && s.course === 'm')) return false;
-        if (dir && String(s.direction?.id) !== dir) return false;
-        if (verified && !s.verified) return false;
-        return true;
+        const studentCourse = String(s.course ?? '');
+        const matchesCourse = !course || course === studentCourse || (course === 'm' && studentCourse === 'm');
+        const matchesDirection = !dir || String(s.direction?.id) === dir;
+        const matchesVerified = !verified || Boolean(s.verified ?? true);
+
+        return matchesCourse && matchesDirection && matchesVerified;
     });
+
+    updateCounter(filtered.length);
+
+    if (!filtered.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'Студенты не найдены по выбранным фильтрам';
+        grid.appendChild(empty);
+        return;
+    }
 
     filtered.forEach(s => {
         const card = document.createElement('div');
         card.className = 'student-card';
 
-        const html = `
+        const skills = Array.isArray(s.skills) ? s.skills : [];
+        const badgeClass = Boolean(s.verified ?? true) ? 'badge badge-green' : 'badge badge-gray';
+        const badgeText = Boolean(s.verified ?? true) ? 'VERIFIED' : 'UNVERIFIED';
+
+        card.innerHTML = `
             <div class="student-header">
                 <div class="student-info">
-                    <img src="https://i.pravatar.cc/100?u=${s.email}" alt="student">
+                    <img class="student-avatar" src="https://i.pravatar.cc/100?u=${encodeURIComponent(s.email ?? '')}" alt="${sanitizeText(s.full_name)}">
                     <div>
-                        <h4>${s.full_name}</h4>
-                        <div class="student-meta">${s.course} курс, ${s.direction?.name ?? '—'}</div>
+                        <h4 class="student-name">${sanitizeText(s.full_name)}</h4>
+                        <div class="student-meta">${sanitizeText(formatCourse(s.course))}, ${sanitizeText(s.direction?.name ?? '—')}</div>
                     </div>
                 </div>
-                <span class="badge gray">ID ${s.id}</span>
+                <span class="${badgeClass}">${badgeText}</span>
             </div>
             <div class="card-label">Желаемая роль</div>
-            <div class="student-role">${s.role ?? '—'}</div>
+            <div class="student-role">${sanitizeText(s.role ?? 'Студент')}</div>
             <div class="card-label">Навыки</div>
-            <div class="skills">${(s.skills || []).slice(0,4).map(x=>`<span>${x}</span>`).join('')}</div>
+            <div class="skills">${skills.slice(0,4).map(x => `<span>${sanitizeText(x)}</span>`).join('')}</div>
             <div class="card-actions">
-                <button class="profile-btn" data-id="${s.id}">Профиль</button>
-                <button class="book-btn" data-id="${s.id}">Забронировать</button>
+                <button class="profile-button" data-id="${s.id}">Профиль</button>
+                <button class="book-button" data-id="${s.id}">Забронировать</button>
             </div>
         `;
 
-        card.innerHTML = html;
         grid.appendChild(card);
     });
 
-    // attach handlers
-    document.querySelectorAll('.profile-btn').forEach(btn => {
+    document.querySelectorAll('.profile-button').forEach(btn => {
         btn.addEventListener('click', () => {
             const id = btn.dataset.id;
             window.location.href = `/students/${id}`;
         });
     });
 
-    document.querySelectorAll('.book-btn').forEach(btn => {
+    document.querySelectorAll('.book-button').forEach(btn => {
         btn.addEventListener('click', async () => {
             const id = btn.dataset.id;
             if (!confirm('Подтвердите бронирование студента #' + id + '?')) return;
@@ -161,6 +168,24 @@ function renderStudents() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchStudents();
+const courseButtons = document.querySelectorAll('.course-buttons button');
+const directionSelect = document.getElementById('direction-select');
+const verifiedCheckbox = document.getElementById('verified');
+
+courseButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        courseButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        renderStudents();
+    });
 });
+
+if (directionSelect) {
+    directionSelect.addEventListener('change', () => renderStudents());
+}
+
+if (verifiedCheckbox) {
+    verifiedCheckbox.addEventListener('change', () => renderStudents());
+}
+
+fetchStudents();

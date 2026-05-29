@@ -58,6 +58,9 @@ Route::middleware("nocache")->group(function () {
 Route::get('/api/students', [App\Http\Controllers\StudentController::class, 'index'])
     ->name('api.students');
 
+Route::get('/students/{student}', [App\Http\Controllers\StudentController::class, 'show'])
+    ->name('students.show');
+
 Route::prefix("auth")->group(function () {
     Route::post("/student", [AuthController::class, "studentLogin"])
         ->name("auth.student");
@@ -70,6 +73,10 @@ Route::prefix("auth")->group(function () {
 });
 
 Route::post("/logout", [AuthController::class, "logout"])->name("logout");
+
+Route::post('/students', [StudentController::class, 'store'])
+    ->middleware('auth')
+    ->name('students.store');
 
 /*
 |--------------------------------------------------------------------------

@@ -276,6 +276,7 @@ TOP SECTION
 .counter-value{
     font-size: 28px;
     font-weight: 700;
+    color: var(--text-main);
 }
 
 /* =========================
@@ -726,7 +727,8 @@ ACTIONS
     color: var(--dark-background-color);
 }
 
-.message-button{
+.message-button,
+.book-button{
     width: 58px;
     height: 58px;
 
@@ -748,12 +750,35 @@ ACTIONS
     background-color 0.2s ease;
 }
 
-.message-button:hover{
+.message-button:hover,
+.book-button:hover{
     transform: scale(1.05);
 
     background: var(--accent-hovered);
 
     color: var(--dark-background-color);
+}
+
+.book-button{
+    min-width: 154px;
+    width: auto;
+    padding: 0 18px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.empty-state{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height: 220px;
+    border-radius: 26px;
+    border: 1px dashed rgba(74, 108, 247, 0.28);
+    background: rgba(255,255,255,0.72);
+    color: var(--text-secondary);
+    font-size: 18px;
+    padding: 24px;
+    grid-column: 1 / -1;
 }
 
 /* =========================

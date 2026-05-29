@@ -30,9 +30,11 @@ class StudentController extends Controller
         $university = $user?->university;
 
         if ($university) {
-            $students = Student::where('university_id', $university->id)->get();
+            $students = Student::with('direction')
+                ->where('university_id', $university->id)
+                ->get();
         } else {
-            $students = Student::all();
+            $students = Student::with('direction')->get();
         }
 
         if ($request->wantsJson()) {
@@ -40,6 +42,27 @@ class StudentController extends Controller
         }
 
         return view("students", compact("students"));
+    }
+
+    public function show(Student $student)
+    {
+        $student->load(['university', 'direction']);
+
+        $user = Auth::user();
+        $universities = University::all();
+        $directions = \App\Models\Direction::all();
+
+        $studentInternships = $student->studentInternships()
+            ->with('documents')
+            ->get();
+
+        return view('student-profile', compact(
+            'student',
+            'user',
+            'universities',
+            'directions',
+            'studentInternships'
+        ));
     }
 
     public function store(Request $request)
@@ -50,6 +73,7 @@ class StudentController extends Controller
             "direction_id" => "required|exists:directions,id",
             "course" => "required|integer",
             "email" => "required|string|max:255",
+            "password" => "required|string|min:8",
             "qualities" => "nullable",
         ]);
 
@@ -58,16 +82,11 @@ class StudentController extends Controller
         $user = Auth::user();
         $university = $user?->university;
 
-        // Если пользователь — вуз, привязываем студента к его вузу
         if ($university) {
             $validated['university_id'] = $university->id;
         }
 
-        $exists = Student::where("full_name", $validated["full_name"])
-            ->where("university_id", $validated["university_id"])
-            ->where("direction_id", $validated["direction_id"])
-            ->where("course", $validated["course"])
-            ->where("email", $validated["email"])
+        $exists = Student::where('email', $validated['email'])
             ->exists();
 
         if ($exists) {
@@ -75,15 +94,22 @@ class StudentController extends Controller
                 ->back()
                 ->withInput()
                 ->withErrors([
-                    "duplicate" => "Такие данные уже есть в таблице.",
+                    'duplicate' => 'Студент с таким email уже существует.',
                 ]);
         }
+
+        \App\Models\User::create([
+            'name' => $validated['full_name'],
+            'email' => $validated['email'],
+            'password' => \Illuminate\Support\Facades\Hash::make($validated['password']),
+            'role_id' => AuthController::ROLE_STUDENT,
+        ]);
 
         Student::create($validated);
 
         return redirect()
             ->back()
-            ->with("success", "Студент успешно добавлен");
+            ->with('success', 'Студент успешно добавлен и аккаунт создан');
     }
 
     public function update(Request $request, $id)

@@ -263,7 +263,9 @@ class AuthController extends Controller
             abort(404, "Университет не найден");
         }
 
-        return view("university-profile", compact("university", "user"));
+        $directions = Direction::all();
+
+        return view("university-profile", compact("university", "user", "directions"));
     }
 
     public function updateUniversityProfile(Request $request)

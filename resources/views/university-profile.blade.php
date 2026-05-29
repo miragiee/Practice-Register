@@ -67,6 +67,59 @@
     </div>
 </div>
 
+<div class="modal-overlay hidden" id="student-create-modal">
+    <div class="modal-window">
+        <div class="modal-header">
+            <h2>Создать аккаунт студента</h2>
+            <button class="modal-close" type="button" data-close-student-modal aria-label="Закрыть">×</button>
+        </div>
+
+        <form id="student-create-form" action="{{ route('students.store') }}" method="POST">
+            @csrf
+
+            <div class="modal-field">
+                <label for="student-full-name">ФИО</label>
+                <input id="student-full-name" name="full_name" type="text" required />
+            </div>
+
+            <div class="modal-field">
+                <label for="student-email">Email</label>
+                <input id="student-email" name="email" type="email" required />
+            </div>
+
+            <div class="modal-field">
+                <label for="student-password">Пароль</label>
+                <input id="student-password" name="password" type="password" minlength="8" required />
+            </div>
+
+            <div class="modal-field">
+                <label for="student-direction">Направление</label>
+                <select id="student-direction" name="direction_id" required>
+                    <option value="">Выберите направление</option>
+                    @foreach($directions as $direction)
+                        <option value="{{ $direction->id }}">{{ $direction->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <label for="student-course">Курс</label>
+                <input id="student-course" name="course" type="number" min="1" max="6" required />
+            </div>
+
+            <div class="modal-field">
+                <label for="student-qualities">Навыки</label>
+                <textarea id="student-qualities" name="qualities" rows="4" placeholder='Например: PHP, SQL'></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="button button-secondary" type="button" data-close-student-modal>Отмена</button>
+                <button class="button button-primary" type="submit">Создать аккаунт</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <main class="university-page">
     <section class="hero-section fade-in" data-university-id="{{ $university->id }}">
 
@@ -102,6 +155,9 @@
         </div>
 
         <div class="hero-actions">
+            <button class="create-student-btn" type="button" data-open-student-modal>
+                ➕ Создать студента
+            </button>
             <a href="{{ route('internships.create') }}" class="create-practice-btn">
                 ➕ Создать практику
             </a>

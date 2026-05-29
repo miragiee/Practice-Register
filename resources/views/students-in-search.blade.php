@@ -21,8 +21,8 @@
         <div class="top-section">
 
             <div class="search-counter">
-                <div class="counter-title">Активный поиск</div>
-                <div class="counter-number">124 студента</div>
+                <div class="counter-label">Активный поиск</div>
+                <div class="counter-value">0 студентов</div>
             </div>
 
         </div>
@@ -39,7 +39,7 @@
                     <div class="filter-group">
                         <label>Направление</label>
 
-                        <select id="direction-select">
+                        <select id="direction-select" class="filter-select">
                             <option value="">Все направления</option>
                         </select>
                     </div>
@@ -74,7 +74,7 @@
                         чтобы автоматически сопоставить их со студентами.
                     </p>
 
-                    <button>Импорт вакансий</button>
+                    <button class="import-button">Импорт вакансий</button>
                 </div>
 
             </aside>
@@ -82,179 +82,7 @@
             <!-- Students -->
             <section class="students-section">
 
-                <div class="students-grid">
-
-                    <!-- Card 1 -->
-                    <div class="student-card">
-
-                        <div class="student-header">
-
-                            <div class="student-info">
-                                <img src="https://i.pravatar.cc/100?img=12" alt="student">
-
-                                <div>
-                                    <h4>Алексей Морозов</h4>
-
-                                    <div class="student-meta">
-                                        4 курс, ИТ-факультет
-                                    </div>
-                                </div>
-                            </div>
-
-                            <span class="badge green">TOP 5%</span>
-
-                        </div>
-
-                        <div class="card-label">Желаемая роль</div>
-
-                        <div class="student-role">
-                            Backend Developer (Go / Python)
-                        </div>
-
-                        <div class="card-label">Навыки</div>
-
-                        <div class="skills">
-                            <span>Go</span>
-                            <span>PostgreSQL</span>
-                            <span>Docker</span>
-                            <span>Kubernetes</span>
-                        </div>
-
-                        <div class="card-actions">
-                            <button class="profile-btn">Профиль</button>
-                            <button class="message-btn">✉</button>
-                        </div>
-
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="student-card">
-
-                        <div class="student-header">
-
-                            <div class="student-info">
-                                <img src="https://i.pravatar.cc/100?img=32" alt="student">
-
-                                <div>
-                                    <h4>Мария Волкова</h4>
-
-                                    <div class="student-meta">
-                                        Магистратура, Биотех
-                                    </div>
-                                </div>
-                            </div>
-
-                            <span class="badge orange">NEW</span>
-
-                        </div>
-
-                        <div class="card-label">Желаемая роль</div>
-
-                        <div class="student-role">
-                            Биоинформатик / Data Scientist
-                        </div>
-
-                        <div class="card-label">Навыки</div>
-
-                        <div class="skills">
-                            <span>R</span>
-                            <span>Python</span>
-                            <span>ML</span>
-                            <span>Genetics</span>
-                        </div>
-
-                        <div class="card-actions">
-                            <button class="profile-btn">Профиль</button>
-                            <button class="message-btn">✉</button>
-                        </div>
-
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="student-card">
-
-                        <div class="student-header">
-
-                            <div class="student-info">
-                                <img src="https://i.pravatar.cc/100?img=15" alt="student">
-
-                                <div>
-                                    <h4>Иван Соколов</h4>
-
-                                    <div class="student-meta">
-                                        3 курс, Дизайн
-                                    </div>
-                                </div>
-                            </div>
-
-                            <span class="badge gray">VIEWED</span>
-
-                        </div>
-
-                        <div class="card-label">Желаемая роль</div>
-
-                        <div class="student-role">
-                            UI/UX Designer / Product Design
-                        </div>
-
-                        <div class="card-label">Навыки</div>
-
-                        <div class="skills">
-                            <span>Figma</span>
-                            <span>Prototyping</span>
-                            <span>User Research</span>
-                        </div>
-
-                        <div class="card-actions">
-                            <button class="profile-btn">Профиль</button>
-                            <button class="message-btn">✉</button>
-                        </div>
-
-                    </div>
-
-                    <!-- Card 4 -->
-                    <div class="student-card">
-
-                        <div class="student-header">
-
-                            <div class="student-info">
-                                <img src="https://i.pravatar.cc/100?img=25" alt="student">
-
-                                <div>
-                                    <h4>Елена Кузнецова</h4>
-
-                                    <div class="student-meta">
-                                        4 курс, Менеджмент
-                                    </div>
-                                </div>
-                            </div>
-
-                            <span class="badge light-green">VERIFIED</span>
-
-                        </div>
-
-                        <div class="card-label">Желаемая роль</div>
-
-                        <div class="student-role">
-                            Project Manager Assistant
-                        </div>
-
-                        <div class="card-label">Навыки</div>
-
-                        <div class="skills">
-                            <span>Agile</span>
-                            <span>Jira</span>
-                            <span>English C1</span>
-                        </div>
-
-                        <div class="card-actions">
-                            <button class="profile-btn">Профиль</button>
-                            <button class="message-btn">✉</button>
-                        </div>
-
-                    </div>
-
-                </div>
+                <div class="students-grid" aria-live="polite"></div>
 
                 <!-- Pagination -->
                 <div class="pagination">

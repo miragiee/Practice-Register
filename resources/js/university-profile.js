@@ -123,6 +123,39 @@ function closeEditModal() {
     editModal?.classList.add('hidden');
 }
 
+const studentCreateModal = document.getElementById('student-create-modal');
+const studentCreateForm = document.getElementById('student-create-form');
+const studentCreateOpenButtons = document.querySelectorAll('[data-open-student-modal]');
+const studentCreateCloseButtons = document.querySelectorAll('[data-close-student-modal]');
+
+function openStudentCreateModal() {
+    studentCreateModal?.classList.remove('hidden');
+}
+
+function closeStudentCreateModal() {
+    studentCreateModal?.classList.add('hidden');
+}
+
+studentCreateOpenButtons.forEach((button) => {
+    button.addEventListener('click', openStudentCreateModal);
+});
+
+studentCreateCloseButtons.forEach((button) => {
+    button.addEventListener('click', closeStudentCreateModal);
+});
+
+studentCreateModal?.addEventListener('click', (event) => {
+    if (event.target === studentCreateModal) {
+        closeStudentCreateModal();
+    }
+});
+
+if (studentCreateModal && studentCreateForm) {
+    studentCreateForm.addEventListener('submit', () => {
+        studentCreateModal.classList.add('hidden');
+    });
+}
+
 if (editBtn && heroSection && editModal && editForm) {
     editBtn.addEventListener('click', () => {
         openEditModal();
