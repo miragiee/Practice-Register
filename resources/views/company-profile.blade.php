@@ -36,8 +36,7 @@
         <a href="#">Студентам</a>
         <a href="#">Университетам</a>
         <a href="#" class="active">Компаниям</a>
-        <a href="#">Тарифы</a>
-    </nav>
+        <a href="#">Тарифы</a>        <a href="{{ route('help') }}">Помощь</a>    </nav>
 
 </header>
 
@@ -108,6 +107,13 @@
            Партнёрства
 
         </button>
+
+        <a href="{{ route('company.calendar') }}" class="add-vacancy-btn calendar-btn">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M8 7V4M16 7V4M5 11h14M5 19h14M6 5h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Календарь вузов
+        </a>
         </div>
 
     </section>

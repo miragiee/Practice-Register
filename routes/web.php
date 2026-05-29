@@ -26,6 +26,7 @@ use App\Http\Controllers\CalendarController;
 
 Route::middleware("nocache")->group(function () {
     Route::view("/", "main")->name("main.page");
+    Route::view("/help", "help")->name("help");
 
     Route::prefix("register")->group(function () {
         Route::view("/", "register")->name("register");
@@ -92,6 +93,9 @@ Route::middleware(["auth", "nocache"])->group(function () {
 
     Route::get('/profile/university/calendar', [CalendarController::class, 'index'])
         ->name('university.calendar');
+
+    Route::get('/profile/company/calendar', [CalendarController::class, 'company'])
+        ->name('company.calendar');
 
     Route::get("/profile/company/requests", [CompanyRequestController::class, "index"])
         ->name("profile.company-requests.index");

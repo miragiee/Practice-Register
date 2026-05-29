@@ -26,6 +26,7 @@
     <div class="header-container">
         <a href="{{ route('main.page') }}" class="page-logo">Практикум</a>
         <nav class="page-nav">
+            <a href="{{ route('help') }}" class="page-nav-link">Помощь</a>
             <button class="page-nav-link logout-button" type="button">Выйти</button>
         </nav>
     </div>

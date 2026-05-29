@@ -59,13 +59,21 @@ class UniversityController extends Controller
 
             "email" => "required|email|unique:users,email",
 
-            "password" => "required|string|min:6",
+            "password" => [
+                "required",
+                "string",
+                "min:8",
+                "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/",
+            ],
 
             "contact_person" => "required|string|max:255",
 
             "position" => "required|string|max:255",
 
             "phone" => "required|string|max:255",
+        ], [
+            "password.min" => "Пароль должен быть не менее 8 символов.",
+            "password.regex" => "Пароль должен содержать минимум одну заглавную букву, одну строчную букву, одну цифру и один специальный символ.",
         ]);
 
         DB::beginTransaction();

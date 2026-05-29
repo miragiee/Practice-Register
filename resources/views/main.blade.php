@@ -15,6 +15,7 @@
                         <li><a href="#" id="for-students">Студентам</a></li>
                         <li><a href="#" id="for-universities">Университетам</a></li>
                         <li><a href="#" id="for-companies">Компаниям</a></li>
+                        <li><a href="{{ route('help') }}">Помощь</a></li>
                     </ul>
                 </div>
                 <ul class="button-list">
