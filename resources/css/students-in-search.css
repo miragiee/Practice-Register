@@ -54,7 +54,7 @@ body{
 }
 
 /* =========================
-   HEADER
+HEADER
 ========================= */
 
 header{
@@ -94,8 +94,8 @@ header{
     color: var(--accent-color);
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .logo:hover{
@@ -119,8 +119,8 @@ header{
     position: relative;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .link-list a:hover{
@@ -154,8 +154,8 @@ header{
     font-size: 16px;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .profile-link:hover{
@@ -165,7 +165,7 @@ header{
 }
 
 /* =========================
-   MAIN
+MAIN
 ========================= */
 
 main{
@@ -185,7 +185,7 @@ main{
 }
 
 /* =========================
-   BREADCRUMBS
+BREADCRUMBS
 ========================= */
 
 .breadcrumbs{
@@ -204,7 +204,7 @@ main{
 }
 
 /* =========================
-   TOP SECTION
+TOP SECTION
 ========================= */
 
 .top-section{
@@ -255,15 +255,15 @@ main{
     min-width: 220px;
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .search-counter:hover{
     transform: translateY(-4px);
 
     box-shadow:
-        0 10px 24px rgba(0,0,0,0.06);
+    0 10px 24px rgba(0,0,0,0.06);
 }
 
 .counter-label{
@@ -279,7 +279,7 @@ main{
 }
 
 /* =========================
-   CONTENT
+CONTENT
 ========================= */
 
 .content-wrapper{
@@ -288,7 +288,7 @@ main{
 }
 
 /* =========================
-   SIDEBAR
+SIDEBAR
 ========================= */
 
 .sidebar{
@@ -310,8 +310,8 @@ main{
     padding: 28px;
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .filters-card:hover,
@@ -319,7 +319,7 @@ main{
     transform: translateY(-5px);
 
     box-shadow:
-        0 18px 40px rgba(0,0,0,0.05);
+    0 18px 40px rgba(0,0,0,0.05);
 }
 
 .filters-card h3,
@@ -361,8 +361,8 @@ main{
     font-size: 18px;
 
     transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .filter-select:hover{
@@ -390,9 +390,9 @@ main{
     cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .course-buttons button:hover{
@@ -418,7 +418,7 @@ main{
 }
 
 /* =========================
-   HELP CARD
+HELP CARD
 ========================= */
 
 .help-card{
@@ -478,9 +478,9 @@ main{
     z-index: 2;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .import-button:hover{
@@ -491,7 +491,7 @@ main{
 }
 
 /* =========================
-   STUDENTS SECTION
+STUDENTS SECTION
 ========================= */
 
 .students-section{
@@ -505,7 +505,7 @@ main{
 }
 
 /* =========================
-   CARD
+CARD
 ========================= */
 
 .student-card{
@@ -518,15 +518,15 @@ main{
     padding: 26px;
 
     transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .student-card:hover{
     transform: translateY(-6px);
 
     box-shadow:
-        0 24px 48px rgba(42,77,215,0.08);
+    0 24px 48px rgba(42,77,215,0.08);
 }
 
 .student-header{
@@ -551,15 +551,15 @@ main{
     object-fit: cover;
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .student-avatar:hover{
     transform: scale(1.08);
 
     box-shadow:
-        0 10px 22px rgba(0,0,0,0.15);
+    0 10px 22px rgba(0,0,0,0.15);
 }
 
 .student-name{
@@ -589,7 +589,7 @@ main{
 }
 
 /* =========================
-   BADGES
+BADGES
 ========================= */
 
 .badge{
@@ -603,8 +603,8 @@ main{
     font-family: 'JetBrains Mono', monospace;
 
     transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .badge:hover{
@@ -627,7 +627,7 @@ main{
 }
 
 /* =========================
-   CARD CONTENT
+CARD CONTENT
 ========================= */
 
 .card-label{
@@ -677,8 +677,8 @@ main{
     font-family: 'JetBrains Mono', monospace;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .skills span:hover{
@@ -688,7 +688,7 @@ main{
 }
 
 /* =========================
-   ACTIONS
+ACTIONS
 ========================= */
 
 .card-actions{
@@ -714,9 +714,9 @@ main{
     cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .profile-button:hover{
@@ -744,8 +744,8 @@ main{
     cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .message-button:hover{
@@ -757,7 +757,7 @@ main{
 }
 
 /* =========================
-   PAGINATION
+PAGINATION
 ========================= */
 
 .pagination{
@@ -786,9 +786,9 @@ main{
     font-size: 18px;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .pagination button:hover{
@@ -804,7 +804,7 @@ main{
 }
 
 /* =========================
-   FOOTER
+FOOTER
 ========================= */
 
 footer {

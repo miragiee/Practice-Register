@@ -362,7 +362,7 @@ input::placeholder {
 }
 
 /* =========================================
-   STEP 3 / CONFIRMATION
+STEP 3 / CONFIRMATION
 ========================================= */
 
 .confirmation-card {
@@ -390,8 +390,8 @@ input::placeholder {
     color: #33c781;
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .confirmation-icon:hover {
@@ -429,8 +429,8 @@ input::placeholder {
     cursor: pointer;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .resend-btn:hover {
@@ -454,8 +454,8 @@ input::placeholder {
     font-size: 18px;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .back-link:hover {
@@ -524,15 +524,15 @@ input::placeholder {
 }
 
 /* =========================================
-   ANIMATIONS & INTERACTIONS
+ANIMATIONS & INTERACTIONS
 ========================================= */
 
 /* LOGO */
 
 .logo {
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .logo:hover {
@@ -547,9 +547,9 @@ input::placeholder {
     display: inline-block;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease,
-        opacity 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .nav a:hover {
@@ -561,8 +561,8 @@ input::placeholder {
 
 .register-card {
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .register-card:hover {
@@ -575,8 +575,8 @@ input::placeholder {
 
 .title {
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .title:hover {
@@ -597,9 +597,9 @@ input::placeholder {
 
 .step-circle {
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        background-color 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .step:hover .step-circle {
@@ -614,8 +614,8 @@ input::placeholder {
 
 .form-group label {
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .form-group:hover label {
@@ -628,10 +628,10 @@ input::placeholder {
 input,
 select {
     transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 input:hover,
@@ -665,8 +665,8 @@ input:focus::placeholder {
 
 .icon {
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .input-icon:hover .icon {
@@ -678,10 +678,10 @@ input:focus::placeholder {
 
 .submit-btn {
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        box-shadow 0.25s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.25s ease,
+    color 0.2s ease;
 }
 
 .submit-btn:hover {
@@ -700,8 +700,8 @@ input:focus::placeholder {
 
 .login-link a {
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .login-link a:hover {
@@ -713,8 +713,8 @@ input:focus::placeholder {
 
 .footer-links a {
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .footer-links a:hover {
@@ -726,8 +726,8 @@ input:focus::placeholder {
 
 .footer-logo {
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .footer-logo:hover {
@@ -750,8 +750,8 @@ input:focus::placeholder {
 
 .step-line {
     transition:
-        background-color 0.2s ease,
-        opacity 0.2s ease;
+    background-color 0.2s ease,
+    opacity 0.2s ease;
 }
 
 /* SOFT APPEAR ANIMATION */

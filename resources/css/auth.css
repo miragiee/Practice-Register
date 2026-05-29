@@ -65,8 +65,8 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .auth-card:hover {
@@ -95,8 +95,8 @@ body {
     color: var(--accent-color);
 
     transition:
-        transform 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .logo:hover {
@@ -158,9 +158,9 @@ body {
     cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .role-switcher button:hover {
@@ -190,8 +190,8 @@ body {
     color: #706d80;
 
     transition:
-        transform 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .login-role:hover {
@@ -241,9 +241,9 @@ body {
     outline: none;
 
     transition:
-        border-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .form-group input:focus {
@@ -278,8 +278,8 @@ body {
     cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .password-toggle:hover {
@@ -358,8 +358,8 @@ body {
     text-decoration: none;
 
     transition:
-        transform 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .form-options a:hover {
@@ -386,9 +386,9 @@ body {
     cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .submit-btn:hover {
@@ -457,8 +457,8 @@ body {
     font-weight: 700;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .auth-footer a:hover {

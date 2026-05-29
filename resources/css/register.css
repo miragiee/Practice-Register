@@ -96,8 +96,8 @@ button {
     border-radius: 8px;
 
     transition:
-        transform 0.35s ease,
-        box-shadow 0.35s ease;
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 button > img {

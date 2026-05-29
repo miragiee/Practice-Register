@@ -53,8 +53,8 @@ body {
     border-bottom: 1px solid var(--border-color);
 
     transition:
-        box-shadow 0.3s ease,
-        backdrop-filter 0.3s ease;
+    box-shadow 0.3s ease,
+    backdrop-filter 0.3s ease;
 
     backdrop-filter: blur(24px);
 }
@@ -71,8 +71,8 @@ body {
     cursor: pointer;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .header-logo:hover {
@@ -98,8 +98,8 @@ body {
     position: relative;
 
     transition:
-        transform 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .header-nav a::after {
@@ -168,8 +168,8 @@ body {
     box-shadow: var(--card-shadow);
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .profile-card:hover {
@@ -206,8 +206,8 @@ body {
     cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        filter 0.2s ease;
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
 .avatar:hover {
@@ -311,9 +311,9 @@ body {
     color: #555;
 
     transition:
-        background-color 0.2s ease,
-        transform 0.2s ease,
-        color 0.2s ease;
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .menu-item:last-child {
@@ -343,8 +343,8 @@ body {
     flex-shrink: 0;
 
     transition:
-        transform 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 
 .menu-item:hover svg {
@@ -369,8 +369,8 @@ body {
     cursor: pointer;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .edit-btn:hover {
@@ -401,8 +401,8 @@ body {
     box-shadow: var(--card-shadow);
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .contacts-card:hover,
@@ -453,8 +453,8 @@ body {
     cursor: pointer;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .contact-item:hover {
@@ -528,8 +528,8 @@ body {
     padding: 6px 0;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .university-link:hover {
@@ -579,8 +579,8 @@ body {
     cursor: default;
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .skill-tag:hover {
@@ -630,8 +630,8 @@ body {
     border-radius: 12px;
 
     transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .experience-item:hover {
@@ -652,8 +652,8 @@ body {
     margin-top: 6px;
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .experience-item:hover .timeline-dot {
@@ -783,8 +783,8 @@ body {
     padding: 6px 0;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .footer-col a:hover {
@@ -859,8 +859,8 @@ body {
     pointer-events: none;
 
     transition:
-        opacity 0.2s ease,
-        transform 0.2s ease;
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .tooltip:hover::after {
@@ -1234,7 +1234,8 @@ body {
     vertical-align: middle;
 }
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to { transform: rotate(360deg);
+}
 }
 
 .error-message {

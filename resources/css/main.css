@@ -165,8 +165,8 @@ h1:hover {
     color: var(--accent-color);
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 .logo:hover {
     color: var(--accent-hovered);
@@ -187,8 +187,8 @@ h1:hover {
     border: none;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .small-dark-button:hover {
@@ -210,8 +210,8 @@ h1:hover {
     border: none;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .small-accent-button:hover {
@@ -224,8 +224,8 @@ h1:hover {
 .link-list a {
     display: inline-block;
     transition:
-        transform 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    color 0.2s ease;
 }
 .link-list a:hover {
     color: var(--accent-hovered);
@@ -301,8 +301,8 @@ h1:hover {
     border: none;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .big-accent-button:hover {
@@ -330,8 +330,8 @@ h1:hover {
     box-sizing: border-box;
 
     transition:
-        transform 0.2s ease,
-        background-color 0.2s ease;
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .big-dark-button:hover {
@@ -367,9 +367,9 @@ h1:hover {
     position: relative;
     z-index: 1;
     transition:
-        transform 0.2s ease,
-        margin 0.2s ease,
-        z-index 0.2s;
+    transform 0.2s ease,
+    margin 0.2s ease,
+    z-index 0.2s;
 }
 
 .student-avatars > img:hover {
@@ -411,8 +411,8 @@ h1:hover {
     padding: 10px;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .stats-card > p {
@@ -488,9 +488,9 @@ h2 {
     cursor: pointer;
 
     transition:
-        background-color 0.3s ease,
-        color 0.3s ease,
-        transform 0.2s ease;
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .hiw-buttons button:hover {
@@ -524,8 +524,8 @@ h2 {
     padding: 48px 32px;
 
     transition:
-        transform 0.35s ease,
-        box-shadow 0.35s ease;
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .hiw-card:hover {
@@ -634,11 +634,11 @@ h2 {
     min-width: 300px;
     max-width: 380px;
     box-shadow:
-        0px 8px 24px rgba(0, 0, 0, 0.06),
-        0px 2px 4px rgba(0, 0, 0, 0.02);
+    0px 8px 24px rgba(0, 0, 0, 0.06),
+    0px 2px 4px rgba(0, 0, 0, 0.02);
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .review-card:hover {

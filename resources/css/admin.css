@@ -10,12 +10,12 @@ html {
 
 body {
     font-family:
-        system-ui,
-        -apple-system,
-        "Segoe UI",
-        Roboto,
-        "Helvetica Neue",
-        sans-serif;
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    sans-serif;
 
     background: #f1f5f9;
     color: #0f172a;
@@ -106,8 +106,8 @@ body {
     margin-bottom: 2.5rem;
 
     box-shadow:
-        0 10px 25px -5px rgba(0, 0, 0, 0.1),
-        0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05);
 
     animation: fadeScale 0.5s ease;
 }
@@ -145,8 +145,8 @@ body {
     font-size: 0.9rem;
 
     transition:
-        all 0.2s ease,
-        transform 0.2s ease;
+    all 0.2s ease,
+    transform 0.2s ease;
 }
 
 .logout-btn:hover {
@@ -180,8 +180,8 @@ body {
     font-weight: 500;
 
     transition:
-        all 0.25s ease,
-        transform 0.2s ease;
+    all 0.25s ease,
+    transform 0.2s ease;
 }
 
 .back-btn:hover {
@@ -240,13 +240,13 @@ body {
     border: 1px solid #e2e8f0;
 
     box-shadow:
-        0 4px 6px -2px rgba(0, 0, 0, 0.05),
-        0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 10px 15px -3px rgba(0, 0, 0, 0.08);
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 
     text-decoration: none;
 
@@ -262,8 +262,8 @@ body {
     transform: translateY(-6px) scale(1.01);
 
     box-shadow:
-        0 20px 25px -5px rgba(0, 0, 0, 0.08),
-        0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    0 20px 25px -5px rgba(0, 0, 0, 0.08),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05);
 
     border-color: #93c5fd;
 }
@@ -352,8 +352,8 @@ body {
     font-weight: 500;
 
     transition:
-        all 0.25s ease,
-        transform 0.2s ease;
+    all 0.25s ease,
+    transform 0.2s ease;
 }
 
 .extra-link:hover {
@@ -387,14 +387,14 @@ body {
     border: 1px solid #e2e8f0;
 
     box-shadow:
-        0 4px 6px -2px rgba(0, 0, 0, 0.04),
-        0 10px 15px -3px rgba(0, 0, 0, 0.06);
+    0 4px 6px -2px rgba(0, 0, 0, 0.04),
+    0 10px 15px -3px rgba(0, 0, 0, 0.06);
 
     animation: slideUp 0.45s ease;
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .data-panel:hover,
@@ -404,8 +404,8 @@ body {
     transform: translateY(-2px);
 
     box-shadow:
-        0 10px 20px rgba(0, 0, 0, 0.06),
-        0 6px 10px rgba(0, 0, 0, 0.04);
+    0 10px 20px rgba(0, 0, 0, 0.06),
+    0 6px 10px rgba(0, 0, 0, 0.04);
 }
 
 /*
@@ -462,10 +462,10 @@ select {
     font-size: 0.95rem;
 
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease,
-        transform 0.2s ease;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 
     appearance: none;
 }
@@ -547,9 +547,9 @@ input[type="submit"] {
     cursor: pointer;
 
     transition:
-        background 0.2s ease,
-        transform 0.15s ease,
-        box-shadow 0.2s ease;
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
 }
 
 button:hover,
@@ -605,8 +605,8 @@ td {
 
 tbody tr {
     transition:
-        background 0.2s ease,
-        transform 0.15s ease;
+    background 0.2s ease,
+    transform 0.15s ease;
 }
 
 tbody tr:hover {

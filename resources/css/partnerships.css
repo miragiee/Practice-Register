@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 
 /* =========================
-   VARIABLES
+VARIABLES
 ========================= */
 
 :root {
@@ -16,7 +16,7 @@
 }
 
 /* =========================
-   RESET
+RESET
 ========================= */
 
 * {
@@ -48,7 +48,7 @@ body {
 }
 
 /* =========================
-   LAYOUT (UNCHANGED)
+LAYOUT (UNCHANGED)
 ========================= */
 
 .layout {
@@ -86,7 +86,7 @@ body {
 }
 
 /* =========================
-   LOGO / SIDEBAR
+LOGO / SIDEBAR
 ========================= */
 
 .logo {
@@ -157,7 +157,7 @@ body {
 }
 
 /* =========================
-   TOPBAR
+TOPBAR
 ========================= */
 
 .topbar {
@@ -207,7 +207,7 @@ body {
 }
 
 /* =========================
-   BUTTONS (RESTORE ORIGINAL)
+BUTTONS (RESTORE ORIGINAL)
 ========================= */
 
 .secondary-btn,
@@ -221,8 +221,8 @@ body {
     font-weight: 600;
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.25s ease;
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
     position: relative;
     overflow: hidden;
 }
@@ -264,10 +264,10 @@ body {
     height: 100%;
 
     background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.35),
-        transparent
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
     );
 
     transition: left 0.6s ease;
@@ -279,7 +279,7 @@ body {
 }
 
 /* =========================
-   PARTNERS (UNCHANGED VISUAL)
+PARTNERS (UNCHANGED VISUAL)
 ========================= */
 
 .table-wrapper,
@@ -380,7 +380,7 @@ td {
 }
 
 /* =========================
-   STUDENT (UNCHANGED VISUAL)
+STUDENT (UNCHANGED VISUAL)
 ========================= */
 
 .student-page {
@@ -486,7 +486,7 @@ td {
 }
 
 /* =========================
-   STUDENT BUTTON FIX
+STUDENT BUTTON FIX
 ========================= */
 
 .student-button {
@@ -499,8 +499,8 @@ td {
     font-weight: 600;
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.25s ease;
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
 .student-button--light {
@@ -523,7 +523,7 @@ td {
 }
 
 /* =========================
-   STUDENT TOOLBAR FIX
+STUDENT TOOLBAR FIX
 ========================= */
 
 .student-toolbar {
@@ -588,7 +588,7 @@ td {
 }
 
 /* =========================
-   PAGE HEADING FIX
+PAGE HEADING FIX
 ========================= */
 
 .page-heading {
@@ -606,7 +606,7 @@ td {
 }
 
 /* =========================
-   REQUESTS
+REQUESTS
 ========================= */
 
 .requests-wrapper {
@@ -622,8 +622,8 @@ td {
     animation: fadeUp 0.8s ease;
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.3s ease;
+    transform 0.25s ease,
+    box-shadow 0.3s ease;
 }
 
 .requests-wrapper:hover {
@@ -631,7 +631,7 @@ td {
 }
 
 /* =========================
-   REQUEST ACTION BUTTONS
+REQUEST ACTION BUTTONS
 ========================= */
 
 .actions-cell {
@@ -653,10 +653,10 @@ td {
     font-weight: 600;
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.25s ease,
-        background 0.2s ease,
-        color 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 /* ACCEPT */
