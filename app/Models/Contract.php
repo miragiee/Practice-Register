@@ -23,4 +23,13 @@ class Contract extends Model
         'end_date' => 'date',
     ];
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function university()
+    {
+        return $this->belongsTo(University::class);
+    }
 }

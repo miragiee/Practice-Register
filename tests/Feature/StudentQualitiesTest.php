@@ -17,6 +17,8 @@ class StudentQualitiesTest extends TestCase
     public function test_student_can_store_json_qualities()
     {
         $adminRole = Role::create(['name' => 'Администратор']);
+        $companyRole = Role::create(['name' => 'Компания']);
+        $studentRole = Role::create(['name' => 'Студент']);
         $adminUser = User::factory()->create(['role_id' => $adminRole->id]);
 
         $university = University::create([
@@ -41,6 +43,7 @@ class StudentQualitiesTest extends TestCase
             'direction_id' => $direction->id,
             'course' => 3,
             'email' => 'student@example.test',
+            'password' => 'password123',
             'qualities' => '["PHP","SQL"]',
         ]);
 
